@@ -1,4 +1,3 @@
-import AppleIcon from "../../components/ui/AppleIcon";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -6,6 +5,7 @@ import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { cn } from "../../lib/cn";
 import Card from "../../components/ui/Card";
+import { Key, ShieldCheck, User } from "lucide-react";
 
 export default function SettingsPage() {
   const auth = useAuth();
@@ -35,7 +35,7 @@ export default function SettingsPage() {
       <Card className="p-5">
         <div className="flex items-center gap-2 mb-3">
           <div className="h-8 w-8 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center">
-            <AppleIcon name="user" size={14} className="text-finder-blue" />
+            <User size={14} className="text-finder-blue" />
           </div>
           <h3 className="text-sm font-semibold text-ink">Profile</h3>
         </div>
@@ -66,7 +66,7 @@ export default function SettingsPage() {
       <Card className="p-5 space-y-3">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center">
-            <AppleIcon name="shield-check" size={14} className="text-finder-blue" />
+            <ShieldCheck size={14} className="text-finder-blue" />
           </div>
           <h3 className="text-sm font-semibold text-ink">Two-factor authentication</h3>
         </div>
@@ -124,7 +124,7 @@ export default function SettingsPage() {
       <Card className="p-5 space-y-3">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center">
-            <AppleIcon name="key" size={14} className="text-finder-blue" />
+            <Key size={14} className="text-finder-blue" />
           </div>
           <h3 className="text-sm font-semibold text-ink">Change password</h3>
         </div>

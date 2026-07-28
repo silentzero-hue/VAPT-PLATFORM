@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { formatDate } from "../../lib/cn";
 import type { Engagement, ImportResult, PreviewResult } from "../../types";
+import { Eye, FileInput, CircleHelp, Server } from "lucide-react";
 
 export default function LegacyImportPage() {
   const { wid } = useParams();
@@ -57,7 +57,7 @@ export default function LegacyImportPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="server" size={20} className="text-finder-blue" /> Legacy importer
+            <Server size={20} className="text-finder-blue" /> Legacy importer
           </h1>
           <p className="text-sm text-ink-muted">
             Pull findings from an old <code className="font-mono">vulnerabilities.db</code> SQLite
@@ -68,7 +68,7 @@ export default function LegacyImportPage() {
           to={`/workspaces/${workspaceId}/legacy/help`}
           className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
         >
-          <AppleIcon name="question" size={14} /> Help
+          <CircleHelp size={14} /> Help
         </Link>
       </div>
 
@@ -116,7 +116,7 @@ export default function LegacyImportPage() {
             disabled={!dbPath || preview.isFetching}
             className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="eye" size={14} /> {preview.isFetching ? "Previewing…" : "Preview"}
+            <Eye size={14} /> {preview.isFetching ? "Previewing…" : "Preview"}
           </button>
           <button
             type="submit"
@@ -125,7 +125,7 @@ export default function LegacyImportPage() {
             }
             className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="file-input" size={14} /> {importRun.isPending ? "Importing…" : "Import"}
+            <FileInput size={14} /> {importRun.isPending ? "Importing…" : "Import"}
           </button>
         </div>
       </form>

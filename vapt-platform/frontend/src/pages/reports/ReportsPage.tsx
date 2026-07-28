@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -10,6 +9,7 @@ import type { Report, ReportStatus } from "../../types";
 import Card from "../../components/ui/Card";
 import EmptyState from "../../components/ui/EmptyState";
 import Toolbar from "../../components/ui/Toolbar";
+import { CircleCheck, FileText, Download, Plus, ShieldCheck, X } from "lucide-react";
 
 const STATUS_PILL: Record<string, string> = {
   approved: "pill-success",
@@ -137,7 +137,7 @@ export default function ReportsPage() {
               "disabled:opacity-50"
             )}
           >
-            <AppleIcon name="plus" size={14} /> New report
+            <Plus size={14} /> New report
           </button>
         }
       />
@@ -145,7 +145,7 @@ export default function ReportsPage() {
       {(reports.data ?? []).length === 0 ? (
         <Card>
           <EmptyState
-            iconName="doc"
+            icon={<FileText size={20} className="text-ink-muted" />}
             title="No reports yet"
             description="Reports generated from your engagements will appear here."
           />
@@ -161,7 +161,7 @@ export default function ReportsPage() {
             >
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div className="h-9 w-9 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center shrink-0">
-                  <AppleIcon name="doc" size={16} className="text-finder-blue" />
+                  <FileText size={16} className="text-finder-blue" />
                 </div>
                 <span className={cn("pill shrink-0", STATUS_PILL[r.status] ?? "pill-muted")}>
                   {STATUS_LABEL[r.status] ?? r.status}
@@ -181,7 +181,7 @@ export default function ReportsPage() {
                 </span>
                 {r.signed_sha256 ? (
                   <span className="inline-flex items-center gap-1 text-emerald-700">
-                    <AppleIcon name="shield-check" size={12} /> Signed
+                    <ShieldCheck size={12} /> Signed
                   </span>
                 ) : (
                   <span className="text-ink-subtle">Unsigned</span>
@@ -207,7 +207,7 @@ export default function ReportsPage() {
                       "disabled:opacity-50"
                     )}
                   >
-                    <AppleIcon name="download" size={12} /> Download
+                    <Download size={12} /> Download
                   </button>
                 ) : r.status === "pending_review" ? (
                   <button
@@ -223,7 +223,7 @@ export default function ReportsPage() {
                       "disabled:opacity-50"
                     )}
                   >
-                    <AppleIcon name="circle-check" size={12} /> Approve & Lock
+                    <CircleCheck size={12} /> Approve & Lock
                   </button>
                 ) : (
                   <button
@@ -261,7 +261,7 @@ export default function ReportsPage() {
                 onClick={() => setNewReportOpen(false)}
                 className="text-ink-muted hover:text-ink"
               >
-                <AppleIcon name="x-mark" size={16} />
+                <X size={16} />
               </button>
             </div>
             <div className="space-y-3">

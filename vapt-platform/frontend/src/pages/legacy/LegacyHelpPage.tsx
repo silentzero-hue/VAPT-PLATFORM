@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { cn } from "../../lib/cn";
+import { CircleHelp, LayoutGrid, Server, ShieldCheck } from "lucide-react";
 
 export default function LegacyHelpPage() {
   const { wid } = useParams();
@@ -12,7 +12,7 @@ export default function LegacyHelpPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="question" size={20} className="text-finder-blue" /> Legacy import help
+            <CircleHelp size={20} className="text-finder-blue" /> Legacy import help
           </h1>
           <p className="text-sm text-ink-muted">
             How to migrate data from the old <code className="font-mono">vulnerabilities.db</code>{" "}
@@ -27,7 +27,7 @@ export default function LegacyHelpPage() {
         </Link>
       </div>
 
-      <Section icon={<AppleIcon name="server" size={14} />} title="1. Locating the legacy file">
+      <Section icon={<Server size={14} />} title="1. Locating the legacy file">
         <p>
           The old automation tool stores all of its findings in a single SQLite file called{" "}
           <code className="font-mono text-ink">vulnerabilities.db</code>. It usually lives next to
@@ -51,7 +51,7 @@ export default function LegacyHelpPage() {
         </p>
       </Section>
 
-      <Section icon={<AppleIcon name="rect-grid" size={14} />} title="2. Expected schema">
+      <Section icon={<LayoutGrid size={14} />} title="2. Expected schema">
         <p>
           The legacy DB is expected to expose a single <code className="font-mono">findings</code>{" "}
           table with the following columns. Missing columns are tolerated and filled with{" "}
@@ -77,7 +77,7 @@ export default function LegacyHelpPage() {
         <ColumnMapping />
       </Section>
 
-      <Section icon={<AppleIcon name="rect-grid" size={14} />} title="3. Migration path">
+      <Section icon={<LayoutGrid size={14} />} title="3. Migration path">
         <ol className="list-decimal pl-5 space-y-2 text-ink-muted">
           <li>
             On the importer page, pick the target <span className="text-ink">engagement</span> and
@@ -107,7 +107,7 @@ export default function LegacyHelpPage() {
         </ol>
       </Section>
 
-      <Section icon={<AppleIcon name="shield-check" size={14} />} title="4. Security note">
+      <Section icon={<ShieldCheck size={14} />} title="4. Security note">
         <p>
           The legacy importer is{" "}
           <span className="text-emerald-700 font-medium">strictly read-only</span> on the source

@@ -1,9 +1,7 @@
 import { type ReactNode } from "react";
-import AppleIcon, { type AppleIconName } from "./AppleIcon";
 
 interface EmptyStateProps {
   icon?: ReactNode;
-  iconName?: AppleIconName;
   title: string;
   description?: string;
   cta?: ReactNode;
@@ -12,7 +10,6 @@ interface EmptyStateProps {
 
 export default function EmptyState({
   icon,
-  iconName,
   title,
   description,
   cta,
@@ -25,9 +22,9 @@ export default function EmptyState({
         (className ?? "")
       }
     >
-      {(icon || iconName) && (
+      {icon && (
         <div className="h-12 w-12 rounded-2xl bg-paper-soft border border-hairline flex items-center justify-center">
-          {icon ?? <AppleIcon name={iconName!} size={20} className="text-ink-muted" />}
+          {icon}
         </div>
       )}
       <div className="space-y-1 max-w-sm">

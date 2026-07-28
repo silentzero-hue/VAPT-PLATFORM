@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { formatDate } from "../../lib/cn";
 import type { LdapConfig } from "../../types";
+import { RotateCw, Save, Server } from "lucide-react";
 
 export default function LdapPage() {
   const { wid } = useParams();
@@ -85,7 +85,7 @@ export default function LdapPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="server" size={20} className="text-finder-blue" /> LDAP / Active Directory
+            <Server size={20} className="text-finder-blue" /> LDAP / Active Directory
           </h1>
           <p className="text-sm text-ink-muted">
             Provision and sync users from your corporate directory
@@ -96,7 +96,7 @@ export default function LdapPage() {
           disabled={sync.isPending || !cfg.data}
           className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
         >
-          <AppleIcon name="arrow-uturn-clockwise" size={14} /> {sync.isPending ? "Syncing…" : "Sync now"}
+          <RotateCw size={14} /> {sync.isPending ? "Syncing…" : "Sync now"}
         </button>
       </div>
 
@@ -230,7 +230,7 @@ export default function LdapPage() {
             disabled={save.isPending}
             className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="save" size={14} /> {save.isPending ? "Saving…" : "Save config"}
+            <Save size={14} /> {save.isPending ? "Saving…" : "Save config"}
           </button>
         </div>
       </form>

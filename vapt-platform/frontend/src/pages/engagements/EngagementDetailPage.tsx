@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { cn, formatDate } from "../../lib/cn";
 import type { Engagement, Finding, IngestionJob } from "../../types";
 import Card from "../../components/ui/Card";
 import Toolbar from "../../components/ui/Toolbar";
+import { Calendar, ShieldCheck, Lock, Play, CircleHelp, Shield, Table, Upload, X } from "lucide-react";
 
 type Tab = "overview" | "scans" | "reports";
 
@@ -135,7 +135,7 @@ export default function EngagementDetailPage() {
                 "hover:bg-finder-blue/25 transition-colors duration-200 ease-out"
               )}
             >
-              <AppleIcon name="play" size={14} /> Run AI agent
+              <Play size={14} /> Run AI agent
             </button>
             <Link
               to={`/workspaces/${wid}/engagements/${eid}/multiscan`}
@@ -145,7 +145,7 @@ export default function EngagementDetailPage() {
                 "transition-colors duration-200 ease-out"
               )}
             >
-              <AppleIcon name="check-shield" size={14} /> Multi-scan
+              <ShieldCheck size={14} /> Multi-scan
             </Link>
             <Link
               to={`/workspaces/${wid}/tableview?engagement_id=${eid}`}
@@ -155,7 +155,7 @@ export default function EngagementDetailPage() {
                 "transition-colors duration-200 ease-out"
               )}
             >
-              <AppleIcon name="table" size={14} /> Table view
+              <Table size={14} /> Table view
             </Link>
             <button
               onClick={() => lock.mutate()}
@@ -165,7 +165,7 @@ export default function EngagementDetailPage() {
                 "transition-colors duration-200 ease-out"
               )}
             >
-              <AppleIcon name="lock" size={14} /> {eng.data?.ingestion_locked ? "Unlock" : "Lock"} ingestion
+              <Lock size={14} /> {eng.data?.ingestion_locked ? "Unlock" : "Lock"} ingestion
             </button>
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function EngagementDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <Card className="p-4">
             <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-              <AppleIcon name="calendar" size={14} /> Scope
+              <Calendar size={14} /> Scope
             </h3>
             <dl className="text-xs space-y-2">
               <div className="flex justify-between">
@@ -214,7 +214,7 @@ export default function EngagementDetailPage() {
 
           <Card className="p-4 lg:col-span-2">
             <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5">
-              <AppleIcon name="upload" size={14} /> Ingest scan results
+              <Upload size={14} /> Ingest scan results
             </h3>
             <p className="text-xs text-ink-muted mb-3">
               Drop a scan export from any of the supported tools. The dedup
@@ -237,7 +237,7 @@ export default function EngagementDetailPage() {
                   "transition-all duration-200 ease-out active:scale-[0.98]"
                 )}
               >
-                <AppleIcon name="table" size={14} />
+                <Table size={14} />
                 {file ? file.name : "Choose scan file…"}
               </label>
               {file && (
@@ -246,7 +246,7 @@ export default function EngagementDetailPage() {
                   className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-ink-muted hover:text-rose-700 transition-colors duration-200"
                   title="Clear selection"
                 >
-                  <AppleIcon name="x-mark" size={12} /> clear
+                  <X size={12} /> clear
                 </button>
               )}
               <button
@@ -258,12 +258,12 @@ export default function EngagementDetailPage() {
                   "transition-all duration-200 ease-out active:scale-[0.98] disabled:opacity-50"
                 )}
               >
-                <AppleIcon name="upload" size={14} /> Upload
+                <Upload size={14} /> Upload
               </button>
             </div>
             <div className="mt-3 flex flex-wrap gap-1.5">
               <span className="text-[11px] text-ink-muted inline-flex items-center gap-1">
-                <AppleIcon name="question" size={11} /> Supported formats:
+                <CircleHelp size={11} /> Supported formats:
               </span>
               {SUPPORTED_FORMATS.map((f) => (
                 <span
@@ -279,7 +279,7 @@ export default function EngagementDetailPage() {
 
           <Card className="p-4 lg:col-span-3">
             <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5">
-              <AppleIcon name="shield" size={14} /> Findings at a glance
+              <Shield size={14} /> Findings at a glance
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
               <Stat label="Total" value={(findings.data ?? []).length} />

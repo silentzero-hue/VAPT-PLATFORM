@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { formatDate } from "../../lib/cn";
 import type { Report } from "../../types";
+import { Check, Pencil, FileDown, Lock, Sparkles, X } from "lucide-react";
 
 export default function ReportDetailPage() {
   const { rid, wid } = useParams();
@@ -59,7 +59,7 @@ export default function ReportDetailPage() {
               href={`/api/v1/reports/${d.id}/download`}
               className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
             >
-              <AppleIcon name="file-down" size={14} /> Download
+              <FileDown size={14} /> Download
             </a>
           ) : d.status === "pending_review" ? (
             <>
@@ -67,19 +67,19 @@ export default function ReportDetailPage() {
                 onClick={() => navigate(`/workspaces/${wid}/reports/${d.id}/edit`)}
                 className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <AppleIcon name="edit" size={14} /> Edit
+                <Pencil size={14} /> Edit
               </button>
               <button
                 onClick={() => approve.mutate()}
                 className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <AppleIcon name="check" size={14} /> Approve & Lock
+                <Check size={14} /> Approve & Lock
               </button>
               <button
                 onClick={() => requestChanges.mutate()}
                 className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <AppleIcon name="x-mark" size={14} /> Request changes
+                <X size={14} /> Request changes
               </button>
             </>
           ) : d.status === "changes_requested" || d.status === "drafting" ? (
@@ -88,13 +88,13 @@ export default function ReportDetailPage() {
                 onClick={() => navigate(`/workspaces/${wid}/reports/${d.id}/edit`)}
                 className="bg-finder-blue-soft hover:bg-finder-blue/25 text-finder-blue border border-finder-blue/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <AppleIcon name="edit" size={14} /> Edit
+                <Pencil size={14} /> Edit
               </button>
               <button
                 onClick={() => render.mutate()}
                 className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <AppleIcon name="sparkles" size={14} /> Render
+                <Sparkles size={14} /> Render
               </button>
             </>
           ) : (
@@ -102,7 +102,7 @@ export default function ReportDetailPage() {
               onClick={() => render.mutate()}
               className="bg-finder-blue-soft hover:bg-finder-blue/25 text-finder-blue border border-finder-blue/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
             >
-              <AppleIcon name="sparkles" size={14} /> Render draft via agent
+              <Sparkles size={14} /> Render draft via agent
             </button>
           )}
         </div>
@@ -110,7 +110,7 @@ export default function ReportDetailPage() {
 
       {d.locked && (
         <div className="panel p-3 bg-emerald-500/5 border-emerald-500/30 flex items-center gap-2 text-sm text-emerald-700">
-          <AppleIcon name="lock" size={14} /> Locked at {formatDate(d.locked_at)} — content is signed and immutable
+          <Lock size={14} /> Locked at {formatDate(d.locked_at)} — content is signed and immutable
         </div>
       )}
 

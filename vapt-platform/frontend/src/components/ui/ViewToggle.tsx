@@ -1,5 +1,5 @@
-import AppleIcon from "./AppleIcon";
 import { cn } from "../../lib/cn";
+import { List, Columns, LayoutGrid } from "lucide-react";
 
 export type ViewMode = "grid" | "list" | "column";
 
@@ -34,7 +34,7 @@ export default function ViewToggle({
           onClick={() => onChange("grid")}
           label="Grid view"
         >
-          <AppleIcon name="rect-grid" size={14} />
+          <LayoutGrid size={14} />
         </ToggleButton>
       )}
       {modes.includes("list") && (
@@ -43,7 +43,7 @@ export default function ViewToggle({
           onClick={() => onChange("list")}
           label="List view"
         >
-          <AppleIcon name="list-bullet" size={14} />
+          <List size={14} />
         </ToggleButton>
       )}
       {modes.includes("column") && (
@@ -52,7 +52,7 @@ export default function ViewToggle({
           onClick={() => onChange("column")}
           label="Column view"
         >
-          <AppleIcon name="rect-column" size={14} />
+          <Columns size={14} />
         </ToggleButton>
       )}
     </div>

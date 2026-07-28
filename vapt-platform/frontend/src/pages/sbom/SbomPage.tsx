@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import type { Engagement, SbomResult } from "../../types";
+import { Package, Upload } from "lucide-react";
 
 export default function SbomPage() {
   const { wid } = useParams();
@@ -46,7 +46,7 @@ export default function SbomPage() {
     <div className="space-y-4 max-w-4xl mx-auto p-4 min-w-0">
       <div>
         <h1 className="text-2xl font-semibold flex items-center gap-2">
-          <AppleIcon name="package" size={20} className="text-finder-blue" /> SBOM ingestion
+          <Package size={20} className="text-finder-blue" /> SBOM ingestion
         </h1>
         <p className="text-sm text-ink-muted">
           Upload a CycloneDX or SPDX JSON to attach components and known CVEs to an engagement
@@ -99,7 +99,7 @@ export default function SbomPage() {
             disabled={upload.isPending || !file || !engagementId}
             className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="upload" size={14} /> {upload.isPending ? "Uploading…" : "Upload & parse"}
+            <Upload size={14} /> {upload.isPending ? "Uploading…" : "Upload & parse"}
           </button>
         </div>
       </form>

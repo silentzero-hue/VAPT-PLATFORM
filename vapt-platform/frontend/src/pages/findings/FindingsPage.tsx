@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
@@ -12,6 +11,7 @@ import Card from "../../components/ui/Card";
 import EmptyState from "../../components/ui/EmptyState";
 import Toolbar from "../../components/ui/Toolbar";
 import ViewToggle, { type ViewMode } from "../../components/ui/ViewToggle";
+import { RotateCw, AlertTriangle, Bug, Filter, Search, MessageSquare, X } from "lucide-react";
 
 const STATUSES: FindingStatus[] = [
   "new", "confirmed", "in_remediation",
@@ -115,7 +115,7 @@ export default function FindingsPage() {
                 "transition-colors duration-200 ease-out"
               )}
             >
-              <AppleIcon name="arrow-uturn-clockwise" size={14} /> Refresh
+              <RotateCw size={14} /> Refresh
             </button>
           </>
         }
@@ -150,7 +150,7 @@ export default function FindingsPage() {
             className="ml-auto text-ink-muted hover:text-ink p-1.5 rounded-md hover:bg-paper-soft transition-colors duration-200"
             title="Clear selection"
           >
-            <AppleIcon name="x-mark" size={14} />
+            <X size={14} />
           </button>
         </div>
       )}
@@ -158,7 +158,7 @@ export default function FindingsPage() {
       {/* Filters */}
       <Card className="p-3 flex flex-wrap items-center gap-2">
         <div className="relative flex-1 min-w-[220px]">
-          <AppleIcon name="magnifier" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -178,7 +178,7 @@ export default function FindingsPage() {
       {visible.length === 0 ? (
         <Card>
           <EmptyState
-            iconName="bug"
+            icon={<Bug size={20} className="text-ink-muted" />}
             title="No findings"
             description="Once you ingest scans for this engagement, findings will appear here for triage."
           />
@@ -209,7 +209,7 @@ export default function FindingsPage() {
 function FilterPill({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (v: string) => void }) {
   return (
     <div className="flex items-center gap-1.5 text-xs">
-      <span className="text-ink-muted flex items-center gap-1"><AppleIcon name="filter" size={10} /> {label}:</span>
+      <span className="text-ink-muted flex items-center gap-1"><Filter size={10} /> {label}:</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -264,7 +264,7 @@ function FindingsGrid({
               </span>
               {f.sla_breached ? (
                 <span className="pill pill-danger">
-                  <AppleIcon name="exclamation-triangle" size={10} /> SLA
+                  <AlertTriangle size={10} /> SLA
                 </span>
               ) : f.sla_due_at ? (
                 <span className="text-[10px] text-ink-muted font-mono">
@@ -459,7 +459,7 @@ function FindingsRow({
             className="text-ink-muted hover:text-finder-blue p-1 rounded transition-colors duration-200"
             title="Discuss"
           >
-            <AppleIcon name="message" size={12} />
+            <MessageSquare size={12} />
           </button>
         </td>
       </tr>

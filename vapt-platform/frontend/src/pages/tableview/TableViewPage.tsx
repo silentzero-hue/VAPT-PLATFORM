@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { SEVERITY_COLOR, cn, formatDate } from "../../lib/cn";
 import type { Engagement, Severity, TableRow, TableViewPayload } from "../../types";
+import { FileText, Download, Printer } from "lucide-react";
 
 const SEVERITY_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
 
@@ -82,7 +82,7 @@ export default function TableViewPage() {
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="doc" size={20} className="text-finder-blue" /> Table view
+            <FileText size={20} className="text-finder-blue" /> Table view
           </h1>
           <p className="text-sm text-ink-muted">
             Banded executive view of all findings, grouped by severity — ready to print or export
@@ -106,21 +106,21 @@ export default function TableViewPage() {
             disabled={!activeEngagementId || downloadFile.isPending}
             className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="download" size={14} /> DOCX
+            <Download size={14} /> DOCX
           </button>
           <button
             onClick={() => downloadFile.mutate({ fmt: "html" })}
             disabled={!activeEngagementId || downloadFile.isPending}
             className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="download" size={14} /> HTML
+            <Download size={14} /> HTML
           </button>
           <button
             onClick={() => window.print()}
             disabled={!data.data}
             className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="print" size={14} /> Print
+            <Printer size={14} /> Print
           </button>
         </div>
       </div>

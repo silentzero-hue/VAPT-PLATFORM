@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import AppleIcon, { type AppleIconName } from "../ui/AppleIcon";
 import { useLocation, useParams } from "react-router-dom";
+import { Activity, Bug, List, Server, type LucideIcon } from "lucide-react";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { cn } from "../../lib/cn";
@@ -57,24 +57,24 @@ export default function StatusBar({ className, forceVisible = false }: StatusBar
     return n.toString();
   };
 
-  const items: { icon: AppleIconName; value: string; label: string }[] = [
+  const items: { icon: LucideIcon; value: string; label: string }[] = [
     {
-      icon: "rect-list",
+      icon: List,
       value: formatCount(engs.data?.length),
       label: "engagement" + (engs.data?.length === 1 ? "" : "s"),
     },
     {
-      icon: "bug",
+      icon: Bug,
       value: formatCount(findingsTotal),
       label: "finding" + (findingsTotal === 1 ? "" : "s"),
     },
     {
-      icon: "server",
+      icon: Server,
       value: formatCount(assets.data?.length),
       label: "asset" + (assets.data?.length === 1 ? "" : "s"),
     },
     {
-      icon: "activity",
+      icon: Activity,
       value: formatCount(reports.data?.length),
       label: "report" + (reports.data?.length === 1 ? "" : "s"),
     },
@@ -106,9 +106,10 @@ export default function StatusBar({ className, forceVisible = false }: StatusBar
       </span>
       <span className="text-ink-subtle">·</span>
       {items.map((it, i) => {
+        const Icon = it.icon;
         return (
           <span key={i} className="inline-flex items-center gap-1.5">
-            <AppleIcon name={it.icon} size={11} className="text-ink-subtle" />
+            <Icon size={11} className="text-ink-subtle" />
             <span className="text-ink font-medium tabular-nums">{it.value}</span>
             <span>{it.label}</span>
             {i < items.length - 1 && (

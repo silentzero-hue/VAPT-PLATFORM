@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { SEVERITY_COLOR, cn, formatDate } from "../../lib/cn";
 import type { CompareResult, DiffRow, IngestionJob } from "../../types";
+import { ArrowLeftRight, ShieldCheck, Trash2 } from "lucide-react";
 
 export default function MultiScanPage() {
   const { wid, eid } = useParams();
@@ -171,7 +171,7 @@ export default function MultiScanPage() {
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="check-shield" size={20} className="text-finder-blue" /> Multi-scan compare
+            <ShieldCheck size={20} className="text-finder-blue" /> Multi-scan compare
           </h1>
           <p className="text-sm text-ink-muted">
             Pick a baseline and a current ingestion job to see what stayed, regressed, or got fixed
@@ -185,7 +185,7 @@ export default function MultiScanPage() {
               disabled={bulkDelete.isPending}
               className="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
-              <AppleIcon name="trash" size={14} />
+              <Trash2 size={14} />
               {bulkDelete.isPending ? "Deleting…" : "Bulk delete new findings"}
             </button>
           </div>
@@ -215,7 +215,7 @@ export default function MultiScanPage() {
             className="bg-paper-soft border border-hairline rounded-lg p-2 text-ink-muted hover:text-finder-blue disabled:opacity-40 mb-0.5"
             title="Swap baseline and current"
           >
-            <AppleIcon name="arrow-left-right" size={14} />
+            <ArrowLeftRight size={14} />
           </button>
           <div>
             <label className="text-xs text-ink-muted">Current (newer)</label>
@@ -237,7 +237,7 @@ export default function MultiScanPage() {
             disabled={!baseline || !current || baseline === current || compare.isFetching}
             className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <AppleIcon name="check-shield" size={14} />
+            <ShieldCheck size={14} />
             {compare.isFetching ? "Comparing…" : "Run compare"}
           </button>
         </div>

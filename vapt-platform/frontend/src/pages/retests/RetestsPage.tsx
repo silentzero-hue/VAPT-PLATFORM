@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { formatDate } from "../../lib/cn";
 import type { Engagement, RetestCycle, RetestStatus } from "../../types";
+import { RotateCw, Check, Link2, Plus, X } from "lucide-react";
 
 interface RetestSummary {
   still_remediated: number;
@@ -91,7 +91,7 @@ export default function RetestsPage() {
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="arrow-uturn-clockwise" size={20} className="text-finder-blue" /> Retests
+            <RotateCw size={20} className="text-finder-blue" /> Retests
           </h1>
           <p className="text-sm text-ink-muted">
             Schedule follow-up testing and verify previous remediations hold
@@ -101,7 +101,7 @@ export default function RetestsPage() {
 
       <div className="panel p-4">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-          <AppleIcon name="plus" size={14} /> Schedule retest
+          <Plus size={14} /> Schedule retest
         </h3>
         <form
           onSubmit={(e) => {
@@ -201,7 +201,7 @@ export default function RetestsPage() {
                         disabled={summarise.isPending}
                         className="text-xs px-2 py-1 bg-paper-soft border border-hairline rounded hover:border-finder-blue flex items-center gap-1"
                       >
-                        <AppleIcon name="check" size={10} /> Summarise
+                        <Check size={10} /> Summarise
                       </button>
                       <button
                         onClick={() =>
@@ -209,7 +209,7 @@ export default function RetestsPage() {
                         }
                         className="text-xs px-2 py-1 bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded hover:bg-finder-blue/25 flex items-center gap-1"
                       >
-                        <AppleIcon name="link" size={10} />
+                        <Link2 size={10} />
                         {attached ? "Re-attach" : "Attach engagement"}
                       </button>
                     </div>
@@ -243,7 +243,7 @@ export default function RetestsPage() {
                 onClick={() => setAttachModal(null)}
                 className="text-ink-muted hover:text-ink"
               >
-                <AppleIcon name="x-mark" size={16} />
+                <X size={16} />
               </button>
             </div>
             <p className="text-xs text-ink-muted mb-3">

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import AppleIcon, { type AppleIconName } from "../../components/ui/AppleIcon";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/api";
@@ -9,6 +8,7 @@ import { cn, formatDate, getDominantSeverity, SEVERITY_BAR, SEVERITY_TEXT } from
 import type { Engagement, Finding, Severity } from "../../types";
 import Card from "../../components/ui/Card";
 import EmptyState from "../../components/ui/EmptyState";
+import { Activity, AlertTriangle, Bug, Clock, List, type LucideIcon, Shield, TrendingUp } from "lucide-react";
 
 const SEV_COLORS: Record<string, string> = {
   critical: "#ff3b30",
@@ -101,7 +101,7 @@ export default function DashboardPage() {
                 "transition-all duration-200 ease-out active:scale-[0.98]"
               )}
             >
-              <AppleIcon name="rect-list" size={14} /> View engagements
+              <List size={14} /> View engagements
             </button>
           </div>
         </div>
@@ -113,28 +113,28 @@ export default function DashboardPage() {
           label="Open findings"
           value={open}
           accent="text-finder-blue"
-          icon="bug"
+          icon={Bug}
           gradient="from-finder-blue/15 to-transparent"
         />
         <StatTile
           label="SLA breached"
           value={slaBreached}
           accent="text-sev-high"
-          icon="exclamation-triangle"
+          icon={AlertTriangle}
           gradient="from-sev-high/15 to-transparent"
         />
         <StatTile
           label="Regressed"
           value={regressed}
           accent="text-sev-critical"
-          icon="activity"
+          icon={Activity}
           gradient="from-sev-critical/15 to-transparent"
         />
         <StatTile
           label="Engagements"
           value={(engs.data ?? []).length}
           accent="text-sev-low"
-          icon="shield"
+          icon={Shield}
           gradient="from-sev-low/15 to-transparent"
         />
       </div>
@@ -167,7 +167,7 @@ export default function DashboardPage() {
         </Card>
         <Card className="p-4 lg:col-span-2">
           <h2 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-            <AppleIcon name="trending-up" size={14} /> Findings by engagement
+            <TrendingUp size={14} /> Findings by engagement
           </h2>
           <div className="h-64">
             {((engs.data ?? []).length === 0) ? (
@@ -210,7 +210,7 @@ export default function DashboardPage() {
           {(engs.data ?? []).length === 0 ? (
             <Card>
               <EmptyState
-                iconName="rect-list"
+                icon={<List size={20} className="text-ink-muted" />}
                 title="No engagements yet"
                 description="Create an engagement to start ingesting scans and tracking findings."
                 cta={
@@ -274,7 +274,7 @@ export default function DashboardPage() {
 
         <Card className="p-4 self-start">
           <h2 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-            <AppleIcon name="clock" size={14} /> Recent activity
+            <Clock size={14} /> Recent activity
           </h2>
           {recent.length === 0 ? (
             <div className="text-xs text-ink-muted py-4 text-center">No activity yet</div>
@@ -322,9 +322,10 @@ function StatTile({
   label: string;
   value: number;
   accent: string;
-  icon: AppleIconName;
+  icon: LucideIcon;
   gradient: string;
 }) {
+  const Icon = icon;
   return (
     <Card className="p-4 relative overflow-hidden">
       <div
@@ -335,7 +336,7 @@ function StatTile({
       />
       <div className="relative flex items-center justify-between">
         <div className="text-[11px] uppercase tracking-wider text-ink-muted">{label}</div>
-        <AppleIcon name={icon} size={14} className={accent} />
+        <Icon size={14} className={accent} />
       </div>
       <div className={cn("relative text-3xl font-semibold mt-2 tracking-tight", accent)}>
         {value}

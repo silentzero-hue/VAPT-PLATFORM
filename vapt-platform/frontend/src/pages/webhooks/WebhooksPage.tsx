@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { formatDate } from "../../lib/cn";
 import type { WebhookDelivery, WebhookEndpoint } from "../../types";
+import { Link2, Plus, Send, Zap } from "lucide-react";
 
 const EVENT_OPTIONS = [
   "ingestion.completed",
@@ -80,7 +80,7 @@ export default function WebhooksPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="link" size={20} className="text-finder-blue" /> Webhooks
+            <Link2 size={20} className="text-finder-blue" /> Webhooks
           </h1>
           <p className="text-sm text-ink-muted">
             Push platform events to your CI / SIEM / Slack
@@ -90,7 +90,7 @@ export default function WebhooksPage() {
 
       <div className="panel p-4">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-          <AppleIcon name="plus" size={14} /> New webhook
+          <Plus size={14} /> New webhook
         </h3>
         <form
           onSubmit={(e) => {
@@ -211,7 +211,7 @@ export default function WebhooksPage() {
                       disabled={test.isPending}
                       className="text-xs px-2 py-1 bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded hover:bg-finder-blue/25 flex items-center gap-1"
                     >
-                      <AppleIcon name="zap" size={10} /> Test
+                      <Zap size={10} /> Test
                     </button>
                     <button
                       onClick={() => del.mutate(ep.id)}
@@ -236,7 +236,7 @@ export default function WebhooksPage() {
 
       <div className="panel p-4">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-          <AppleIcon name="send" size={14} /> Recent deliveries
+          <Send size={14} /> Recent deliveries
         </h3>
         <table className="w-full text-sm">
           <thead className="text-ink-muted text-xs bg-paper-soft">

@@ -1,5 +1,5 @@
-import AppleIcon from "../ui/AppleIcon";
 import { cn } from "../../lib/cn";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface NavArrowsProps {
   canGoBack: boolean;
@@ -31,7 +31,7 @@ export default function NavArrows({
           "disabled:text-ink-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-ink-subtle"
         )}
       >
-        <AppleIcon name="chevron-left" size={15} />
+        <ChevronLeft size={15} />
       </button>
       <button
         type="button"
@@ -46,7 +46,7 @@ export default function NavArrows({
           "disabled:text-ink-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-ink-subtle"
         )}
       >
-        <AppleIcon name="chevron-right" size={15} />
+        <ChevronRight size={15} />
       </button>
     </div>
   );

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
+import { Mail, Key, Shield } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -48,7 +48,7 @@ export default function LoginPage() {
       >
         <div className="flex items-center gap-2">
           <div className="h-9 w-9 rounded-lg bg-finder-blue-soft border border-finder-blue/30 flex items-center justify-center">
-            <AppleIcon name="shield" size={18} className="text-finder-blue" />
+            <Shield size={18} className="text-finder-blue" />
           </div>
           <div>
             <div className="font-semibold text-ink">VAPT Platform</div>
@@ -58,7 +58,7 @@ export default function LoginPage() {
         <div>
           <label className="text-xs text-ink-muted">Email</label>
           <div className="relative mt-1">
-            <AppleIcon name="envelope" size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-muted" />
+            <Mail size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-muted" />
             <input
               type="email"
               value={email}
@@ -72,7 +72,7 @@ export default function LoginPage() {
         <div>
           <label className="text-xs text-ink-muted">Password</label>
           <div className="relative mt-1">
-            <AppleIcon name="key" size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-muted" />
+            <Key size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-muted" />
             <input
               type="password"
               value={password}

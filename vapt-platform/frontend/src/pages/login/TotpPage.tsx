@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
+import { Key, Shield } from "lucide-react";
 
 export default function TotpPage() {
   const [code, setCode] = useState("");
@@ -40,7 +40,7 @@ export default function TotpPage() {
       <form onSubmit={submit} className="w-full max-w-sm panel p-7 space-y-5">
         <div className="flex items-center gap-2">
           <div className="h-9 w-9 rounded-lg bg-finder-blue-soft border border-finder-blue/30 flex items-center justify-center">
-            <AppleIcon name="shield" size={18} className="text-finder-blue" />
+            <Shield size={18} className="text-finder-blue" />
           </div>
           <div>
             <div className="font-semibold text-ink">Two-factor authentication</div>
@@ -50,7 +50,7 @@ export default function TotpPage() {
         <div>
           <label className="text-xs text-ink-muted">Authenticator code</label>
           <div className="relative mt-1">
-            <AppleIcon name="key" size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-muted" />
+            <Key size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-muted" />
             <input
               autoFocus
               value={code}

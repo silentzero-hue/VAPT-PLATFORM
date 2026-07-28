@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { formatDate } from "../../lib/cn";
 import type { AgentEvent, AgentRun } from "../../types";
+import { Activity, Zap, Plug, Wrench, X } from "lucide-react";
 
 function wsUrl(sessionId: string) {
   const proto = window.location.protocol === "https:" ? "wss" : "ws";
@@ -94,7 +94,7 @@ export default function AgentLivePage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="activity" size={20} className="text-finder-blue" /> Agent live
+            <Activity size={20} className="text-finder-blue" /> Agent live
           </h1>
           <p className="text-sm text-ink-muted">
             Replay the streaming trace of an agent run
@@ -148,14 +148,14 @@ export default function AgentLivePage() {
                         onClick={disconnect}
                         className="text-xs px-2 py-1 bg-rose-50 text-rose-700 border border-rose-500/30 rounded hover:bg-rose-100 flex items-center gap-1"
                       >
-                        <AppleIcon name="x-mark" size={10} /> Disconnect
+                        <X size={10} /> Disconnect
                       </button>
                     ) : (
                       <button
                         onClick={() => connect(r.session_id)}
                         className="text-xs px-2 py-1 bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded hover:bg-finder-blue/25 flex items-center gap-1"
                       >
-                        <AppleIcon name="bolt" size={10} /> Connect
+                        <Zap size={10} /> Connect
                       </button>
                     )}
                   </div>
@@ -171,7 +171,7 @@ export default function AgentLivePage() {
         <div className="panel p-4 lg:col-span-2 min-w-0">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold flex items-center gap-1.5">
-              <AppleIcon name="plug" size={14} /> Live stream
+              <Plug size={14} /> Live stream
               {activeSession && (
                 <span className="ml-2 font-mono text-[10px] text-ink-muted">
                   {activeSession.slice(0, 16)}…
@@ -208,7 +208,7 @@ export default function AgentLivePage() {
                 {e.type === "tool_call" && (
                   <div>
                     <div className="text-finder-blue flex items-center gap-1.5">
-                      <AppleIcon name="wrench" size={10} /> mcp.{e.name}
+                      <Wrench size={10} /> mcp.{e.name}
                     </div>
                     <pre className="text-ink-muted whitespace-pre-wrap break-all ml-4">
                       {JSON.stringify(e.args, null, 2)}
@@ -218,7 +218,7 @@ export default function AgentLivePage() {
                 {e.type === "tool_result" && (
                   <div>
                     <div className="text-emerald-700 flex items-center gap-1.5">
-                      <AppleIcon name="wrench" size={10} /> ← {e.name}
+                      <Wrench size={10} /> ← {e.name}
                     </div>
                     <pre className="text-ink-muted whitespace-pre-wrap break-all ml-4">
                       {JSON.stringify(e.result, null, 2)}

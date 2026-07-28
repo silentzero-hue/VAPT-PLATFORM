@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { cn, formatDate } from "../../lib/cn";
 import type { Engagement, NessusScan, NessusServer } from "../../types";
+import { RotateCw, Plug, Save, Upload } from "lucide-react";
 
 const EMPTY_FORM = {
   name: "",
@@ -119,7 +119,7 @@ export default function NessusServerPage() {
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="plug" size={20} className="text-finder-blue" /> Nessus server
+            <Plug size={20} className="text-finder-blue" /> Nessus server
           </h1>
           <p className="text-sm text-ink-muted">
             Configure a Tenable Nessus instance and import its scans as findings
@@ -130,7 +130,7 @@ export default function NessusServerPage() {
           disabled={syncNow.isPending || !server.data}
           className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
         >
-          <AppleIcon name="arrow-uturn-clockwise" size={14} />
+          <RotateCw size={14} />
           {syncNow.isPending ? "Syncing…" : "Sync now"}
         </button>
       </div>
@@ -226,7 +226,7 @@ export default function NessusServerPage() {
               disabled={savePatch.isPending}
               className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
-              <AppleIcon name="save" size={14} /> {savePatch.isPending ? "Updating…" : "Update"}
+              <Save size={14} /> {savePatch.isPending ? "Updating…" : "Update"}
             </button>
           ) : (
             <button
@@ -234,7 +234,7 @@ export default function NessusServerPage() {
               disabled={savePut.isPending}
               className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
-              <AppleIcon name="save" size={14} /> {savePut.isPending ? "Saving…" : "Save server"}
+              <Save size={14} /> {savePut.isPending ? "Saving…" : "Save server"}
             </button>
           )}
         </div>
@@ -247,7 +247,7 @@ export default function NessusServerPage() {
             onClick={() => server.refetch()}
             className="text-xs text-ink-muted hover:text-finder-blue flex items-center gap-1"
           >
-            <AppleIcon name="arrow-uturn-clockwise" size={12} /> Refresh
+            <RotateCw size={12} /> Refresh
           </button>
         </div>
         {server.data ? (
@@ -351,7 +351,7 @@ export default function NessusServerPage() {
                           }
                           className="bg-finder-blue-soft hover:bg-finder-blue/25 text-finder-blue border border-finder-blue/30 rounded-lg px-2 py-1 text-xs flex items-center gap-1 ml-auto"
                         >
-                          <AppleIcon name="upload" size={10} /> Import
+                          <Upload size={10} /> Import
                         </button>
                       )}
                     </td>

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { formatDate } from "../../lib/cn";
 import type { ApiToken } from "../../types";
+import { Check, Copy, AlertTriangle, Key, Plus, X } from "lucide-react";
 
 const SCOPE_PRESETS = ["ingest:write", "findings:read", "findings:write", "reports:read", "admin"];
 
@@ -66,7 +66,7 @@ export default function TokensPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="key" size={20} className="text-finder-blue" /> API tokens
+            <Key size={20} className="text-finder-blue" /> API tokens
           </h1>
           <p className="text-sm text-ink-muted">
             Long-lived credentials for CI scanners and automation. Treat as secrets.
@@ -76,7 +76,7 @@ export default function TokensPage() {
 
       <div className="panel p-4">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-          <AppleIcon name="plus" size={14} /> Create token
+          <Plus size={14} /> Create token
         </h3>
         <form
           onSubmit={(e) => {
@@ -115,7 +115,7 @@ export default function TokensPage() {
                         : "chip chip-muted hover:border-finder-blue"
                     }
                   >
-                    {on && <AppleIcon name="check" size={10} />} {s}
+                    {on && <Check size={10} />} {s}
                   </button>
                 );
               })}
@@ -222,7 +222,7 @@ export default function TokensPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-2 mb-3 text-amber-700">
-              <AppleIcon name="exclamation-triangle" size={16} />
+              <AlertTriangle size={16} />
               <h2 className="text-sm font-semibold">
                 Copy this token now — it will not be shown again
               </h2>
@@ -233,7 +233,7 @@ export default function TokensPage() {
                 onClick={() => copy(revealed.raw)}
                 className="bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded px-2 py-1 text-xs flex items-center gap-1"
               >
-                <AppleIcon name="copy" size={10} /> Copy
+                <Copy size={10} /> Copy
               </button>
             </div>
             <p className="text-xs text-ink-muted mt-3">
@@ -245,7 +245,7 @@ export default function TokensPage() {
                 onClick={() => setRevealed(null)}
                 className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <AppleIcon name="x-mark" size={14} /> I have saved it
+                <X size={14} /> I have saved it
               </button>
             </div>
           </div>

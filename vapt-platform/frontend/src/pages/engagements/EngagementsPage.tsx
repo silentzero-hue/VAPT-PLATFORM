@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -12,6 +11,7 @@ import EmptyState from "../../components/ui/EmptyState";
 import FolderCard from "../../components/ui/FolderCard";
 import Toolbar from "../../components/ui/Toolbar";
 import ViewToggle, { type ViewMode } from "../../components/ui/ViewToggle";
+import { List, Plus, X } from "lucide-react";
 
 const STATUS_PILL: Record<string, string> = {
   active: "bg-sev-low/15 text-sev-low border-sev-low/30",
@@ -154,7 +154,7 @@ export default function EngagementsPage() {
                 "transition-all duration-200 ease-out active:scale-[0.98]"
               )}
             >
-              <AppleIcon name="plus" size={14} /> New engagement
+              <Plus size={14} /> New engagement
             </button>
           </div>
         }
@@ -163,7 +163,7 @@ export default function EngagementsPage() {
       {(engs.data ?? []).length === 0 ? (
         <Card>
           <EmptyState
-            iconName="rect-list"
+            icon={<List size={20} className="text-ink-muted" />}
             title="No engagements yet"
             description="Create your first engagement to start ingesting scans and tracking findings."
             cta={
@@ -171,7 +171,7 @@ export default function EngagementsPage() {
                 onClick={() => setShowNew(true)}
                 className="rounded-full bg-finder-blue hover:bg-folder-to text-white px-4 py-1.5 text-sm transition-colors duration-200"
               >
-                <AppleIcon name="plus" size={14} className="inline-block mr-1" /> New engagement
+                <Plus size={14} className="inline-block mr-1" /> New engagement
               </button>
             }
           />
@@ -215,7 +215,7 @@ export default function EngagementsPage() {
                 onClick={() => setShowNew(false)}
                 className="text-ink-muted hover:text-ink"
               >
-                <AppleIcon name="x-mark" size={16} />
+                <X size={16} />
               </button>
             </div>
             <form

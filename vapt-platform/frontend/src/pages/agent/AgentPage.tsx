@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import AppleIcon from "../../components/ui/AppleIcon";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import type { Engagement } from "../../types";
+import { Activity, Bot, Check, LayoutGrid, Sparkles } from "lucide-react";
 
 /**
  * Agent Review — shows the streaming log of an agent run alongside
@@ -36,7 +36,7 @@ export default function AgentPage() {
     <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-semibold flex items-center gap-2"><AppleIcon name="sparkles" size={20} className="text-finder-blue" /> Agent Review</h1>
+          <h1 className="text-2xl font-semibold flex items-center gap-2"><Sparkles size={20} className="text-finder-blue" /> Agent Review</h1>
           <p className="text-sm text-ink-muted">
             The agent drafts via MCP tools. It never reaches <code>approved</code> on its own — that's your job.
           </p>
@@ -45,7 +45,7 @@ export default function AgentPage() {
           to={`/workspaces/${workspaceId}/agent/live`}
           className="bg-finder-blue-soft hover:bg-finder-blue/25 text-finder-blue border border-finder-blue/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
         >
-          <AppleIcon name="activity" size={14} /> Live run feed
+          <Activity size={14} /> Live run feed
         </Link>
       </div>
 
@@ -59,14 +59,14 @@ export default function AgentPage() {
           >
             {(engs.data ?? []).map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
           </select>
-          <h3 className="text-sm font-semibold mt-4 mb-2 flex items-center gap-1.5"><AppleIcon name="bot" size={14} /> AI-drafted vulnerabilities</h3>
+          <h3 className="text-sm font-semibold mt-4 mb-2 flex items-center gap-1.5"><Bot size={14} /> AI-drafted vulnerabilities</h3>
           <div className="text-xs text-ink-muted mb-2">{vulns.data?.length ?? 0} have a draft</div>
           <ul className="space-y-1 max-h-[60vh] overflow-y-auto">
             {(vulns.data ?? []).map((v) => (
               <li key={v.id} className="text-sm flex items-center justify-between border-t border-hairline py-1.5">
                 <div className="truncate pr-2">{v.title}</div>
                 {v.ai_draft_approved ? (
-                  <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30"><AppleIcon name="check" size={10} /> approved</span>
+                  <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30"><Check size={10} /> approved</span>
                 ) : (
                   <span className="pill bg-amber-50 text-amber-700 border-amber-500/30">pending</span>
                 )}
@@ -75,7 +75,7 @@ export default function AgentPage() {
           </ul>
         </div>
         <div className="panel p-4 lg:col-span-2 min-w-0">
-          <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5"><AppleIcon name="rect-grid" size={14} /> Agent workflow</h3>
+          <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5"><LayoutGrid size={14} /> Agent workflow</h3>
           <p className="text-xs text-ink-muted mb-4">
             Read-only trace of the deterministic agent loop. Use the per-vulnerability page
             to edit / approve drafts; the report page is the only path to <code>approved</code>.
