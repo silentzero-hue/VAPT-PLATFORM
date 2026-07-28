@@ -1,15 +1,43 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
 import { ClipboardList, Plus, X } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
-import { cn, formatDate, getDominantSeverity, SEVERITY_BAR } from "../../lib/cn";
-import type { Engagement } from "../../types";
+import { cn, formatDate, getDominantSeverity, SEVERITY_BAR, SEVERITY_TEXT } from "../../lib/cn";
+import type { Engagement, EngagementStatus } from "../../types";
 import Card from "../../components/ui/Card";
 import EmptyState from "../../components/ui/EmptyState";
+import FolderCard from "../../components/ui/FolderCard";
 import Toolbar from "../../components/ui/Toolbar";
+import ViewToggle, { type ViewMode } from "../../components/ui/ViewToggle";
+
+const STATUS_PILL: Record<string, string> = {
+  active: "bg-sev-low/15 text-sev-low border-sev-low/30",
+  in_reporting: "bg-sev-info/15 text-sev-info border-sev-info/30",
+  delivered: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+  closed: "bg-white/[0.06] text-fg-muted border-white/[0.08]",
+  planned: "bg-sev-medium/15 text-sev-medium border-sev-medium/30",
+  cancelled: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+};
+
+const STATUS_LABEL: Record<EngagementStatus, string> = {
+  active: "Active",
+  in_reporting: "In reporting",
+  delivered: "Delivered",
+  closed: "Closed",
+  planned: "Planned",
+  cancelled: "Cancelled",
+};
+
+const COLUMN_GROUPS: { key: EngagementStatus | "all"; label: string }[] = [
+  { key: "active", label: "Active" },
+  { key: "in_reporting", label: "In reporting" },
+  { key: "planned", label: "Planned" },
+  { key: "delivered", label: "Delivered" },
+  { key: "closed", label: "Closed" },
+];
 
 export default function EngagementsPage() {
   const { wid } = useParams();
@@ -32,6 +60,9 @@ export default function EngagementsPage() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [reportDue, setReportDue] = useState("");
+  const [view, setView] = useState<ViewMode>("grid");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [q, setQ] = useState("");
 
   const create = useMutation({
     mutationFn: async () => {
@@ -62,6 +93,31 @@ export default function EngagementsPage() {
       toast.error(e?.response?.data?.detail ?? "Create failed"),
   });
 
+  const filtered = useMemo(() => {
+    const all = engs.data ?? [];
+    const needle = q.trim().toLowerCase();
+    if (!needle) return all;
+    return all.filter(
+      (e) =>
+        e.name.toLowerCase().includes(needle) ||
+        e.client.toLowerCase().includes(needle) ||
+        e.code.toLowerCase().includes(needle)
+    );
+  }, [engs.data, q]);
+
+  const groupedByStatus = useMemo(() => {
+    const m: Record<string, Engagement[]> = {};
+    for (const e of filtered) {
+      const k = e.status ?? "other";
+      (m[k] ??= []).push(e);
+    }
+    return m;
+  }, [filtered]);
+
+  const open = (e: Engagement) => {
+    navigate(`/workspaces/${workspaceId}/engagements/${e.id}`);
+  };
+
   return (
     <div className="space-y-4 max-w-[1400px] mx-auto">
       <Toolbar
@@ -74,16 +130,33 @@ export default function EngagementsPage() {
           </div>
         }
         right={
-          <button
-            onClick={() => setShowNew(true)}
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm",
-              "bg-accent text-white hover:bg-accent-strong",
-              "transition-all duration-200 ease-out active:scale-[0.98]"
-            )}
-          >
-            <Plus size={14} /> New engagement
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                type="search"
+                placeholder="Filter…"
+                className={cn(
+                  "bg-white/[0.04] border border-white/[0.08] rounded-full",
+                  "pl-3 pr-3 h-8 text-sm outline-none w-44",
+                  "focus:border-accent/50 transition-colors duration-200 ease-out",
+                  "placeholder:text-fg-subtle"
+                )}
+              />
+            </div>
+            <ViewToggle value={view} onChange={setView} />
+            <button
+              onClick={() => setShowNew(true)}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm",
+                "bg-accent text-white hover:bg-accent-strong",
+                "transition-all duration-200 ease-out active:scale-[0.98]"
+              )}
+            >
+              <Plus size={14} /> New engagement
+            </button>
+          </div>
         }
       />
 
@@ -103,65 +176,28 @@ export default function EngagementsPage() {
             }
           />
         </Card>
+      ) : filtered.length === 0 ? (
+        <Card>
+          <div className="p-6 text-center text-sm text-fg-muted">
+            No engagements match "{q}".
+          </div>
+        </Card>
+      ) : view === "grid" ? (
+        <EngagementGrid
+          items={filtered}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          onOpen={open}
+          onCreateNew={() => setShowNew(true)}
+        />
+      ) : view === "list" ? (
+        <EngagementList items={filtered} onOpen={open} />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {(engs.data ?? []).map((e) => {
-            const dom = getDominantSeverity(e.severity_breakdown);
-            return (
-              <Card
-                key={e.id}
-                onClick={() =>
-                  navigate(`/workspaces/${workspaceId}/engagements/${e.id}`)
-                }
-                className="card-hover p-5"
-                ariaLabel={`Open engagement ${e.name}`}
-              >
-                {dom && <div className={cn("sev-bar", SEVERITY_BAR[dom] ?? "bg-sev-info")} />}
-                <div className="flex items-center justify-between gap-2">
-                  <div className="font-mono text-[11px] text-fg-muted truncate">
-                    {e.code}
-                  </div>
-                  <span className="pill pill-muted shrink-0">{e.status}</span>
-                </div>
-                <div className="mt-1.5 text-base font-semibold leading-snug line-clamp-2">
-                  {e.name}
-                </div>
-                <div className="text-xs text-fg-muted truncate mt-0.5">{e.client}</div>
-
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  <span className="chip chip-muted uppercase tracking-wider text-[10px]">
-                    {e.type}
-                  </span>
-                  {e.methodology && (
-                    <span className="chip chip-muted">{e.methodology}</span>
-                  )}
-                </div>
-
-                <div className="mt-4 flex items-center justify-between text-[11px] text-fg-muted">
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-mono text-fg">{e.findings_total ?? 0}</span>
-                    <span>findings</span>
-                  </div>
-                  {e.report_due_date && (
-                    <div className="font-mono">due {formatDate(e.report_due_date)}</div>
-                  )}
-                </div>
-
-                {e.severity_breakdown && (
-                  <div className="mt-3 flex gap-1 flex-wrap">
-                    {Object.entries(e.severity_breakdown)
-                      .filter(([, n]) => n > 0)
-                      .map(([sev, n]) => (
-                        <span key={sev} className={cn("chip", `chip-${sev}`)}>
-                          {sev} {n}
-                        </span>
-                      ))}
-                  </div>
-                )}
-              </Card>
-            );
-          })}
-        </div>
+        <EngagementColumns
+          items={filtered}
+          groupedByStatus={groupedByStatus}
+          onOpen={open}
+        />
       )}
 
       {showNew && (
@@ -280,5 +316,242 @@ export default function EngagementsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function EngagementGrid({
+  items,
+  selectedId,
+  onSelect,
+  onOpen,
+  onCreateNew,
+}: {
+  items: Engagement[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  onOpen: (e: Engagement) => void;
+  onCreateNew: () => void;
+}) {
+  return (
+    <div
+      className={cn(
+        "grid gap-3",
+        "grid-cols-[repeat(auto-fill,minmax(108px,1fr))]"
+      )}
+    >
+      {items.map((e) => (
+        <FolderCard
+          key={e.id}
+          name={e.name}
+          sub={
+            <span className="inline-flex items-center gap-1">
+              <span className="font-mono text-fg-muted">
+                {e.findings_total ?? 0}
+              </span>
+              <span>findings</span>
+            </span>
+          }
+          selected={selectedId === e.id}
+          onClick={() => onSelect(e.id)}
+          onDoubleClick={() => onOpen(e)}
+          ariaLabel={`Open engagement ${e.name}`}
+        />
+      ))}
+      <button
+        type="button"
+        onClick={onCreateNew}
+        className={cn(
+          "flex flex-col items-center gap-1.5 p-2 rounded-lg",
+          "border-2 border-dashed border-white/[0.12] text-fg-subtle",
+          "hover:border-accent/50 hover:text-fg hover:bg-white/[0.04]",
+          "transition-colors duration-150 ease-out"
+        )}
+      >
+        <svg
+          width="44"
+          height="34"
+          viewBox="0 0 44 34"
+          aria-hidden="true"
+          className="opacity-60"
+        >
+          <path
+            d="M2 6a2 2 0 0 1 2-2h10l3 4h21a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeDasharray="3 3"
+          />
+          <path d="M22 14v10M17 19h10" stroke="currentColor" strokeWidth="1.6" />
+        </svg>
+        <span className="text-[11.5px]">New engagement</span>
+      </button>
+    </div>
+  );
+}
+
+function EngagementList({
+  items,
+  onOpen,
+}: {
+  items: Engagement[];
+  onOpen: (e: Engagement) => void;
+}) {
+  return (
+    <Card className="overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[760px]">
+          <thead className="text-fg-muted text-xs bg-white/[0.02]">
+            <tr className="text-left">
+              <th className="px-3 py-2.5 font-medium">Name</th>
+              <th className="px-3 py-2.5 font-medium">Code</th>
+              <th className="px-3 py-2.5 font-medium">Client</th>
+              <th className="px-3 py-2.5 font-medium">Type</th>
+              <th className="px-3 py-2.5 font-medium">Status</th>
+              <th className="px-3 py-2.5 font-medium text-right">Findings</th>
+              <th className="px-3 py-2.5 font-medium">Due</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((e) => {
+              const dom = getDominantSeverity(e.severity_breakdown);
+              return (
+                <tr
+                  key={e.id}
+                  onClick={() => onOpen(e)}
+                  className={cn(
+                    "border-t border-white/[0.05] cursor-pointer",
+                    "hover:bg-white/[0.03] transition-colors duration-150"
+                  )}
+                >
+                  <td className="px-3 py-2.5">
+                    <div className="flex items-center gap-2">
+                      {dom && (
+                        <span
+                          className={cn(
+                            "h-4 w-0.5 rounded-full shrink-0",
+                            SEVERITY_BAR[dom] ?? "bg-sev-info"
+                          )}
+                        />
+                      )}
+                      <span className="font-medium truncate">{e.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-3 py-2.5 font-mono text-[11px] text-fg-muted">
+                    {e.code}
+                  </td>
+                  <td className="px-3 py-2.5 text-fg-muted truncate max-w-[180px]">
+                    {e.client}
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <span className="chip chip-muted uppercase tracking-wider text-[10px]">
+                      {e.type}
+                    </span>
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <span
+                      className={cn(
+                        "inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] border",
+                        STATUS_PILL[e.status] ?? "bg-white/[0.06] text-fg-muted border-white/[0.08]"
+                      )}
+                    >
+                      {STATUS_LABEL[e.status as EngagementStatus] ?? e.status}
+                    </span>
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-mono tabular-nums">
+                    {e.findings_total ?? 0}
+                  </td>
+                  <td className="px-3 py-2.5 text-fg-muted text-xs whitespace-nowrap">
+                    {e.report_due_date ? formatDate(e.report_due_date) : "—"}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  );
+}
+
+function EngagementColumns({
+  items,
+  groupedByStatus,
+  onOpen,
+}: {
+  items: Engagement[];
+  groupedByStatus: Record<string, Engagement[]>;
+  onOpen: (e: Engagement) => void;
+}) {
+  return (
+    <Card className="overflow-hidden">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x divide-white/[0.05]">
+        {COLUMN_GROUPS.map((col) => {
+          const list = groupedByStatus[col.key] ?? [];
+          return (
+            <div key={col.key} className="min-h-[280px] flex flex-col">
+              <div className="px-3 py-2 text-[11px] uppercase tracking-wider text-fg-muted border-b border-white/[0.05] flex items-center justify-between">
+                <span className="font-semibold">{col.label}</span>
+                <span className="text-fg-subtle tabular-nums">{list.length}</span>
+              </div>
+              <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                {list.length === 0 ? (
+                  <div className="text-[11px] text-fg-subtle text-center py-4">
+                    No items
+                  </div>
+                ) : (
+                  list.map((e) => {
+                    const dom = getDominantSeverity(e.severity_breakdown);
+                    return (
+                      <button
+                        key={e.id}
+                        onClick={() => onOpen(e)}
+                        className={cn(
+                          "w-full text-left px-2 py-1.5 rounded-md",
+                          "hover:bg-white/[0.05] active:bg-white/[0.08]",
+                          "transition-colors duration-150"
+                        )}
+                      >
+                        <div className="flex items-start gap-1.5">
+                          {dom && (
+                            <span
+                              className={cn(
+                                "h-4 w-0.5 rounded-full shrink-0 mt-0.5",
+                                SEVERITY_BAR[dom] ?? "bg-sev-info"
+                              )}
+                            />
+                          )}
+                          <div className="min-w-0 flex-1">
+                            <div className="text-[12px] truncate">{e.name}</div>
+                            <div className="text-[10px] text-fg-muted truncate font-mono">
+                              {e.code}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-1 text-[10px] text-fg-subtle">
+                          <span className="truncate">{e.client}</span>
+                          <span
+                            className={cn(
+                              "font-mono tabular-nums",
+                              SEVERITY_TEXT[dom ?? "info"]
+                            )}
+                          >
+                            {e.findings_total ?? 0}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {items.length === 0 && (
+        <div className="p-6 text-center text-sm text-fg-muted">
+          No engagements to show.
+        </div>
+      )}
+    </Card>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Bell,
@@ -32,10 +32,12 @@ import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { cn } from "../../lib/cn";
+import NavArrows from "./NavArrows";
+import StatusBar from "./StatusBar";
 
 type NavGroup = {
   label: string;
-  items: { to: string; label: string; icon: LucideIcon }[];
+  items: { to: string; label: string; icon: LucideIcon; badgeKey?: "engagements" | "findings" | "reports" | "tokens" }[];
 };
 
 const NAV_GROUPS: NavGroup[] = [
@@ -43,16 +45,16 @@ const NAV_GROUPS: NavGroup[] = [
     label: "Workspace",
     items: [
       { to: "", label: "Dashboard", icon: LayoutDashboard },
-      { to: "engagements", label: "Engagements", icon: ClipboardList },
+      { to: "engagements", label: "Engagements", icon: ClipboardList, badgeKey: "engagements" },
       { to: "assets", label: "Assets", icon: Building2 },
-      { to: "findings", label: "Findings", icon: Bug },
+      { to: "findings", label: "Findings", icon: Bug, badgeKey: "findings" },
       { to: "retests", label: "Retests", icon: RefreshCw },
     ],
   },
   {
     label: "Reporting",
     items: [
-      { to: "reports", label: "Reports", icon: FileText },
+      { to: "reports", label: "Reports", icon: FileText, badgeKey: "reports" },
       { to: "tableview", label: "Table View", icon: FileSpreadsheet },
       { to: "threat-intel", label: "Threat Intel", icon: Radar },
       { to: "sbom", label: "SBOM", icon: Workflow },
@@ -69,7 +71,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: "Admin",
     items: [
-      { to: "tokens", label: "API Tokens", icon: KeyRound },
+      { to: "tokens", label: "API Tokens", icon: KeyRound, badgeKey: "tokens" },
       { to: "webhooks", label: "Webhooks", icon: Webhook },
       { to: "portal", label: "Portal Shares", icon: Share2 },
       { to: "ldap", label: "LDAP", icon: Plug },
@@ -79,6 +81,94 @@ const NAV_GROUPS: NavGroup[] = [
 ];
 
 const COLLAPSE_KEY = "vapt_sidebar_collapsed";
+
+type BadgeCounts = Partial<Record<"engagements" | "findings" | "reports" | "tokens", number | undefined>>;
+
+function useNavHistory() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [, setTick] = useState(0);
+  const stackRef = useRef<string[]>([location.pathname]);
+  const idxRef = useRef(0);
+  const lastPathRef = useRef(location.pathname);
+
+  useEffect(() => {
+    const newPath = location.pathname;
+    if (newPath === lastPathRef.current) return;
+    lastPathRef.current = newPath;
+
+    const stack = stackRef.current;
+    const idx = idxRef.current;
+
+    if (stack[idx + 1] === newPath) {
+      idxRef.current = idx + 1;
+    } else if (stack[idx - 1] === newPath) {
+      idxRef.current = idx - 1;
+    } else {
+      stackRef.current = [...stack.slice(0, idx + 1), newPath];
+      idxRef.current = idx + 1;
+    }
+    setTick((t) => t + 1);
+  }, [location.pathname]);
+
+  const canGoBack = idxRef.current > 0;
+  const canGoForward = idxRef.current < stackRef.current.length - 1;
+
+  const goBack = useCallback(() => {
+    if (idxRef.current > 0) {
+      const target = stackRef.current[idxRef.current - 1];
+      navigate(target);
+    }
+  }, [navigate]);
+
+  const goForward = useCallback(() => {
+    if (idxRef.current < stackRef.current.length - 1) {
+      const target = stackRef.current[idxRef.current + 1];
+      navigate(target);
+    }
+  }, [navigate]);
+
+  return { canGoBack, canGoForward, goBack, goForward };
+}
+
+function useBadgeCounts(wid: string | undefined): BadgeCounts {
+  const engs = useQuery({
+    queryKey: ["engagements", wid],
+    queryFn: async () =>
+      (await api.get<any[]>(`/workspaces/${wid}/engagements`)).data,
+    enabled: !!wid,
+    refetchInterval: 60_000,
+  });
+
+  const reports = useQuery({
+    queryKey: ["reports", wid],
+    queryFn: async () => (await api.get<any[]>(`/reports`)).data,
+    enabled: !!wid,
+    refetchInterval: 60_000,
+  });
+
+  const tokens = useQuery({
+    queryKey: ["tokens", wid],
+    queryFn: async () =>
+      (await api.get<any[]>(`/workspaces/${wid}/tokens`)).data,
+    enabled: !!wid,
+    refetchInterval: 60_000,
+  });
+
+  const engCount = engs.data?.length;
+  const findingsTotal = (engs.data ?? []).reduce(
+    (acc, e) => acc + (e.findings_total ?? 0),
+    0
+  );
+  const activeTokens = (tokens.data ?? []).filter((t) => !t.revoked).length;
+
+  return {
+    engagements: engCount,
+    findings: findingsTotal,
+    reports: reports.data?.length,
+    tokens: activeTokens,
+  };
+}
 
 export default function AppShell() {
   const auth = useAuth();
@@ -96,6 +186,9 @@ export default function AppShell() {
   useEffect(() => {
     localStorage.setItem(COLLAPSE_KEY, collapsed ? "1" : "0");
   }, [collapsed]);
+
+  const { canGoBack, canGoForward, goBack, goForward } = useNavHistory();
+  const badges = useBadgeCounts(wid);
 
   const base = `/workspaces/${wid}`;
   const isActive = (rel: string) => {
@@ -153,6 +246,7 @@ export default function AppShell() {
               )}
               {group.items.map((item) => {
                 const navTo = item.to === "" ? base : `${base}/${item.to}`;
+                const badgeValue = item.badgeKey ? badges[item.badgeKey] : undefined;
                 return (
                   <NavItem
                     key={item.to}
@@ -160,6 +254,7 @@ export default function AppShell() {
                     label={item.label}
                     active={isActive(item.to)}
                     collapsed={collapsed}
+                    badge={badgeValue}
                     onClick={() => navigate(navTo)}
                   />
                 );
@@ -177,6 +272,12 @@ export default function AppShell() {
 
       <div className="flex-1 flex flex-col min-w-0">
         <header className="sticky top-0 z-30 h-14 glass-soft border-b border-white/[0.06] flex items-center px-4 gap-3">
+          <NavArrows
+            canGoBack={canGoBack}
+            canGoForward={canGoForward}
+            onBack={goBack}
+            onForward={goForward}
+          />
           <Breadcrumb base={base} />
           <div className="flex-1 max-w-md mx-auto">
             <div className="relative">
@@ -200,8 +301,11 @@ export default function AppShell() {
           <NotificationBell />
           <UserAvatar user={auth.user} />
         </header>
-        <main className="flex-1 min-w-0 overflow-y-auto">
-          <Outlet />
+        <main className="flex-1 min-w-0 overflow-y-auto flex flex-col">
+          <div className="flex-1 min-h-0">
+            <Outlet />
+          </div>
+          <StatusBar />
         </main>
       </div>
     </div>
@@ -213,14 +317,17 @@ function NavItem({
   label,
   active,
   collapsed,
+  badge,
   onClick,
 }: {
   Icon: LucideIcon;
   label: string;
   active: boolean;
   collapsed: boolean;
+  badge?: number | undefined;
   onClick: () => void;
 }) {
+  const showBadge = !collapsed && typeof badge === "number" && badge > 0;
   return (
     <button
       onClick={onClick}
@@ -252,7 +359,21 @@ function NavItem({
         )}
       />
       {!collapsed && (
-        <span className="text-[13px] truncate flex-1">{label}</span>
+        <>
+          <span className="text-[13px] truncate flex-1">{label}</span>
+          {showBadge && (
+            <span
+              className={cn(
+                "shrink-0 text-[10px] tabular-nums px-1.5 py-0.5 rounded-md min-w-[20px] text-center",
+                active
+                  ? "bg-accent/25 text-accent"
+                  : "bg-white/[0.06] text-fg-muted group-hover:bg-white/[0.1] group-hover:text-fg"
+              )}
+            >
+              {badge! >= 1000 ? `${(badge! / 1000).toFixed(1)}k` : badge}
+            </span>
+          )}
+        </>
       )}
     </button>
   );

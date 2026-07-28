@@ -1,13 +1,14 @@
-import { LayoutGrid, List } from "lucide-react";
+import { Columns, LayoutGrid, List } from "lucide-react";
 import { cn } from "../../lib/cn";
 
-export type ViewMode = "grid" | "list";
+export type ViewMode = "grid" | "list" | "column";
 
 interface ViewToggleProps {
   value: ViewMode;
   onChange: (v: ViewMode) => void;
   className?: string;
   ariaLabel?: string;
+  modes?: ViewMode[];
 }
 
 export default function ViewToggle({
@@ -15,6 +16,7 @@ export default function ViewToggle({
   onChange,
   className,
   ariaLabel = "View mode",
+  modes = ["grid", "list", "column"],
 }: ViewToggleProps) {
   return (
     <div
@@ -26,20 +28,33 @@ export default function ViewToggle({
         className
       )}
     >
-      <ToggleButton
-        active={value === "grid"}
-        onClick={() => onChange("grid")}
-        label="Grid view"
-      >
-        <LayoutGrid size={14} />
-      </ToggleButton>
-      <ToggleButton
-        active={value === "list"}
-        onClick={() => onChange("list")}
-        label="List view"
-      >
-        <List size={14} />
-      </ToggleButton>
+      {modes.includes("grid") && (
+        <ToggleButton
+          active={value === "grid"}
+          onClick={() => onChange("grid")}
+          label="Grid view"
+        >
+          <LayoutGrid size={14} />
+        </ToggleButton>
+      )}
+      {modes.includes("list") && (
+        <ToggleButton
+          active={value === "list"}
+          onClick={() => onChange("list")}
+          label="List view"
+        >
+          <List size={14} />
+        </ToggleButton>
+      )}
+      {modes.includes("column") && (
+        <ToggleButton
+          active={value === "column"}
+          onClick={() => onChange("column")}
+          label="Column view"
+        >
+          <Columns size={14} />
+        </ToggleButton>
+      )}
     </div>
   );
 }
