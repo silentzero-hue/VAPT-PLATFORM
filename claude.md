@@ -47,17 +47,26 @@ edited that template.
 - **Email:** `admin@vapt.example.com`
 - **Password:** `VaptAdmin2026`
 - **TOTP secret:** stored in DB encrypted with `DATA_ENCRYPTION_KEY` (Fernet).
-  If you need to re-enroll, run in backend container:
+  To re-enroll, run a one-shot Python inside the backend container
+  (`docker compose exec backend bash`):
+  ```bash
+  docker compose cp /tmp/setup_totp.py backend:/tmp/setup_totp.py
+  docker compose exec -w /app backend bash -c "PYTHONPATH=/app python /tmp/setup_totp.py"
+  ```
+  Where `/tmp/setup_totp.py` is:
   ```python
+  import asyncio
+  from sqlalchemy import select
   from app.core.db import SessionLocal
   from app.core.secrets import encrypt_str, new_backup_code, set_backup_codes
   from app.core.security import generate_totp_secret
   from app.models.user import User
-  from sqlalchemy import select
-  import asyncio
-  async def go():
+
+  async def main():
       async with SessionLocal() as db:
-          u = (await db.execute(select(User).where(User.email=='admin@vapt.example.com'))).scalar_one()
+          u = (await db.execute(
+              select(User).where(User.email == 'admin@vapt.example.com')
+          )).scalar_one()
           secret = generate_totp_secret()
           u.totp_secret = encrypt_str(secret)
           u.totp_enabled = True
@@ -65,10 +74,12 @@ edited that template.
           u.totp_locked_until = None
           u.failed_login_count = 0
           u.locked_until = None
-          set_backup_codes(u, [new_backup_code() for _ in range(10)])
+          plaintext = [new_backup_code() for _ in range(10)]
+          set_backup_codes(u, plaintext)
           await db.commit()
-          print('TOTP secret:', secret)
-  asyncio.run(go())
+          print('TOTP_SECRET=' + secret)
+          print('BACKUP_CODES=' + ','.join(plaintext))
+  asyncio.run(main())
   ```
 
 ## Run the stack
@@ -205,6 +216,11 @@ docker compose -p vapt-platform exec postgres psql -U vapt -d vapt
   port-IS-NOT-NULL) so dedup works correctly with nullable ports.
 - `users.totp_secret` and `users.backup_codes` (Argon2id hashes) replaced the
   plaintext storage (was an audit finding).
+- **Migrations 0008, 0009, 0010 fix DB schema drift:**
+  - `role` enum type was referenced in models but never created in 0001 (fixed by 0008)
+  - `vulnerabilities.tags` was `VARCHAR[]` but the model expects `JSONB` (fixed by 0009)
+  - `findings.evidence_ref` was `VARCHAR(500)` but real Nessus output exceeds 500
+    chars (fixed by 0010)
 
 ### Migrations
 
