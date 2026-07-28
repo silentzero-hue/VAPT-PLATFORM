@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChevronDown, ChevronUp, Download, Eye, FileText, Loader2, Save, Sparkles, Upload, X } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -647,8 +647,8 @@ export default function ReportEditPage() {
               className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
             >
               {bulkSuggestMutation.isPending
-                ? <Loader2 className="animate-spin" size={12} />
-                : <Sparkles size={12} />}
+                ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                : <AppleIcon name="sparkles" size={12} />}
               {bulkSuggestMutation.isPending ? "Auto-filling…" : "Auto-fill all"}
             </button>
             <button
@@ -704,7 +704,7 @@ export default function ReportEditPage() {
                       {f.asset_value}{f.port ? `:${f.port}` : ""}{f.protocol ? `/${f.protocol}` : ""}
                     </div>
                   </div>
-                  {isOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                  {isOpen ? <AppleIcon name="chevron-up" size={14} /> : <AppleIcon name="chevron-down" size={14} />}
                 </button>
                 {isOpen && (
                   <div className="p-3 space-y-3">
@@ -738,8 +738,8 @@ export default function ReportEditPage() {
                         className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
                       >
                         {isSuggesting
-                          ? <Loader2 className="animate-spin" size={12} />
-                          : <Sparkles size={12} />}
+                          ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          : <AppleIcon name="sparkles" size={12} />}
                         Auto-fill
                       </button>
                       <button
@@ -749,8 +749,8 @@ export default function ReportEditPage() {
                         className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
                       >
                         {isApplyingCat
-                          ? <Loader2 className="animate-spin" size={12} />
-                          : <Sparkles size={12} />}
+                          ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          : <AppleIcon name="sparkles" size={12} />}
                         Apply to category
                       </button>
                     </div>
@@ -817,7 +817,7 @@ export default function ReportEditPage() {
             onClick={() => navigate(`/workspaces/${workspaceId}/reports/${rid}`)}
             className="bg-bg-soft border border-border-soft rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
           >
-            <X size={14} /> Discard
+            <AppleIcon name="x-mark" size={14} /> Discard
           </button>
           <button
             type="button"
@@ -825,7 +825,7 @@ export default function ReportEditPage() {
             disabled={!isDirty || save.isPending}
             className="bg-bg-soft border border-accent/30 text-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <Save size={14} /> Save draft
+            <AppleIcon name="save" size={14} /> Save draft
           </button>
           <button
             type="button"
@@ -834,8 +834,8 @@ export default function ReportEditPage() {
             className="bg-bg-soft border border-border-soft rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             {previewMutation.isPending
-              ? <Loader2 className="animate-spin" size={14} />
-              : <Eye size={14} />}
+              ? <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              : <AppleIcon name="eye" size={14} />}
             {previewMutation.isPending ? "Loading…" : "Preview"}
           </button>
           <button
@@ -846,8 +846,8 @@ export default function ReportEditPage() {
             title="Edit the report by downloading the docx, editing in Word, then uploading back here"
           >
             {uploadDocxMutation.isPending
-              ? <Loader2 className="animate-spin" size={14} />
-              : <Upload size={14} />}
+              ? <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              : <AppleIcon name="upload" size={14} />}
             {uploadDocxMutation.isPending ? "Importing…" : "Upload edited docx"}
           </button>
           <input
@@ -868,7 +868,7 @@ export default function ReportEditPage() {
             disabled={renderAndGo.isPending || save.isPending}
             className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            {isDirty ? <Save size={14} /> : <Sparkles size={14} />}
+            {isDirty ? <AppleIcon name="save" size={14} /> : <AppleIcon name="sparkles" size={14} />}
             {isDirty ? "Save & generate" : "Generate report"}
           </button>
         </div>
@@ -946,7 +946,7 @@ export default function ReportEditPage() {
                 className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1"
                 title="Open the pixel-perfect PDF preview in a new tab"
               >
-                <Eye size={12} /> View in PDF
+                <AppleIcon name="eye" size={12} /> View in PDF
               </button>
               <button
                 type="button"
@@ -956,8 +956,8 @@ export default function ReportEditPage() {
                 title="Download the pixel-perfect PDF"
               >
                 {downloadPdfMutation.isPending
-                  ? <Loader2 className="animate-spin" size={12} />
-                  : <Download size={12} />}
+                  ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  : <AppleIcon name="download" size={12} />}
                 {downloadPdfMutation.isPending ? "Rendering…" : "Download PDF"}
               </button>
               <button
@@ -967,8 +967,8 @@ export default function ReportEditPage() {
                 className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
               >
                 {previewMutation.isPending
-                  ? <Loader2 className="animate-spin" size={12} />
-                  : <Eye size={12} />}
+                  ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  : <AppleIcon name="eye" size={12} />}
                 Refresh
               </button>
               <button
@@ -977,7 +977,7 @@ export default function ReportEditPage() {
                 className="text-fg-muted hover:text-fg"
                 aria-label="Close preview"
               >
-                <X size={16} />
+                <AppleIcon name="x-mark" size={16} />
               </button>
             </div>
           </div>

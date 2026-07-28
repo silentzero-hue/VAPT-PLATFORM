@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeftRight, GitCompare, Trash2 } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -171,7 +171,7 @@ export default function MultiScanPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <GitCompare size={20} className="text-accent" /> Multi-scan compare
+            <AppleIcon name="check-shield" size={20} className="text-accent" /> Multi-scan compare
           </h1>
           <p className="text-sm text-fg-muted">
             Pick a baseline and a current ingestion job to see what stayed, regressed, or got fixed
@@ -185,7 +185,7 @@ export default function MultiScanPage() {
               disabled={bulkDelete.isPending}
               className="bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
-              <Trash2 size={14} />
+              <AppleIcon name="trash" size={14} />
               {bulkDelete.isPending ? "Deleting…" : "Bulk delete new findings"}
             </button>
           </div>
@@ -215,7 +215,7 @@ export default function MultiScanPage() {
             className="bg-bg-soft border border-border-soft rounded-lg p-2 text-fg-muted hover:text-accent disabled:opacity-40 mb-0.5"
             title="Swap baseline and current"
           >
-            <ArrowLeftRight size={14} />
+            <AppleIcon name="arrow-left-right" size={14} />
           </button>
           <div>
             <label className="text-xs text-fg-muted">Current (newer)</label>
@@ -237,7 +237,7 @@ export default function MultiScanPage() {
             disabled={!baseline || !current || baseline === current || compare.isFetching}
             className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <GitCompare size={14} />
+            <AppleIcon name="check-shield" size={14} />
             {compare.isFetching ? "Comparing…" : "Run compare"}
           </button>
         </div>

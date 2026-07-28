@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import AppleIcon from "../ui/AppleIcon";
 import { cn } from "../../lib/cn";
 
 interface NavArrowsProps {
@@ -31,7 +31,7 @@ export default function NavArrows({
           "disabled:text-fg-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-fg-subtle"
         )}
       >
-        <ChevronLeft size={15} />
+        <AppleIcon name="chevron-left" size={15} />
       </button>
       <button
         type="button"
@@ -46,7 +46,7 @@ export default function NavArrows({
           "disabled:text-fg-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-fg-subtle"
         )}
       >
-        <ChevronRight size={15} />
+        <AppleIcon name="chevron-right" size={15} />
       </button>
     </div>
   );

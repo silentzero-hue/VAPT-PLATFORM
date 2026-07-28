@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { Activity, AlertOctagon, Bug, ClipboardList, Clock, Shield, TrendingUp } from "lucide-react";
+import AppleIcon, { type AppleIconName } from "../../components/ui/AppleIcon";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/api";
@@ -101,7 +101,7 @@ export default function DashboardPage() {
                 "transition-all duration-200 ease-out active:scale-[0.98]"
               )}
             >
-              <ClipboardList size={14} /> View engagements
+              <AppleIcon name="rect-list" size={14} /> View engagements
             </button>
           </div>
         </div>
@@ -113,28 +113,28 @@ export default function DashboardPage() {
           label="Open findings"
           value={open}
           accent="text-accent"
-          icon={Bug}
+          icon="bug"
           gradient="from-accent/15 to-transparent"
         />
         <StatTile
           label="SLA breached"
           value={slaBreached}
           accent="text-sev-high"
-          icon={AlertOctagon}
+          icon="exclamation-triangle"
           gradient="from-sev-high/15 to-transparent"
         />
         <StatTile
           label="Regressed"
           value={regressed}
           accent="text-sev-critical"
-          icon={Activity}
+          icon="activity"
           gradient="from-sev-critical/15 to-transparent"
         />
         <StatTile
           label="Engagements"
           value={(engs.data ?? []).length}
           accent="text-sev-low"
-          icon={Shield}
+          icon="shield"
           gradient="from-sev-low/15 to-transparent"
         />
       </div>
@@ -166,7 +166,7 @@ export default function DashboardPage() {
         </Card>
         <Card className="p-4 lg:col-span-2">
           <h2 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-            <TrendingUp size={14} /> Findings by engagement
+            <AppleIcon name="trending-up" size={14} /> Findings by engagement
           </h2>
           <div className="h-64">
             {((engs.data ?? []).length === 0) ? (
@@ -208,7 +208,7 @@ export default function DashboardPage() {
           {(engs.data ?? []).length === 0 ? (
             <Card>
               <EmptyState
-                icon={ClipboardList}
+                iconName="rect-list"
                 title="No engagements yet"
                 description="Create an engagement to start ingesting scans and tracking findings."
                 cta={
@@ -272,7 +272,7 @@ export default function DashboardPage() {
 
         <Card className="p-4 self-start">
           <h2 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-            <Clock size={14} /> Recent activity
+            <AppleIcon name="clock" size={14} /> Recent activity
           </h2>
           {recent.length === 0 ? (
             <div className="text-xs text-fg-muted py-4 text-center">No activity yet</div>
@@ -314,13 +314,13 @@ function StatTile({
   label,
   value,
   accent,
-  icon: Icon,
+  icon,
   gradient,
 }: {
   label: string;
   value: number;
   accent: string;
-  icon: any;
+  icon: AppleIconName;
   gradient: string;
 }) {
   return (
@@ -333,7 +333,7 @@ function StatTile({
       />
       <div className="relative flex items-center justify-between">
         <div className="text-[11px] uppercase tracking-wider text-fg-muted">{label}</div>
-        <Icon size={14} className={accent} />
+        <AppleIcon name={icon} size={14} className={accent} />
       </div>
       <div className={cn("relative text-3xl font-semibold mt-2 tracking-tight", accent)}>
         {value}

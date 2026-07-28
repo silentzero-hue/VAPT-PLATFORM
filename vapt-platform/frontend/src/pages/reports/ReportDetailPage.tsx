@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, Edit3, FileDown, Lock, Sparkles, X } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { formatDate } from "../../lib/cn";
@@ -59,7 +59,7 @@ export default function ReportDetailPage() {
               href={`/api/v1/reports/${d.id}/download`}
               className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
             >
-              <FileDown size={14} /> Download
+              <AppleIcon name="file-down" size={14} /> Download
             </a>
           ) : d.status === "pending_review" ? (
             <>
@@ -67,19 +67,19 @@ export default function ReportDetailPage() {
                 onClick={() => navigate(`/workspaces/${wid}/reports/${d.id}/edit`)}
                 className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <Edit3 size={14} /> Edit
+                <AppleIcon name="edit" size={14} /> Edit
               </button>
               <button
                 onClick={() => approve.mutate()}
                 className="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <Check size={14} /> Approve & Lock
+                <AppleIcon name="check" size={14} /> Approve & Lock
               </button>
               <button
                 onClick={() => requestChanges.mutate()}
                 className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <X size={14} /> Request changes
+                <AppleIcon name="x-mark" size={14} /> Request changes
               </button>
             </>
           ) : d.status === "changes_requested" || d.status === "drafting" ? (
@@ -88,13 +88,13 @@ export default function ReportDetailPage() {
                 onClick={() => navigate(`/workspaces/${wid}/reports/${d.id}/edit`)}
                 className="bg-accent/15 hover:bg-accent/25 text-accent border border-accent/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <Edit3 size={14} /> Edit
+                <AppleIcon name="edit" size={14} /> Edit
               </button>
               <button
                 onClick={() => render.mutate()}
                 className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <Sparkles size={14} /> Render
+                <AppleIcon name="sparkles" size={14} /> Render
               </button>
             </>
           ) : (
@@ -102,7 +102,7 @@ export default function ReportDetailPage() {
               onClick={() => render.mutate()}
               className="bg-accent/15 hover:bg-accent/25 text-accent border border-accent/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
             >
-              <Sparkles size={14} /> Render draft via agent
+              <AppleIcon name="sparkles" size={14} /> Render draft via agent
             </button>
           )}
         </div>
@@ -110,7 +110,7 @@ export default function ReportDetailPage() {
 
       {d.locked && (
         <div className="panel p-3 bg-emerald-500/5 border-emerald-500/30 flex items-center gap-2 text-sm text-emerald-300">
-          <Lock size={14} /> Locked at {formatDate(d.locked_at)} — content is signed and immutable
+          <AppleIcon name="lock" size={14} /> Locked at {formatDate(d.locked_at)} — content is signed and immutable
         </div>
       )}
 

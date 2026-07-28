@@ -1,31 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  Bell,
-  Bug,
-  Building2,
-  ChevronLeft,
-  ChevronRight,
-  ClipboardList,
-  Cog,
-  Database,
-  FileSpreadsheet,
-  FileText,
-  KeyRound,
-  LayoutDashboard,
-  LogOut,
-  Moon,
-  Plug,
-  Radar,
-  RefreshCw,
-  Search,
-  Share2,
-  Shield,
-  Sparkles,
-  Webhook,
-  Workflow,
-  type LucideIcon,
-} from "lucide-react";
+import AppleIcon, { type AppleIconName } from "../ui/AppleIcon";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -37,45 +12,45 @@ import StatusBar from "./StatusBar";
 
 type NavGroup = {
   label: string;
-  items: { to: string; label: string; icon: LucideIcon; badgeKey?: "engagements" | "findings" | "reports" | "tokens" }[];
+  items: { to: string; label: string; icon: AppleIconName; badgeKey?: "engagements" | "findings" | "reports" | "tokens" }[];
 };
 
 const NAV_GROUPS: NavGroup[] = [
   {
     label: "Workspace",
     items: [
-      { to: "", label: "Dashboard", icon: LayoutDashboard },
-      { to: "engagements", label: "Engagements", icon: ClipboardList, badgeKey: "engagements" },
-      { to: "assets", label: "Assets", icon: Building2 },
-      { to: "findings", label: "Findings", icon: Bug, badgeKey: "findings" },
-      { to: "retests", label: "Retests", icon: RefreshCw },
+      { to: "", label: "Dashboard", icon: "grid" },
+      { to: "engagements", label: "Engagements", icon: "rect-list", badgeKey: "engagements" },
+      { to: "assets", label: "Assets", icon: "building" },
+      { to: "findings", label: "Findings", icon: "bug", badgeKey: "findings" },
+      { to: "retests", label: "Retests", icon: "arrow-uturn" },
     ],
   },
   {
     label: "Reporting",
     items: [
-      { to: "reports", label: "Reports", icon: FileText, badgeKey: "reports" },
-      { to: "tableview", label: "Table View", icon: FileSpreadsheet },
-      { to: "threat-intel", label: "Threat Intel", icon: Radar },
-      { to: "sbom", label: "SBOM", icon: Workflow },
+      { to: "reports", label: "Reports", icon: "doc", badgeKey: "reports" },
+      { to: "tableview", label: "Table View", icon: "table" },
+      { to: "threat-intel", label: "Threat Intel", icon: "radar" },
+      { to: "sbom", label: "SBOM", icon: "rect-grid" },
     ],
   },
   {
     label: "Sources",
     items: [
-      { to: "nessus", label: "Nessus Live", icon: Shield },
-      { to: "agent", label: "Agent Review", icon: Sparkles },
-      { to: "legacy", label: "Legacy Import", icon: Database },
+      { to: "nessus", label: "Nessus Live", icon: "shield" },
+      { to: "agent", label: "Agent Review", icon: "sparkles" },
+      { to: "legacy", label: "Legacy Import", icon: "server" },
     ],
   },
   {
     label: "Admin",
     items: [
-      { to: "tokens", label: "API Tokens", icon: KeyRound, badgeKey: "tokens" },
-      { to: "webhooks", label: "Webhooks", icon: Webhook },
-      { to: "portal", label: "Portal Shares", icon: Share2 },
-      { to: "ldap", label: "LDAP", icon: Plug },
-      { to: "settings", label: "Settings", icon: Cog },
+      { to: "tokens", label: "API Tokens", icon: "key", badgeKey: "tokens" },
+      { to: "webhooks", label: "Webhooks", icon: "link" },
+      { to: "portal", label: "Portal Shares", icon: "link" },
+      { to: "ldap", label: "LDAP", icon: "plug" },
+      { to: "settings", label: "Settings", icon: "gear" },
     ],
   },
 ];
@@ -220,7 +195,7 @@ export default function AppShell() {
           )}
         >
           <div className="h-7 w-7 rounded-md bg-gradient-to-br from-accent to-accent-strong flex items-center justify-center shrink-0 shadow-accent-glow">
-            <Shield size={14} className="text-white" />
+            <AppleIcon name="shield" size={14} className="text-white" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
@@ -250,7 +225,7 @@ export default function AppShell() {
                 return (
                   <NavItem
                     key={item.to}
-                    Icon={item.icon}
+                    iconName={item.icon}
                     label={item.label}
                     active={isActive(item.to)}
                     collapsed={collapsed}
@@ -281,7 +256,7 @@ export default function AppShell() {
           <Breadcrumb base={base} />
           <div className="flex-1 max-w-md mx-auto">
             <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-subtle" />
+              <AppleIcon name="magnifier" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-subtle" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -313,14 +288,14 @@ export default function AppShell() {
 }
 
 function NavItem({
-  Icon,
+  iconName,
   label,
   active,
   collapsed,
   badge,
   onClick,
 }: {
-  Icon: LucideIcon;
+  iconName: AppleIconName;
   label: string;
   active: boolean;
   collapsed: boolean;
@@ -351,7 +326,8 @@ function NavItem({
           )}
         />
       )}
-      <Icon
+      <AppleIcon
+        name={iconName}
         size={15}
         className={cn(
           "shrink-0",
@@ -393,7 +369,7 @@ function Breadcrumb({ base }: { base: string }) {
       <span className="font-medium text-fg">Default Workspace</span>
       {parts.map((p, i) => (
         <span key={i} className="flex items-center gap-1.5 min-w-0">
-          <ChevronRight size={12} className="text-fg-subtle shrink-0" />
+          <AppleIcon name="chevron-right" size={12} className="text-fg-subtle shrink-0" />
           <span className={cn("truncate", i === parts.length - 1 ? "text-fg" : "")}>
             {titleize(p)}
           </span>
@@ -430,7 +406,7 @@ function WorkspaceSwitcher({
   if (memberships.length === 0) {
     return (
       <div className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md bg-white/[0.04] text-xs text-fg-muted">
-        <Building2 size={12} className="text-accent shrink-0" />
+        <AppleIcon name="building" size={12} className="text-accent shrink-0" />
         <span className="truncate flex-1 text-left">{name}</span>
       </div>
     );
@@ -446,9 +422,10 @@ function WorkspaceSwitcher({
           "transition-colors duration-150"
         )}
       >
-        <Building2 size={12} className="text-accent shrink-0" />
+        <AppleIcon name="building" size={12} className="text-accent shrink-0" />
         <span className="truncate flex-1 text-left">{name}</span>
-        <ChevronRight
+        <AppleIcon
+          name="chevron-right"
           size={10}
           className={cn(
             "transition-transform duration-200",
@@ -478,7 +455,7 @@ function WorkspaceSwitcher({
                   : "text-fg-muted hover:bg-white/[0.06] hover:text-fg"
               )}
             >
-              <Building2 size={11} className="shrink-0" />
+              <AppleIcon name="building" size={11} className="shrink-0" />
               <span className="truncate flex-1">{m.workspace_name}</span>
               {m.workspace_id === currentWid && (
                 <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
@@ -542,14 +519,14 @@ function UserWidget({
       title={collapsed ? "Logout" : undefined}
     >
       {collapsed ? (
-        <LogOut size={14} />
+        <AppleIcon name="logout" size={14} />
       ) : (
         <>
           <div className="h-5 w-5 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-[10px] font-semibold text-accent shrink-0">
             {(user.email?.[0] ?? "?").toUpperCase()}
           </div>
           <span className="truncate flex-1 text-left">{user.email}</span>
-          <LogOut size={12} className="shrink-0" />
+          <AppleIcon name="logout" size={12} className="shrink-0" />
         </>
       )}
     </button>
@@ -574,7 +551,7 @@ function CollapseToggle({
       )}
       title={collapsed ? "Expand" : "Collapse"}
     >
-      {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+      {collapsed ? <AppleIcon name="chevron-right" size={14} /> : <AppleIcon name="chevron-left" size={14} />}
       {!collapsed && <span>Collapse</span>}
     </button>
   );
@@ -591,7 +568,7 @@ function DarkModeToggle() {
       )}
       title="Theme"
     >
-      <Moon size={15} />
+      <AppleIcon name="moon" size={15} />
     </button>
   );
 }
@@ -607,7 +584,7 @@ function NotificationBell() {
       )}
       title="Notifications"
     >
-      <Bell size={15} />
+      <AppleIcon name="bell" size={15} />
     </button>
   );
 }

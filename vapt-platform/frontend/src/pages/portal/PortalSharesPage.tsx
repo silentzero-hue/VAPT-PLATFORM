@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlertTriangle, Copy, Plus, Share2, X } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -86,7 +86,7 @@ export default function PortalSharesPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <Share2 size={20} className="text-accent" /> Client portal
+            <AppleIcon name="link" size={20} className="text-accent" /> Client portal
           </h1>
           <p className="text-sm text-fg-muted">
             Share signed reports via expiring, view-limited links
@@ -96,7 +96,7 @@ export default function PortalSharesPage() {
 
       <div className="panel p-4">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-          <Plus size={14} /> Create share
+          <AppleIcon name="plus" size={14} /> Create share
         </h3>
         <form
           onSubmit={(e) => {
@@ -278,7 +278,7 @@ export default function PortalSharesPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-2 mb-3 text-amber-300">
-              <AlertTriangle size={16} />
+              <AppleIcon name="exclamation-triangle" size={16} />
               <h2 className="text-sm font-semibold">
                 Copy this URL now — it will not be shown again
               </h2>
@@ -289,7 +289,7 @@ export default function PortalSharesPage() {
                 onClick={() => copy(revealed.url)}
                 className="bg-accent/15 text-accent border border-accent/30 rounded px-2 py-1 text-xs flex items-center gap-1"
               >
-                <Copy size={10} /> Copy
+                <AppleIcon name="copy" size={10} /> Copy
               </button>
             </div>
             <p className="text-xs text-fg-muted mt-3">
@@ -301,7 +301,7 @@ export default function PortalSharesPage() {
                 onClick={() => setRevealed(null)}
                 className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
-                <X size={14} /> I have saved it
+                <AppleIcon name="x-mark" size={14} /> I have saved it
               </button>
             </div>
           </div>

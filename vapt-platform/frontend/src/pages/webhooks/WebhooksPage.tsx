@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus, Send, Webhook, X, Zap } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -80,7 +80,7 @@ export default function WebhooksPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <Webhook size={20} className="text-accent" /> Webhooks
+            <AppleIcon name="link" size={20} className="text-accent" /> Webhooks
           </h1>
           <p className="text-sm text-fg-muted">
             Push platform events to your CI / SIEM / Slack
@@ -90,7 +90,7 @@ export default function WebhooksPage() {
 
       <div className="panel p-4">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-          <Plus size={14} /> New webhook
+          <AppleIcon name="plus" size={14} /> New webhook
         </h3>
         <form
           onSubmit={(e) => {
@@ -211,7 +211,7 @@ export default function WebhooksPage() {
                       disabled={test.isPending}
                       className="text-xs px-2 py-1 bg-accent/15 text-accent border border-accent/30 rounded hover:bg-accent/25 flex items-center gap-1"
                     >
-                      <Zap size={10} /> Test
+                      <AppleIcon name="zap" size={10} /> Test
                     </button>
                     <button
                       onClick={() => del.mutate(ep.id)}
@@ -236,7 +236,7 @@ export default function WebhooksPage() {
 
       <div className="panel p-4">
         <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-          <Send size={14} /> Recent deliveries
+          <AppleIcon name="send" size={14} /> Recent deliveries
         </h3>
         <table className="w-full text-sm">
           <thead className="text-fg-muted text-xs bg-bg-soft">

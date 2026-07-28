@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { RefreshCcw, ShieldAlert, Sparkles, TrendingUp, X } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -64,7 +64,7 @@ export default function ThreatIntelPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <ShieldAlert size={20} className="text-accent" /> Threat intelligence
+            <AppleIcon name="shield-exclamation" size={20} className="text-accent" /> Threat intelligence
           </h1>
           <p className="text-sm text-fg-muted">
             Enrich vulns with EPSS / KEV / CVSS v3 and rank findings by composite risk
@@ -75,7 +75,7 @@ export default function ThreatIntelPage() {
           disabled={recompute.isPending}
           className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
         >
-          <RefreshCcw size={14} />
+          <AppleIcon name="arrow-uturn-clockwise" size={14} />
           {recompute.isPending ? "Recomputing…" : "Recompute all risk scores"}
         </button>
       </div>
@@ -152,7 +152,7 @@ export default function ThreatIntelPage() {
                           disabled={enrich.isPending}
                           className="bg-accent/15 hover:bg-accent/25 text-accent border border-accent/30 rounded-lg px-2 py-1 text-xs flex items-center gap-1 disabled:opacity-50"
                         >
-                          <Sparkles size={10} /> Enrich
+                          <AppleIcon name="sparkles" size={10} /> Enrich
                         </button>
                       </div>
                     </td>
@@ -172,7 +172,7 @@ export default function ThreatIntelPage() {
 
         <div className="panel p-4">
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
-            <TrendingUp size={14} /> Top by risk
+            <AppleIcon name="trending-up" size={14} /> Top by risk
           </h3>
           <ol className="space-y-1 text-sm">
             {(topRisk.data ?? []).map((f: any, i: number) => (
@@ -218,7 +218,7 @@ export default function ThreatIntelPage() {
                 onClick={() => setIntelModal(null)}
                 className="text-fg-muted hover:text-fg"
               >
-                <X size={16} />
+                <AppleIcon name="x-mark" size={16} />
               </button>
             </div>
             <pre className="text-xs bg-bg-soft border border-border-soft rounded-lg p-3 overflow-x-auto whitespace-pre-wrap">

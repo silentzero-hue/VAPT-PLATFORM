@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlertOctagon, Bug, Filter, MessageSquare, RefreshCcw, Search, X } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
@@ -115,7 +115,7 @@ export default function FindingsPage() {
                 "transition-colors duration-200 ease-out"
               )}
             >
-              <RefreshCcw size={14} /> Refresh
+              <AppleIcon name="arrow-uturn-clockwise" size={14} /> Refresh
             </button>
           </>
         }
@@ -150,7 +150,7 @@ export default function FindingsPage() {
             className="ml-auto text-fg-muted hover:text-fg p-1.5 rounded-md hover:bg-white/[0.05] transition-colors duration-200"
             title="Clear selection"
           >
-            <X size={14} />
+            <AppleIcon name="x-mark" size={14} />
           </button>
         </div>
       )}
@@ -158,7 +158,7 @@ export default function FindingsPage() {
       {/* Filters */}
       <Card className="p-3 flex flex-wrap items-center gap-2">
         <div className="relative flex-1 min-w-[220px]">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted" />
+          <AppleIcon name="magnifier" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -178,7 +178,7 @@ export default function FindingsPage() {
       {visible.length === 0 ? (
         <Card>
           <EmptyState
-            icon={Bug}
+            iconName="bug"
             title="No findings"
             description="Once you ingest scans for this engagement, findings will appear here for triage."
           />
@@ -209,7 +209,7 @@ export default function FindingsPage() {
 function FilterPill({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (v: string) => void }) {
   return (
     <div className="flex items-center gap-1.5 text-xs">
-      <span className="text-fg-muted flex items-center gap-1"><Filter size={10} /> {label}:</span>
+      <span className="text-fg-muted flex items-center gap-1"><AppleIcon name="filter" size={10} /> {label}:</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -264,7 +264,7 @@ function FindingsGrid({
               </span>
               {f.sla_breached ? (
                 <span className="pill pill-danger">
-                  <AlertOctagon size={10} /> SLA
+                  <AppleIcon name="exclamation-triangle" size={10} /> SLA
                 </span>
               ) : f.sla_due_at ? (
                 <span className="text-[10px] text-fg-muted font-mono">
@@ -459,7 +459,7 @@ function FindingsRow({
             className="text-fg-muted hover:text-accent p-1 rounded transition-colors duration-200"
             title="Discuss"
           >
-            <MessageSquare size={12} />
+            <AppleIcon name="message" size={12} />
           </button>
         </td>
       </tr>

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
-import { ClipboardList, Plus, X } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -154,7 +154,7 @@ export default function EngagementsPage() {
                 "transition-all duration-200 ease-out active:scale-[0.98]"
               )}
             >
-              <Plus size={14} /> New engagement
+              <AppleIcon name="plus" size={14} /> New engagement
             </button>
           </div>
         }
@@ -163,7 +163,7 @@ export default function EngagementsPage() {
       {(engs.data ?? []).length === 0 ? (
         <Card>
           <EmptyState
-            icon={ClipboardList}
+            iconName="rect-list"
             title="No engagements yet"
             description="Create your first engagement to start ingesting scans and tracking findings."
             cta={
@@ -171,7 +171,7 @@ export default function EngagementsPage() {
                 onClick={() => setShowNew(true)}
                 className="rounded-full bg-accent hover:bg-accent-strong text-white px-4 py-1.5 text-sm transition-colors duration-200"
               >
-                <Plus size={14} className="inline-block mr-1" /> New engagement
+                <AppleIcon name="plus" size={14} className="inline-block mr-1" /> New engagement
               </button>
             }
           />
@@ -215,7 +215,7 @@ export default function EngagementsPage() {
                 onClick={() => setShowNew(false)}
                 className="text-fg-muted hover:text-fg"
               >
-                <X size={16} />
+                <AppleIcon name="x-mark" size={16} />
               </button>
             </div>
             <form

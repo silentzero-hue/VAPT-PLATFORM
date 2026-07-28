@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Database, Eye, FileInput, HelpCircle } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { api } from "../../lib/api";
@@ -57,7 +57,7 @@ export default function LegacyImportPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <Database size={20} className="text-accent" /> Legacy importer
+            <AppleIcon name="server" size={20} className="text-accent" /> Legacy importer
           </h1>
           <p className="text-sm text-fg-muted">
             Pull findings from an old <code className="font-mono">vulnerabilities.db</code> SQLite
@@ -68,7 +68,7 @@ export default function LegacyImportPage() {
           to={`/workspaces/${workspaceId}/legacy/help`}
           className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
         >
-          <HelpCircle size={14} /> Help
+          <AppleIcon name="question" size={14} /> Help
         </Link>
       </div>
 
@@ -116,7 +116,7 @@ export default function LegacyImportPage() {
             disabled={!dbPath || preview.isFetching}
             className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <Eye size={14} /> {preview.isFetching ? "Previewing…" : "Preview"}
+            <AppleIcon name="eye" size={14} /> {preview.isFetching ? "Previewing…" : "Preview"}
           </button>
           <button
             type="submit"
@@ -125,7 +125,7 @@ export default function LegacyImportPage() {
             }
             className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <FileInput size={14} /> {importRun.isPending ? "Importing…" : "Import"}
+            <AppleIcon name="file-input" size={14} /> {importRun.isPending ? "Importing…" : "Import"}
           </button>
         </div>
       </form>

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { Building2, Cloud, Database, Globe, Link, Server, Smartphone, User } from "lucide-react";
+import AppleIcon, { type AppleIconName } from "../../components/ui/AppleIcon";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 import { cn, formatDate } from "../../lib/cn";
@@ -9,16 +9,16 @@ import Card from "../../components/ui/Card";
 import EmptyState from "../../components/ui/EmptyState";
 import Toolbar from "../../components/ui/Toolbar";
 
-const TYPE_ICON: Record<string, any> = {
-  host: Server,
-  domain: Globe,
-  url: Link,
-  ip: Server,
-  cloud: Cloud,
-  database: Database,
-  mobile: Smartphone,
-  person: User,
-  app: Building2,
+const TYPE_ICON: Record<string, AppleIconName> = {
+  host: "server",
+  domain: "globe",
+  url: "link",
+  ip: "server",
+  cloud: "cloud",
+  database: "server",
+  mobile: "smartphone",
+  person: "user",
+  app: "building",
 };
 
 const CRIT_PILL: Record<string, string> = {
@@ -60,7 +60,7 @@ export default function AssetsPage() {
       {(a.data ?? []).length === 0 ? (
         <Card>
           <EmptyState
-            icon={Server}
+            iconName="server"
             title="No assets yet"
             description="Ingest a scan to populate your asset inventory."
           />
@@ -68,12 +68,12 @@ export default function AssetsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {(a.data ?? []).map((x) => {
-            const Icon = TYPE_ICON[x.type] ?? Building2;
+            const iconName = TYPE_ICON[x.type] ?? "building";
             return (
               <Card key={x.id} className="card-hover p-4">
                 <div className="flex items-start justify-between gap-2">
                   <div className="h-9 w-9 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
-                    <Icon size={16} className="text-accent" />
+                    <AppleIcon name={iconName} size={16} className="text-accent" />
                   </div>
                   <span className={cn("chip", CRIT_PILL[x.criticality] ?? "chip-muted")}>
                     {x.criticality}

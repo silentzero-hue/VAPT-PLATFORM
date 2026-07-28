@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AtSign, MessageSquare, Pencil, Trash2, X } from "lucide-react";
+import AppleIcon from "../ui/AppleIcon";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
@@ -50,7 +50,7 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
   return (
     <div className="panel p-4 space-y-3">
       <h3 className="text-sm font-semibold flex items-center gap-2">
-        <MessageSquare size={14} /> Discussion
+        <AppleIcon name="message" size={14} /> Discussion
         <span className="text-fg-muted text-xs font-normal">({list.data?.length ?? 0})</span>
       </h3>
 
@@ -91,11 +91,11 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
                   <div className="mt-1 flex gap-2 text-xs">
                     <button onClick={() => { setEditing(c.id); setEditBody(c.body); }}
                       className="text-fg-muted hover:text-fg flex items-center gap-1">
-                      <Pencil size={10} /> edit
+                      <AppleIcon name="pencil" size={10} /> edit
                     </button>
                     <button onClick={() => del.mutate(c.id)}
                       className="text-fg-muted hover:text-rose-300 flex items-center gap-1">
-                      <Trash2 size={10} /> delete
+                      <AppleIcon name="trash" size={10} /> delete
                     </button>
                   </div>
                 )}
@@ -118,7 +118,7 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
         />
         <div className="flex items-center justify-between mt-2">
           <div className="text-[10px] text-fg-muted flex items-center gap-1">
-            <AtSign size={10} /> mentions notify the user in-app + email
+            <AppleIcon name="at-symbol" size={10} /> mentions notify the user in-app + email
           </div>
           <button
             onClick={() => create.mutate()}

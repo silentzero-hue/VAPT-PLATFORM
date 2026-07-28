@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Download, FileText, Printer } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -82,7 +82,7 @@ export default function TableViewPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <FileText size={20} className="text-accent" /> Table view
+            <AppleIcon name="doc" size={20} className="text-accent" /> Table view
           </h1>
           <p className="text-sm text-fg-muted">
             Banded executive view of all findings, grouped by severity — ready to print or export
@@ -106,21 +106,21 @@ export default function TableViewPage() {
             disabled={!activeEngagementId || downloadFile.isPending}
             className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <Download size={14} /> DOCX
+            <AppleIcon name="download" size={14} /> DOCX
           </button>
           <button
             onClick={() => downloadFile.mutate({ fmt: "html" })}
             disabled={!activeEngagementId || downloadFile.isPending}
             className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <Download size={14} /> HTML
+            <AppleIcon name="download" size={14} /> HTML
           </button>
           <button
             onClick={() => window.print()}
             disabled={!data.data}
             className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
-            <Printer size={14} /> Print
+            <AppleIcon name="print" size={14} /> Print
           </button>
         </div>
       </div>

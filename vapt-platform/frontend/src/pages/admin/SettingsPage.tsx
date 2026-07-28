@@ -1,4 +1,4 @@
-import { KeyRound, ShieldCheck, User as UserIcon } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -35,7 +35,7 @@ export default function SettingsPage() {
       <Card className="p-5">
         <div className="flex items-center gap-2 mb-3">
           <div className="h-8 w-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
-            <UserIcon size={14} className="text-accent" />
+            <AppleIcon name="user" size={14} className="text-accent" />
           </div>
           <h3 className="text-sm font-semibold">Profile</h3>
         </div>
@@ -66,7 +66,7 @@ export default function SettingsPage() {
       <Card className="p-5 space-y-3">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
-            <ShieldCheck size={14} className="text-accent" />
+            <AppleIcon name="shield-check" size={14} className="text-accent" />
           </div>
           <h3 className="text-sm font-semibold">Two-factor authentication</h3>
         </div>
@@ -124,7 +124,7 @@ export default function SettingsPage() {
       <Card className="p-5 space-y-3">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
-            <KeyRound size={14} className="text-accent" />
+            <AppleIcon name="key" size={14} className="text-accent" />
           </div>
           <h3 className="text-sm font-semibold">Change password</h3>
         </div>

@@ -1,8 +1,9 @@
-import { type LucideIcon } from "lucide-react";
 import { type ReactNode } from "react";
+import AppleIcon, { type AppleIconName } from "./AppleIcon";
 
 interface EmptyStateProps {
-  icon?: LucideIcon;
+  icon?: ReactNode;
+  iconName?: AppleIconName;
   title: string;
   description?: string;
   cta?: ReactNode;
@@ -10,7 +11,8 @@ interface EmptyStateProps {
 }
 
 export default function EmptyState({
-  icon: Icon,
+  icon,
+  iconName,
   title,
   description,
   cta,
@@ -23,9 +25,9 @@ export default function EmptyState({
         (className ?? "")
       }
     >
-      {Icon && (
+      {(icon || iconName) && (
         <div className="h-12 w-12 rounded-2xl glass flex items-center justify-center">
-          <Icon size={20} className="text-fg-muted" />
+          {icon ?? <AppleIcon name={iconName!} size={20} className="text-fg-muted" />}
         </div>
       )}
       <div className="space-y-1 max-w-sm">

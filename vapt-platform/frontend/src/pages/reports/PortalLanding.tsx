@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Download, Lock, Mail, Shield, ShieldOff } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 
@@ -77,7 +77,7 @@ export default function PortalLanding() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="panel p-7 max-w-sm w-full text-center space-y-3">
-          <ShieldOff size={28} className="text-rose-300 mx-auto" />
+          <AppleIcon name="shield-off" size={28} className="text-rose-300 mx-auto" />
           <h1 className="text-lg font-semibold">Share unavailable</h1>
           <p className="text-sm text-fg-muted">
             This link is invalid, has expired, or been revoked.
@@ -105,7 +105,7 @@ export default function PortalLanding() {
       >
         <div className="flex items-center gap-2">
           <div className="h-9 w-9 rounded-lg bg-accent/15 border border-accent/30 flex items-center justify-center">
-            <Shield size={18} className="text-accent" />
+            <AppleIcon name="shield" size={18} className="text-accent" />
           </div>
           <div>
             <div className="font-semibold">{m.label ?? "Confidential report"}</div>
@@ -128,7 +128,7 @@ export default function PortalLanding() {
             {needsPassword && (
               <div>
                 <label className="text-xs text-fg-muted flex items-center gap-1.5">
-                  <Lock size={12} /> Password
+                  <AppleIcon name="lock" size={12} /> Password
                 </label>
                 <input
                   type="password"
@@ -144,7 +144,7 @@ export default function PortalLanding() {
             {needsEmail && (
               <div>
                 <label className="text-xs text-fg-muted flex items-center gap-1.5">
-                  <Mail size={12} /> Your email
+                  <AppleIcon name="envelope" size={12} /> Your email
                 </label>
                 <input
                   type="email"
@@ -166,7 +166,7 @@ export default function PortalLanding() {
               disabled={download.isPending}
               className="w-full bg-accent hover:bg-accent-strong text-white font-medium rounded-lg py-2 text-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
             >
-              <Download size={14} />
+              <AppleIcon name="download" size={14} />
               {download.isPending ? "Preparing…" : "Download report"}
             </button>
           </>

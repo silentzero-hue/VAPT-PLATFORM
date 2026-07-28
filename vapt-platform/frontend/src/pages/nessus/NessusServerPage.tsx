@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plug, RefreshCcw, Save, Upload } from "lucide-react";
+import AppleIcon from "../../components/ui/AppleIcon";
 import { toast } from "sonner";
 import { api } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
@@ -119,7 +119,7 @@ export default function NessusServerPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <Plug size={20} className="text-accent" /> Nessus server
+            <AppleIcon name="plug" size={20} className="text-accent" /> Nessus server
           </h1>
           <p className="text-sm text-fg-muted">
             Configure a Tenable Nessus instance and import its scans as findings
@@ -130,7 +130,7 @@ export default function NessusServerPage() {
           disabled={syncNow.isPending || !server.data}
           className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
         >
-          <RefreshCcw size={14} />
+          <AppleIcon name="arrow-uturn-clockwise" size={14} />
           {syncNow.isPending ? "Syncing…" : "Sync now"}
         </button>
       </div>
@@ -226,7 +226,7 @@ export default function NessusServerPage() {
               disabled={savePatch.isPending}
               className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
-              <Save size={14} /> {savePatch.isPending ? "Updating…" : "Update"}
+              <AppleIcon name="save" size={14} /> {savePatch.isPending ? "Updating…" : "Update"}
             </button>
           ) : (
             <button
@@ -234,7 +234,7 @@ export default function NessusServerPage() {
               disabled={savePut.isPending}
               className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
-              <Save size={14} /> {savePut.isPending ? "Saving…" : "Save server"}
+              <AppleIcon name="save" size={14} /> {savePut.isPending ? "Saving…" : "Save server"}
             </button>
           )}
         </div>
@@ -247,7 +247,7 @@ export default function NessusServerPage() {
             onClick={() => server.refetch()}
             className="text-xs text-fg-muted hover:text-accent flex items-center gap-1"
           >
-            <RefreshCcw size={12} /> Refresh
+            <AppleIcon name="arrow-uturn-clockwise" size={12} /> Refresh
           </button>
         </div>
         {server.data ? (
@@ -351,7 +351,7 @@ export default function NessusServerPage() {
                           }
                           className="bg-accent/15 hover:bg-accent/25 text-accent border border-accent/30 rounded-lg px-2 py-1 text-xs flex items-center gap-1 ml-auto"
                         >
-                          <Upload size={10} /> Import
+                          <AppleIcon name="upload" size={10} /> Import
                         </button>
                       )}
                     </td>
