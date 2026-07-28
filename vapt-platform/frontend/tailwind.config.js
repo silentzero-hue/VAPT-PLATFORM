@@ -38,6 +38,8 @@ export default {
         panel: "0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.32)",
         glass: "0 4px 24px rgba(0,0,0,0.25)",
         "glass-strong": "0 8px 32px rgba(0,0,0,0.35)",
+        "accent-glow": "0 0 0 1px rgba(91, 141, 239, 0.4)",
+        "inner-border": "inset 0 0 0 1px rgba(255,255,255,0.06)",
       },
       backdropBlur: {
         xs: "2px",
@@ -58,6 +60,10 @@ export default {
           "0%": { transform: "translateY(-100%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+        "slide-in": {
+          "0%": { transform: "translateX(-100%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -65,6 +71,7 @@ export default {
       },
       animation: {
         "slide-down": "slide-down 200ms ease-out",
+        "slide-in": "slide-in 200ms ease-out",
         "fade-in": "fade-in 200ms ease-out",
       },
     },

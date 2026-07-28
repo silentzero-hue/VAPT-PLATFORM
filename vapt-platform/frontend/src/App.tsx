@@ -84,7 +84,7 @@ function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/totp" element={<TotpPage />} />
       <Route element={<Protected />}>
-        <Route element={<AppShell auth={auth} />}>
+        <Route element={<AppShell />}>
           <Route path="/" element={<Navigate to="/workspaces" replace />} />
           <Route path="/workspaces" element={<DashboardPage />} />
           <Route path="/workspaces/:wid" element={<DashboardPage />} />
