@@ -29,7 +29,7 @@ export default function SettingsPage() {
   });
 
   return (
-    <div className="space-y-4 max-w-[1400px] mx-auto p-4">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
       <h1 className="text-2xl font-semibold tracking-tight text-ink">Account settings</h1>
 
       <Card className="p-5">

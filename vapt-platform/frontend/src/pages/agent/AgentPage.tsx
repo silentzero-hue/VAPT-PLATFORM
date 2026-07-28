@@ -33,7 +33,7 @@ export default function AgentPage() {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2"><AppleIcon name="sparkles" size={20} className="text-finder-blue" /> Agent Review</h1>
@@ -49,8 +49,8 @@ export default function AgentPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="panel p-4 col-span-1">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 min-w-0">
+        <div className="panel p-4 lg:col-span-1 min-w-0">
           <h3 className="text-sm font-semibold mb-2">Engagement</h3>
           <select
             value={eid ?? ""}
@@ -74,7 +74,7 @@ export default function AgentPage() {
             ))}
           </ul>
         </div>
-        <div className="panel p-4 col-span-2">
+        <div className="panel p-4 lg:col-span-2 min-w-0">
           <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5"><AppleIcon name="rect-grid" size={14} /> Agent workflow</h3>
           <p className="text-xs text-ink-muted mb-4">
             Read-only trace of the deterministic agent loop. Use the per-vulnerability page

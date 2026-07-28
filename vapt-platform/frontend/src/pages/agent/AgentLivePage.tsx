@@ -90,7 +90,7 @@ export default function AgentLivePage() {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -102,8 +102,8 @@ export default function AgentLivePage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="panel p-4 col-span-1">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 min-w-0">
+        <div className="panel p-4 lg:col-span-1 min-w-0">
           <h3 className="text-sm font-semibold mb-3">Recent runs</h3>
           <ul className="space-y-1.5">
             {(runs.data ?? []).map((r) => {
@@ -168,7 +168,7 @@ export default function AgentLivePage() {
           </ul>
         </div>
 
-        <div className="panel p-4 col-span-2">
+        <div className="panel p-4 lg:col-span-2 min-w-0">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold flex items-center gap-1.5">
               <AppleIcon name="plug" size={14} /> Live stream

@@ -42,8 +42,8 @@ export default function ReportDetailPage() {
   const lastV = d.versions?.[d.versions.length - 1];
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-end justify-between">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
+      <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold">{d.title}</h1>
           <p className="text-sm text-ink-muted">
@@ -114,8 +114,8 @@ export default function ReportDetailPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="panel p-4 col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 min-w-0">
+        <div className="panel p-4 md:col-span-2 min-w-0">
           <h3 className="text-sm font-semibold mb-3">Version history</h3>
           <ol className="space-y-2">
             {(d.versions ?? []).map((v) => (

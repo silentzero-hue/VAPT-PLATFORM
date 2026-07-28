@@ -53,7 +53,7 @@ export default function LegacyImportPage() {
   });
 
   return (
-    <div className="space-y-4 max-w-3xl">
+    <div className="space-y-4 max-w-3xl mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -79,7 +79,7 @@ export default function LegacyImportPage() {
         }}
         className="panel p-4 space-y-3"
       >
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="text-xs text-ink-muted">Engagement</label>
             <select
@@ -133,7 +133,7 @@ export default function LegacyImportPage() {
       {preview.data && (
         <div className="panel p-4 space-y-2">
           <h3 className="text-sm font-semibold">Preview</h3>
-          <div className="grid grid-cols-3 gap-3 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
             <div>
               <div className="text-xs text-ink-muted">Total rows</div>
               <div className="text-lg font-semibold font-mono">
@@ -176,7 +176,7 @@ export default function LegacyImportPage() {
       {importRun.data && (
         <div className="panel p-4">
           <h3 className="text-sm font-semibold mb-3">Import result</h3>
-          <div className="grid grid-cols-3 gap-3 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
             <Stat label="Rows processed" value={importRun.data.data.rows} />
             <Stat
               label="New vulnerabilities"

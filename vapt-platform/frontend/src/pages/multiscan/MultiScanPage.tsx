@@ -90,7 +90,7 @@ export default function MultiScanPage() {
           )}
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm min-w-[680px]">
             <thead className="text-ink-muted text-xs bg-paper-soft">
               <tr className="text-left">
                 {withSelection && <th className="px-3 py-2 w-8"></th>}
@@ -167,8 +167,8 @@ export default function MultiScanPage() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-end justify-between">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
+      <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
             <AppleIcon name="check-shield" size={20} className="text-finder-blue" /> Multi-scan compare
@@ -193,7 +193,7 @@ export default function MultiScanPage() {
       </div>
 
       <div className="panel p-4">
-        <div className="grid grid-cols-[1fr_auto_1fr_auto] items-end gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr_auto] items-end gap-3 min-w-0">
           <div>
             <label className="text-xs text-ink-muted">Baseline (older)</label>
             <select
@@ -249,7 +249,7 @@ export default function MultiScanPage() {
       </div>
 
       {compare.data && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 min-w-0">
           {renderTable(
             "STILL PRESENT",
             "bg-amber-500/10",

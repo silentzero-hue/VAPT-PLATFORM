@@ -81,7 +81,7 @@ export default function LdapPage() {
   });
 
   return (
-    <div className="space-y-4 max-w-3xl">
+    <div className="space-y-4 max-w-3xl mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function LdapPage() {
         className="panel p-4 space-y-3"
       >
         <h3 className="text-sm font-semibold">Connection</h3>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="col-span-2">
             <label className="text-xs text-ink-muted">Server URL</label>
             <input
@@ -175,7 +175,7 @@ export default function LdapPage() {
         </div>
 
         <h3 className="text-sm font-semibold pt-2">User search</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="text-xs text-ink-muted">Search base</label>
             <input
@@ -198,7 +198,7 @@ export default function LdapPage() {
         </div>
 
         <h3 className="text-sm font-semibold pt-2">Role mapping</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="text-xs text-ink-muted">Default role (no group match)</label>
             <select

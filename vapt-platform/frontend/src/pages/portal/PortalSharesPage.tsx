@@ -82,7 +82,7 @@ export default function PortalSharesPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -103,7 +103,7 @@ export default function PortalSharesPage() {
             e.preventDefault();
             create.mutate();
           }}
-          className="grid grid-cols-2 gap-3"
+          className="grid grid-cols-1 md:grid-cols-2 gap-3"
         >
           <div>
             <label className="text-xs text-ink-muted">Report ID</label>

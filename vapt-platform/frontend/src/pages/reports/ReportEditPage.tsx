@@ -591,7 +591,7 @@ export default function ReportEditPage() {
 
   return (
     <>
-    <div className="space-y-4 pb-32">
+    <div className="space-y-4 pb-32 max-w-[1400px] mx-auto p-4 min-w-0">
       {/* Title */}
       <div className="flex items-end justify-between gap-3">
         <div className="flex-1">
@@ -708,7 +708,7 @@ export default function ReportEditPage() {
                 </button>
                 {isOpen && (
                   <div className="p-3 space-y-3">
-                    <div className="grid grid-cols-2 gap-3 text-xs text-ink-muted">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-ink-muted">
                       <div><span className="text-ink-subtle">Finding ID:</span> <span className="font-mono">{f.finding_id}</span></div>
                       <div><span className="text-ink-subtle">Vuln ID:</span> <span className="font-mono">{f.vuln_id}</span></div>
                     </div>

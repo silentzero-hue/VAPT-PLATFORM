@@ -115,8 +115,8 @@ export default function NessusServerPage() {
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-end justify-between">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
+      <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
             <AppleIcon name="plug" size={20} className="text-finder-blue" /> Nessus server
@@ -137,7 +137,7 @@ export default function NessusServerPage() {
 
       <div className="panel p-4 space-y-3">
         <h3 className="text-sm font-semibold">Connection</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 min-w-0">
           <div>
             <label className="text-xs text-ink-muted">Name</label>
             <input
@@ -251,7 +251,7 @@ export default function NessusServerPage() {
           </button>
         </div>
         {server.data ? (
-          <div className="grid grid-cols-3 gap-4 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm min-w-0">
             <div>
               <div className="text-xs text-ink-muted">Last sync</div>
               <div className="font-mono">{formatDate(server.data.last_sync_at)}</div>

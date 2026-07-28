@@ -78,8 +78,8 @@ export default function TableViewPage() {
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-end justify-between">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
+      <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
             <AppleIcon name="doc" size={20} className="text-finder-blue" /> Table view

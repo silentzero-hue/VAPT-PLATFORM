@@ -62,7 +62,7 @@ export default function TokensPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -83,7 +83,7 @@ export default function TokensPage() {
             e.preventDefault();
             create.mutate();
           }}
-          className="grid grid-cols-4 gap-3 items-end"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-end"
         >
           <div className="col-span-1">
             <label className="text-xs text-ink-muted">Name</label>

@@ -60,7 +60,7 @@ export default function ThreatIntelPage() {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -80,8 +80,8 @@ export default function ThreatIntelPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="panel p-4 col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 min-w-0">
+        <div className="panel p-4 lg:col-span-2 min-w-0">
           <h3 className="text-sm font-semibold mb-3">Vulnerabilities</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -170,7 +170,7 @@ export default function ThreatIntelPage() {
           </div>
         </div>
 
-        <div className="panel p-4">
+        <div className="panel p-4 min-w-0">
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
             <AppleIcon name="trending-up" size={14} /> Top by risk
           </h3>

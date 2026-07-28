@@ -43,7 +43,7 @@ export default function SbomPage() {
   });
 
   return (
-    <div className="space-y-4 max-w-4xl">
+    <div className="space-y-4 max-w-4xl mx-auto p-4 min-w-0">
       <div>
         <h1 className="text-2xl font-semibold flex items-center gap-2">
           <AppleIcon name="package" size={20} className="text-finder-blue" /> SBOM ingestion
@@ -60,7 +60,7 @@ export default function SbomPage() {
         }}
         className="panel p-4 space-y-3"
       >
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 min-w-0">
           <div className="col-span-1">
             <label className="text-xs text-ink-muted">Engagement</label>
             <select
