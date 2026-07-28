@@ -57,16 +57,16 @@ export default function LegacyImportPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="server" size={20} className="text-accent" /> Legacy importer
+            <AppleIcon name="server" size={20} className="text-finder-blue" /> Legacy importer
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Pull findings from an old <code className="font-mono">vulnerabilities.db</code> SQLite
             file into this engagement
           </p>
         </div>
         <Link
           to={`/workspaces/${workspaceId}/legacy/help`}
-          className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
+          className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
         >
           <AppleIcon name="question" size={14} /> Help
         </Link>
@@ -81,12 +81,12 @@ export default function LegacyImportPage() {
       >
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-fg-muted">Engagement</label>
+            <label className="text-xs text-ink-muted">Engagement</label>
             <select
               value={engagementId}
               onChange={(e) => setEngagementId(e.target.value)}
               required
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2.5 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2.5 py-1.5 text-sm mt-1"
             >
               <option value="">Select…</option>
               {(engs.data ?? []).map((e) => (
@@ -97,7 +97,7 @@ export default function LegacyImportPage() {
             </select>
           </div>
           <div>
-            <label className="text-xs text-fg-muted">
+            <label className="text-xs text-ink-muted">
               Legacy <code className="font-mono">vulnerabilities.db</code> path
             </label>
             <input
@@ -105,7 +105,7 @@ export default function LegacyImportPage() {
               onChange={(e) => setDbPath(e.target.value)}
               required
               placeholder="/opt/old-vapt/data/vulnerabilities.db"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2.5 py-1.5 text-sm mt-1 outline-none focus:border-accent font-mono"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2.5 py-1.5 text-sm mt-1 outline-none focus:border-finder-blue font-mono"
             />
           </div>
         </div>
@@ -114,7 +114,7 @@ export default function LegacyImportPage() {
             type="button"
             onClick={() => preview.refetch()}
             disabled={!dbPath || preview.isFetching}
-            className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="eye" size={14} /> {preview.isFetching ? "Previewing…" : "Preview"}
           </button>
@@ -123,7 +123,7 @@ export default function LegacyImportPage() {
             disabled={
               !engagementId || !dbPath || importRun.isPending || preview.data?.rows === 0
             }
-            className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="file-input" size={14} /> {importRun.isPending ? "Importing…" : "Import"}
           </button>
@@ -135,34 +135,34 @@ export default function LegacyImportPage() {
           <h3 className="text-sm font-semibold">Preview</h3>
           <div className="grid grid-cols-3 gap-3 text-sm">
             <div>
-              <div className="text-xs text-fg-muted">Total rows</div>
+              <div className="text-xs text-ink-muted">Total rows</div>
               <div className="text-lg font-semibold font-mono">
                 {preview.data.rows}
               </div>
             </div>
             <div>
-              <div className="text-xs text-fg-muted">DB size</div>
-              <div className="font-mono text-fg-muted">
+              <div className="text-xs text-ink-muted">DB size</div>
+              <div className="font-mono text-ink-muted">
                 {preview.data.db_size_bytes != null
                   ? `${(preview.data.db_size_bytes / 1024).toFixed(1)} KB`
                   : "—"}
               </div>
             </div>
             <div>
-              <div className="text-xs text-fg-muted">Last modified</div>
-              <div className="font-mono text-fg-muted">
+              <div className="text-xs text-ink-muted">Last modified</div>
+              <div className="font-mono text-ink-muted">
                 {formatDate(preview.data.db_mtime)}
               </div>
             </div>
           </div>
           {preview.data.first_3.length > 0 && (
             <div>
-              <div className="text-xs text-fg-muted mt-2">Sample titles</div>
+              <div className="text-xs text-ink-muted mt-2">Sample titles</div>
               <ul className="text-sm space-y-1 mt-1">
                 {preview.data.first_3.map((t, i) => (
                   <li
                     key={i}
-                    className="border-t border-border-soft py-1 truncate"
+                    className="border-t border-hairline py-1 truncate"
                   >
                     {t}
                   </li>
@@ -181,21 +181,21 @@ export default function LegacyImportPage() {
             <Stat
               label="New vulnerabilities"
               value={importRun.data.data.new_vulns}
-              accent="text-accent"
+              accent="text-finder-blue"
             />
             <Stat
               label="New findings"
               value={importRun.data.data.new_findings}
-              accent="text-rose-300"
+              accent="text-rose-700"
             />
             <Stat
               label="Merged findings"
               value={importRun.data.data.merged_findings}
-              accent="text-emerald-300"
+              accent="text-emerald-700"
             />
             <div className="col-span-2">
-              <div className="text-xs text-fg-muted">Imported at</div>
-              <div className="font-mono text-fg-muted">
+              <div className="text-xs text-ink-muted">Imported at</div>
+              <div className="font-mono text-ink-muted">
                 {formatDate(importRun.data.data.imported_at)}
               </div>
             </div>
@@ -217,7 +217,7 @@ function Stat({
 }) {
   return (
     <div>
-      <div className="text-xs text-fg-muted">{label}</div>
+      <div className="text-xs text-ink-muted">{label}</div>
       <div className={`text-lg font-semibold font-mono ${accent ?? ""}`}>
         {value}
       </div>

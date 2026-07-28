@@ -29,23 +29,23 @@ export default function SettingsPage() {
   });
 
   return (
-    <div className="space-y-4 max-w-2xl">
-      <h1 className="text-2xl font-semibold tracking-tight">Account settings</h1>
+    <div className="space-y-4 max-w-[1400px] mx-auto p-4">
+      <h1 className="text-2xl font-semibold tracking-tight text-ink">Account settings</h1>
 
       <Card className="p-5">
         <div className="flex items-center gap-2 mb-3">
-          <div className="h-8 w-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
-            <AppleIcon name="user" size={14} className="text-accent" />
+          <div className="h-8 w-8 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center">
+            <AppleIcon name="user" size={14} className="text-finder-blue" />
           </div>
-          <h3 className="text-sm font-semibold">Profile</h3>
+          <h3 className="text-sm font-semibold text-ink">Profile</h3>
         </div>
         <dl className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <dt className="text-fg-muted">Email</dt>
+            <dt className="text-ink-muted">Email</dt>
             <dd className="font-mono">{me?.email ?? "—"}</dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-fg-muted">MFA</dt>
+            <dt className="text-ink-muted">MFA</dt>
             <dd>
               {me?.totp_enabled ? (
                 <span className="pill pill-success">enabled</span>
@@ -55,7 +55,7 @@ export default function SettingsPage() {
             </dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-fg-muted">Role</dt>
+            <dt className="text-ink-muted">Role</dt>
             <dd className="text-xs text-right">
               {me?.memberships.map((m) => `${m.workspace_name}: ${m.role}`).join(", ") || "—"}
             </dd>
@@ -65,17 +65,17 @@ export default function SettingsPage() {
 
       <Card className="p-5 space-y-3">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
-            <AppleIcon name="shield-check" size={14} className="text-accent" />
+          <div className="h-8 w-8 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center">
+            <AppleIcon name="shield-check" size={14} className="text-finder-blue" />
           </div>
-          <h3 className="text-sm font-semibold">Two-factor authentication</h3>
+          <h3 className="text-sm font-semibold text-ink">Two-factor authentication</h3>
         </div>
         {!me?.totp_enabled && (
           <button
             onClick={() => enroll.mutate()}
             className={cn(
               "rounded-lg px-3 py-1.5 text-sm",
-              "pill-info hover:brightness-125",
+              "pill-info hover:brightness-95",
               "transition-all duration-200 ease-out"
             )}
           >
@@ -87,9 +87,9 @@ export default function SettingsPage() {
             <img
               alt="QR"
               src={enroll.data.qr_data_uri}
-              className="h-40 w-40 rounded-lg border border-white/[0.08]"
+              className="h-40 w-40 rounded-lg border border-hairline"
             />
-            <div className="text-xs font-mono text-fg-muted break-all bg-white/[0.03] border border-white/[0.06] rounded-lg p-2">
+            <div className="text-xs font-mono text-ink-muted break-all bg-paper-soft border border-hairline rounded-lg p-2">
               {enroll.data.secret}
             </div>
             <div className="flex gap-2 flex-wrap">
@@ -98,8 +98,8 @@ export default function SettingsPage() {
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="123456"
                 className={cn(
-                  "bg-white/[0.04] border border-white/[0.08] focus:border-accent/50",
-                  "rounded-lg px-3 py-1.5 text-sm w-32 text-center font-mono outline-none",
+                  "bg-paper-soft border border-hairline focus:border-finder-blue/50",
+                  "rounded-lg px-3 py-1.5 text-sm w-32 text-center font-mono outline-none text-ink",
                   "transition-colors duration-200 ease-out"
                 )}
               />
@@ -107,14 +107,14 @@ export default function SettingsPage() {
                 onClick={() => verify.mutate()}
                 className={cn(
                   "rounded-lg px-3 py-1.5 text-sm",
-                  "bg-accent text-white hover:bg-accent-strong",
+                  "bg-finder-blue text-white hover:bg-folder-to",
                   "transition-all duration-200 ease-out active:scale-[0.98]"
                 )}
               >
                 Verify
               </button>
             </div>
-            <div className="text-xs text-fg-muted break-all">
+            <div className="text-xs text-ink-muted break-all">
               Backup codes: <span className="font-mono">{enroll.data.backup_codes.join(", ")}</span>
             </div>
           </div>
@@ -123,10 +123,10 @@ export default function SettingsPage() {
 
       <Card className="p-5 space-y-3">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
-            <AppleIcon name="key" size={14} className="text-accent" />
+          <div className="h-8 w-8 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center">
+            <AppleIcon name="key" size={14} className="text-finder-blue" />
           </div>
-          <h3 className="text-sm font-semibold">Change password</h3>
+          <h3 className="text-sm font-semibold text-ink">Change password</h3>
         </div>
         <div className="space-y-2">
           <input
@@ -135,8 +135,8 @@ export default function SettingsPage() {
             onChange={(e) => setOldPwd(e.target.value)}
             placeholder="Current password"
             className={cn(
-              "w-full bg-white/[0.04] border border-white/[0.08] focus:border-accent/50",
-              "rounded-lg px-3 py-1.5 text-sm outline-none",
+              "w-full bg-paper-soft border border-hairline focus:border-finder-blue/50",
+              "rounded-lg px-3 py-1.5 text-sm outline-none text-ink",
               "transition-colors duration-200 ease-out"
             )}
           />
@@ -146,8 +146,8 @@ export default function SettingsPage() {
             onChange={(e) => setNewPwd(e.target.value)}
             placeholder="New password"
             className={cn(
-              "w-full bg-white/[0.04] border border-white/[0.08] focus:border-accent/50",
-              "rounded-lg px-3 py-1.5 text-sm outline-none",
+              "w-full bg-paper-soft border border-hairline focus:border-finder-blue/50",
+              "rounded-lg px-3 py-1.5 text-sm outline-none text-ink",
               "transition-colors duration-200 ease-out"
             )}
           />
@@ -156,7 +156,7 @@ export default function SettingsPage() {
             disabled={!oldPwd || !newPwd || changePwd.isPending}
             className={cn(
               "rounded-lg px-3 py-1.5 text-sm",
-              "bg-accent text-white hover:bg-accent-strong",
+              "bg-finder-blue text-white hover:bg-folder-to",
               "transition-all duration-200 ease-out active:scale-[0.98] disabled:opacity-50"
             )}
           >

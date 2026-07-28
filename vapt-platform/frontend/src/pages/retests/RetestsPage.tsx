@@ -15,10 +15,10 @@ interface RetestSummary {
 }
 
 const STATUS_PILL: Record<RetestStatus, string> = {
-  scheduled: "bg-bg-soft text-fg-muted border-border-soft",
-  in_progress: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  completed: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  cancelled: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+  scheduled: "bg-paper-soft text-ink-muted border-hairline",
+  in_progress: "bg-amber-50 text-amber-700 border-amber-500/30",
+  completed: "bg-emerald-50 text-emerald-700 border-emerald-500/30",
+  cancelled: "bg-rose-50 text-rose-700 border-rose-500/30",
 };
 
 export default function RetestsPage() {
@@ -91,9 +91,9 @@ export default function RetestsPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="arrow-uturn-clockwise" size={20} className="text-accent" /> Retests
+            <AppleIcon name="arrow-uturn-clockwise" size={20} className="text-finder-blue" /> Retests
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Schedule follow-up testing and verify previous remediations hold
           </p>
         </div>
@@ -111,12 +111,12 @@ export default function RetestsPage() {
           className="grid grid-cols-4 gap-3 items-end"
         >
           <div className="col-span-1">
-            <label className="text-xs text-fg-muted">Engagement</label>
+            <label className="text-xs text-ink-muted">Engagement</label>
             <select
               value={engagementId}
               onChange={(e) => setEngagementId(e.target.value)}
               required
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             >
               <option value="">Select…</option>
               {(engs.data ?? []).map((e) => (
@@ -127,29 +127,29 @@ export default function RetestsPage() {
             </select>
           </div>
           <div className="col-span-2">
-            <label className="text-xs text-fg-muted">Title</label>
+            <label className="text-xs text-ink-muted">Title</label>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
               placeholder="Q2 retest — production"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-fg-muted">Scheduled for</label>
+            <label className="text-xs text-ink-muted">Scheduled for</label>
             <input
               type="datetime-local"
               value={scheduledFor}
               onChange={(e) => setScheduledFor(e.target.value)}
               required
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <button
             type="submit"
             disabled={schedule.isPending}
-            className="col-span-4 sm:col-span-1 sm:col-start-4 bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
+            className="col-span-4 sm:col-span-1 sm:col-start-4 bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
           >
             {schedule.isPending ? "Scheduling…" : "Schedule"}
           </button>
@@ -158,7 +158,7 @@ export default function RetestsPage() {
 
       <div className="panel overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="text-fg-muted text-xs bg-bg-soft">
+          <thead className="text-ink-muted text-xs bg-paper-soft">
             <tr className="text-left">
               <th className="px-3 py-2">Title</th>
               <th className="px-3 py-2">Engagement</th>
@@ -176,22 +176,22 @@ export default function RetestsPage() {
               );
               const sum = summaryOf[r.id];
               return (
-                <tr key={r.id} className="border-t border-border-soft">
+                <tr key={r.id} className="border-t border-hairline">
                   <td className="px-3 py-2 font-medium">{r.title}</td>
-                  <td className="px-3 py-2 text-fg-muted">{eng?.name ?? "—"}</td>
-                  <td className="px-3 py-2 text-fg-muted">{formatDate(r.scheduled_for)}</td>
+                  <td className="px-3 py-2 text-ink-muted">{eng?.name ?? "—"}</td>
+                  <td className="px-3 py-2 text-ink-muted">{formatDate(r.scheduled_for)}</td>
                   <td className="px-3 py-2">
                     <span className={`pill ${STATUS_PILL[r.status]}`}>{r.status}</span>
                   </td>
                   <td className="px-3 py-2 text-xs">
                     {sum ? (
                       <span className="flex gap-2 font-mono">
-                        <span className="text-emerald-300">✓{sum.still_remediated}</span>
-                        <span className="text-rose-300">↻{sum.regressed}</span>
-                        <span className="text-amber-300">+{sum.new_findings}</span>
+                        <span className="text-emerald-700">✓{sum.still_remediated}</span>
+                        <span className="text-rose-700">↻{sum.regressed}</span>
+                        <span className="text-amber-700">+{sum.new_findings}</span>
                       </span>
                     ) : (
-                      <span className="text-fg-subtle">—</span>
+                      <span className="text-ink-subtle">—</span>
                     )}
                   </td>
                   <td className="px-3 py-2">
@@ -199,7 +199,7 @@ export default function RetestsPage() {
                       <button
                         onClick={() => summarise.mutate(r.id)}
                         disabled={summarise.isPending}
-                        className="text-xs px-2 py-1 bg-bg-soft border border-border-soft rounded hover:border-accent flex items-center gap-1"
+                        className="text-xs px-2 py-1 bg-paper-soft border border-hairline rounded hover:border-finder-blue flex items-center gap-1"
                       >
                         <AppleIcon name="check" size={10} /> Summarise
                       </button>
@@ -207,7 +207,7 @@ export default function RetestsPage() {
                         onClick={() =>
                           setAttachModal({ rcId: r.id, pickEng: "" })
                         }
-                        className="text-xs px-2 py-1 bg-accent/15 text-accent border border-accent/30 rounded hover:bg-accent/25 flex items-center gap-1"
+                        className="text-xs px-2 py-1 bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded hover:bg-finder-blue/25 flex items-center gap-1"
                       >
                         <AppleIcon name="link" size={10} />
                         {attached ? "Re-attach" : "Attach engagement"}
@@ -219,7 +219,7 @@ export default function RetestsPage() {
             })}
             {(retests.data ?? []).length === 0 && (
               <tr>
-                <td colSpan={6} className="text-center text-fg-muted py-8">
+                <td colSpan={6} className="text-center text-ink-muted py-8">
                   No retest cycles yet
                 </td>
               </tr>
@@ -241,12 +241,12 @@ export default function RetestsPage() {
               <h2 className="text-sm font-semibold">Attach retest engagement</h2>
               <button
                 onClick={() => setAttachModal(null)}
-                className="text-fg-muted hover:text-fg"
+                className="text-ink-muted hover:text-ink"
               >
                 <AppleIcon name="x-mark" size={16} />
               </button>
             </div>
-            <p className="text-xs text-fg-muted mb-3">
+            <p className="text-xs text-ink-muted mb-3">
               Pick the engagement that performed this retest.
             </p>
             <select
@@ -254,7 +254,7 @@ export default function RetestsPage() {
               onChange={(e) =>
                 setAttachModal({ ...attachModal, pickEng: e.target.value })
               }
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm"
             >
               <option value="">Select…</option>
               {(engs.data ?? []).map((e) => (
@@ -266,7 +266,7 @@ export default function RetestsPage() {
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => setAttachModal(null)}
-                className="bg-bg-soft border border-border-soft rounded-lg px-3 py-1.5 text-sm"
+                className="bg-paper-soft border border-hairline rounded-lg px-3 py-1.5 text-sm"
               >
                 Cancel
               </button>
@@ -278,7 +278,7 @@ export default function RetestsPage() {
                   })
                 }
                 disabled={!attachModal.pickEng || attach.isPending}
-                className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
+                className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
               >
                 Attach
               </button>

@@ -29,11 +29,11 @@ export default function Card({
   return (
     <div
       className={cn(
-        "relative rounded-2xl bg-white/[0.04] border border-white/[0.08] overflow-hidden",
-        "shadow-[0_4px_24px_rgba(0,0,0,0.25)]",
+        "relative rounded-2xl bg-paper-strong border border-hairline overflow-hidden text-ink",
+        "shadow-card",
         "transition-all duration-200 ease-out",
         interactive && "card-hover cursor-pointer",
-        selected && "ring-2 ring-accent/50 bg-accent/10 border-accent/40",
+        selected && "ring-2 ring-finder-blue/50 bg-finder-blue-soft border-finder-blue/40",
         className
       )}
       onClick={onClick}

@@ -45,13 +45,13 @@ export default function AssetsPage() {
         left={
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Assets</h1>
-            <p className="text-sm text-fg-muted">
+            <p className="text-sm text-ink-muted">
               Hosts, URLs, apps, and people in scope.
             </p>
           </div>
         }
         right={
-          <span className="text-xs text-fg-muted">
+          <span className="text-xs text-ink-muted">
             {(a.data ?? []).length} item{(a.data ?? []).length === 1 ? "" : "s"}
           </span>
         }
@@ -72,8 +72,8 @@ export default function AssetsPage() {
             return (
               <Card key={x.id} className="card-hover p-4">
                 <div className="flex items-start justify-between gap-2">
-                  <div className="h-9 w-9 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
-                    <AppleIcon name={iconName} size={16} className="text-accent" />
+                  <div className="h-9 w-9 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center shrink-0">
+                    <AppleIcon name={iconName} size={16} className="text-finder-blue" />
                   </div>
                   <span className={cn("chip", CRIT_PILL[x.criticality] ?? "chip-muted")}>
                     {x.criticality}
@@ -82,21 +82,21 @@ export default function AssetsPage() {
                 <div className="mt-3 font-mono text-xs truncate" title={x.value}>
                   {x.value}
                 </div>
-                <div className="text-[10px] text-fg-muted uppercase tracking-wider mt-0.5">
+                <div className="text-[10px] text-ink-muted uppercase tracking-wider mt-0.5">
                   {x.type}
                 </div>
-                <div className="mt-3 flex items-center justify-between text-[10px] text-fg-muted">
+                <div className="mt-3 flex items-center justify-between text-[10px] text-ink-muted">
                   {x.port ? (
                     <span className="font-mono">
                       :{x.port}/{x.protocol ?? "tcp"}
                     </span>
                   ) : (
-                    <span className="font-mono text-fg-subtle">—</span>
+                    <span className="font-mono text-ink-subtle">—</span>
                   )}
                   <span className="font-mono">{formatDate(x.last_seen)}</span>
                 </div>
                 {x.owner && (
-                  <div className="mt-2 text-[10px] text-fg-muted truncate">owner: {x.owner}</div>
+                  <div className="mt-2 text-[10px] text-ink-muted truncate">owner: {x.owner}</div>
                 )}
               </Card>
             );

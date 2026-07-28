@@ -26,11 +26,11 @@ type FindingRow = {
 
 const SEV_OPTIONS: Severity[] = ["critical", "high", "medium", "low", "info"];
 const SEV_PILL: Record<Severity, string> = {
-  critical: "bg-red-500/15 text-red-300 border-red-500/30",
-  high: "bg-orange-500/15 text-orange-300 border-orange-500/30",
-  medium: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  low: "bg-yellow-500/15 text-yellow-300 border-yellow-500/30",
-  info: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+  critical: "bg-red-50 text-red-700 border-red-200",
+  high: "bg-orange-50 text-orange-700 border-orange-200",
+  medium: "bg-amber-50 text-amber-700 border-amber-200",
+  low: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  info: "bg-indigo-50 text-indigo-700 border-indigo-200",
 };
 
 const SUGGEST_DEBOUNCE_MS = 500;
@@ -44,13 +44,13 @@ const EDIT_MODE_CSS = `
   transition: outline 0.15s, background 0.15s;
 }
 [data-field][contenteditable="true"]:hover {
-  outline: 1px dashed #1F3864;
-  background: rgba(31, 56, 100, 0.06);
+  outline: 1px dashed #0a84ff;
+  background: rgba(10, 132, 255, 0.06);
 }
 [data-field][contenteditable="true"]:focus {
-  outline: 2px solid #1F3864;
+  outline: 2px solid #0a84ff;
   outline-offset: -2px;
-  background: #fff7e6;
+  background: #fbfaf8;
 }
 `;
 
@@ -542,17 +542,17 @@ export default function ReportEditPage() {
   };
 
   if (reportQ.isLoading) {
-    return <div className="text-fg-muted">Loading…</div>;
+    return <div className="text-ink-muted">Loading…</div>;
   }
   if (!reportQ.data) {
-    return <div className="text-fg-muted">Report not found</div>;
+    return <div className="text-ink-muted">Report not found</div>;
   }
   const d = reportQ.data;
   if (d.locked) {
     return (
       <div className="space-y-3">
         <h1 className="text-2xl font-semibold">Edit report</h1>
-        <div className="panel p-4 text-sm text-fg-muted">
+        <div className="panel p-4 text-sm text-ink-muted">
           This report is locked and cannot be edited.
         </div>
       </div>
@@ -595,14 +595,14 @@ export default function ReportEditPage() {
       {/* Title */}
       <div className="flex items-end justify-between gap-3">
         <div className="flex-1">
-          <label className="text-xs text-fg-muted">Title</label>
+          <label className="text-xs text-ink-muted">Title</label>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-bg-soft border border-border-soft rounded-lg px-3 py-2 text-lg font-semibold mt-1"
+            className="w-full bg-paper-soft border border-hairline rounded-lg px-3 py-2 text-lg font-semibold mt-1"
           />
         </div>
-        <div className="text-xs text-fg-muted shrink-0">
+        <div className="text-xs text-ink-muted shrink-0">
           <div>Status: <span className="font-mono">{d.status}</span></div>
           <div>Updated: {formatDate(d.updated_at)}</div>
         </div>
@@ -612,12 +612,12 @@ export default function ReportEditPage() {
       <div className="panel p-4 space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold">Executive summary</h2>
-          <div className="flex items-center gap-2 text-xs text-fg-muted">
+          <div className="flex items-center gap-2 text-xs text-ink-muted">
             <span>Overall rating</span>
             <select
               value={overallRating}
               onChange={(e) => setOverallRating(e.target.value as Severity | "")}
-              className="bg-bg-soft border border-border-soft rounded-lg px-2 py-1 text-xs"
+              className="bg-paper-soft border border-hairline rounded-lg px-2 py-1 text-xs"
             >
               <option value="">Auto (from findings)</option>
               {SEV_OPTIONS.map((s) => (
@@ -631,7 +631,7 @@ export default function ReportEditPage() {
           onChange={(e) => setExecSummary(e.target.value)}
           rows={6}
           placeholder="Write a narrative for the executive summary. This replaces the default auto-generated summary text in the docx."
-          className="w-full bg-bg-soft border border-border-soft rounded-lg px-3 py-2 text-sm font-mono leading-relaxed"
+          className="w-full bg-paper-soft border border-hairline rounded-lg px-3 py-2 text-sm font-mono leading-relaxed"
         />
       </div>
 
@@ -644,7 +644,7 @@ export default function ReportEditPage() {
               type="button"
               disabled={findingRows.length === 0 || bulkSuggestMutation.isPending}
               onClick={() => bulkSuggestMutation.mutate(findingRows.map((f) => f.finding_id))}
-              className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
+              className="text-xs bg-paper-soft border border-hairline rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
             >
               {bulkSuggestMutation.isPending
                 ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -658,7 +658,7 @@ export default function ReportEditPage() {
                 findingRows.forEach((f) => (next[f.finding_id] = !allExpanded));
                 setExpanded(next);
               }}
-              className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1"
+              className="text-xs bg-paper-soft border border-hairline rounded-lg px-2 py-1"
             >
               {allExpanded ? "Collapse all" : "Expand all"}
             </button>
@@ -666,13 +666,13 @@ export default function ReportEditPage() {
         </div>
 
         {ctxQ.isError && (
-          <div className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-lg p-2">
+          <div className="text-xs text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded-lg p-2">
             Findings preview unavailable (no rendered version yet). The list will populate after the first render.
           </div>
         )}
 
         {findingRows.length === 0 && !ctxQ.isError && (
-          <div className="text-sm text-fg-muted text-center py-6">
+          <div className="text-sm text-ink-muted text-center py-6">
             No findings to edit.
           </div>
         )}
@@ -686,21 +686,21 @@ export default function ReportEditPage() {
             const isApplyingCat = applyCategoryMutation.isPending &&
               applyCategoryMutation.variables === f.finding_id;
             return (
-              <div key={f.finding_id} className="border border-border-soft rounded-lg overflow-hidden">
+              <div key={f.finding_id} className="border border-hairline rounded-lg overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setExpanded((p) => ({ ...p, [f.finding_id]: !isOpen }))}
-                  className="w-full flex items-center gap-3 px-3 py-2 text-left bg-bg-soft/40 hover:bg-bg-soft/70"
+                  className="w-full flex items-center gap-3 px-3 py-2 text-left bg-paper-soft/40 hover:bg-paper-soft/70"
                 >
                   <span className={cn("pill border", SEV_PILL[effSev])}>
                     {effSev}
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium truncate">
-                      {f.cve_id ? <span className="font-mono text-fg-muted mr-2">{f.cve_id}</span> : null}
+                      {f.cve_id ? <span className="font-mono text-ink-muted mr-2">{f.cve_id}</span> : null}
                       {f.title}
                     </div>
-                    <div className="text-xs text-fg-muted truncate">
+                    <div className="text-xs text-ink-muted truncate">
                       {f.asset_value}{f.port ? `:${f.port}` : ""}{f.protocol ? `/${f.protocol}` : ""}
                     </div>
                   </div>
@@ -708,12 +708,12 @@ export default function ReportEditPage() {
                 </button>
                 {isOpen && (
                   <div className="p-3 space-y-3">
-                    <div className="grid grid-cols-2 gap-3 text-xs text-fg-muted">
-                      <div><span className="text-fg-subtle">Finding ID:</span> <span className="font-mono">{f.finding_id}</span></div>
-                      <div><span className="text-fg-subtle">Vuln ID:</span> <span className="font-mono">{f.vuln_id}</span></div>
+                    <div className="grid grid-cols-2 gap-3 text-xs text-ink-muted">
+                      <div><span className="text-ink-subtle">Finding ID:</span> <span className="font-mono">{f.finding_id}</span></div>
+                      <div><span className="text-ink-subtle">Vuln ID:</span> <span className="font-mono">{f.vuln_id}</span></div>
                     </div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs text-fg-muted">Severity override</span>
+                      <span className="text-xs text-ink-muted">Severity override</span>
                       <select
                         value={ov.severity_override || ""}
                         onChange={(e) =>
@@ -721,7 +721,7 @@ export default function ReportEditPage() {
                             severity_override: (e.target.value || undefined) as Severity | undefined,
                           })
                         }
-                        className="bg-bg-soft border border-border-soft rounded-lg px-2 py-1 text-xs"
+                        className="bg-paper-soft border border-hairline rounded-lg px-2 py-1 text-xs"
                       >
                         <option value="">(use {f.severity})</option>
                         {SEV_OPTIONS.map((s) => (
@@ -735,7 +735,7 @@ export default function ReportEditPage() {
                           fid: f.finding_id,
                           severity: ov.severity_override || f.severity,
                         })}
-                        className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
+                        className="text-xs bg-paper-soft border border-hairline rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
                       >
                         {isSuggesting
                           ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -746,7 +746,7 @@ export default function ReportEditPage() {
                         type="button"
                         disabled={isApplyingCat}
                         onClick={() => applyCategoryMutation.mutate(f.finding_id)}
-                        className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
+                        className="text-xs bg-paper-soft border border-hairline rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
                       >
                         {isApplyingCat
                           ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -755,29 +755,29 @@ export default function ReportEditPage() {
                       </button>
                     </div>
                     <div>
-                      <label className="text-xs text-fg-muted">Impact (overrides AI draft)</label>
+                      <label className="text-xs text-ink-muted">Impact (overrides AI draft)</label>
                       <textarea
                         value={ov.impact ?? f.impact}
                         onChange={(e) =>
                           setOverride(f.finding_id, { impact: e.target.value })
                         }
                         rows={3}
-                        className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-xs mt-1 font-mono"
+                        className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-xs mt-1 font-mono"
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-fg-muted">Recommendation (overrides AI draft)</label>
+                      <label className="text-xs text-ink-muted">Recommendation (overrides AI draft)</label>
                       <textarea
                         value={ov.recommendation ?? f.recommendation}
                         onChange={(e) =>
                           setOverride(f.finding_id, { recommendation: e.target.value })
                         }
                         rows={3}
-                        className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-xs mt-1 font-mono"
+                        className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-xs mt-1 font-mono"
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-fg-muted">Analyst note (internal, not in docx)</label>
+                      <label className="text-xs text-ink-muted">Analyst note (internal, not in docx)</label>
                       <textarea
                         value={ov.note ?? ""}
                         onChange={(e) =>
@@ -785,7 +785,7 @@ export default function ReportEditPage() {
                         }
                         rows={2}
                         placeholder="Notes for the reviewer / approver…"
-                        className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-xs mt-1"
+                        className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-xs mt-1"
                       />
                     </div>
                   </div>
@@ -797,9 +797,9 @@ export default function ReportEditPage() {
       </div>
 
       {/* Sticky action bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-border-soft bg-bg/90 backdrop-blur">
+      <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-hairline bg-paper/90 backdrop-blur">
         <div className="max-w-[1400px] mx-auto px-4 py-3 flex items-center gap-2">
-          <div className="flex-1 text-xs text-fg-muted flex items-center gap-2">
+          <div className="flex-1 text-xs text-ink-muted flex items-center gap-2">
             {isDirty ? (
               <>
                 <span className="h-2 w-2 rounded-full bg-amber-400" />
@@ -807,7 +807,7 @@ export default function ReportEditPage() {
               </>
             ) : (
               <>
-                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
                 All changes saved
               </>
             )}
@@ -815,7 +815,7 @@ export default function ReportEditPage() {
           <button
             type="button"
             onClick={() => navigate(`/workspaces/${workspaceId}/reports/${rid}`)}
-            className="bg-bg-soft border border-border-soft rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
+            className="bg-paper-soft border border-hairline rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
           >
             <AppleIcon name="x-mark" size={14} /> Discard
           </button>
@@ -823,7 +823,7 @@ export default function ReportEditPage() {
             type="button"
             onClick={() => save.mutate()}
             disabled={!isDirty || save.isPending}
-            className="bg-bg-soft border border-accent/30 text-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-paper-soft border border-finder-blue/30 text-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="save" size={14} /> Save draft
           </button>
@@ -831,7 +831,7 @@ export default function ReportEditPage() {
             type="button"
             onClick={() => previewMutation.mutate()}
             disabled={previewMutation.isPending}
-            className="bg-bg-soft border border-border-soft rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-paper-soft border border-hairline rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             {previewMutation.isPending
               ? <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -842,7 +842,7 @@ export default function ReportEditPage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploadDocxMutation.isPending}
-            className="bg-bg-soft border border-border-soft rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-paper-soft border border-hairline rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             title="Edit the report by downloading the docx, editing in Word, then uploading back here"
           >
             {uploadDocxMutation.isPending
@@ -866,7 +866,7 @@ export default function ReportEditPage() {
             type="button"
             onClick={handleGenerate}
             disabled={renderAndGo.isPending || save.isPending}
-            className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             {isDirty ? <AppleIcon name="save" size={14} /> : <AppleIcon name="sparkles" size={14} />}
             {isDirty ? "Save & generate" : "Generate report"}
@@ -884,17 +884,17 @@ export default function ReportEditPage() {
           className="panel w-full max-w-5xl h-[90vh] flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between px-4 py-2 border-b border-border-soft">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-hairline">
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-semibold">Report preview</h2>
               {editMode && (
-                <span className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded px-2 py-0.5">
+                <span className="text-xs text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded px-2 py-0.5">
                   Editing — changes flow into the editor and Save draft
                 </span>
               )}
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex border border-border-soft rounded-lg overflow-hidden text-xs">
+              <div className="flex border border-hairline rounded-lg overflow-hidden text-xs">
                 {(["pdf", "html", "edit"] as const).map((m) => (
                   <button
                     key={m}
@@ -903,8 +903,8 @@ export default function ReportEditPage() {
                     className={cn(
                       "px-2 py-1",
                       previewMode === m
-                        ? "bg-accent text-white"
-                        : "bg-bg-soft text-fg-muted hover:text-fg"
+                        ? "bg-finder-blue text-white"
+                        : "bg-paper-soft text-ink-muted hover:text-ink"
                     )}
                     title={
                       m === "pdf"
@@ -933,8 +933,8 @@ export default function ReportEditPage() {
                 className={cn(
                   "text-xs rounded-lg px-2 py-1 flex items-center gap-1",
                   editMode
-                    ? "bg-accent text-white border border-accent"
-                    : "bg-bg-soft border border-border-soft"
+                    ? "bg-finder-blue text-white border border-finder-blue"
+                    : "bg-paper-soft border border-hairline"
                 )}
                 title="Make the preview's exec narrative and finding impact/recommendation cells editable in place"
               >
@@ -943,7 +943,7 @@ export default function ReportEditPage() {
               <button
                 type="button"
                 onClick={() => window.open(`/api/v1/reports/${rid}/preview.pdf`, "_blank", "noopener")}
-                className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1"
+                className="text-xs bg-paper-soft border border-hairline rounded-lg px-2 py-1 flex items-center gap-1"
                 title="Open the pixel-perfect PDF preview in a new tab"
               >
                 <AppleIcon name="eye" size={12} /> View in PDF
@@ -952,7 +952,7 @@ export default function ReportEditPage() {
                 type="button"
                 onClick={() => downloadPdfMutation.mutate()}
                 disabled={downloadPdfMutation.isPending}
-                className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
+                className="text-xs bg-paper-soft border border-hairline rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
                 title="Download the pixel-perfect PDF"
               >
                 {downloadPdfMutation.isPending
@@ -964,7 +964,7 @@ export default function ReportEditPage() {
                 type="button"
                 onClick={() => previewMutation.mutate()}
                 disabled={previewMutation.isPending}
-                className="text-xs bg-bg-soft border border-border-soft rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
+                className="text-xs bg-paper-soft border border-hairline rounded-lg px-2 py-1 flex items-center gap-1 disabled:opacity-50"
               >
                 {previewMutation.isPending
                   ? <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -974,7 +974,7 @@ export default function ReportEditPage() {
               <button
                 type="button"
                 onClick={() => { setPreviewOpen(false); setEditMode(false); setPreviewMode("pdf"); }}
-                className="text-fg-muted hover:text-fg"
+                className="text-ink-muted hover:text-ink"
                 aria-label="Close preview"
               >
                 <AppleIcon name="x-mark" size={16} />
@@ -994,7 +994,7 @@ export default function ReportEditPage() {
               onLoad={() => setIframeReady(true)}
               title="Report preview"
               sandbox="allow-same-origin"
-              className="flex-1 w-full bg-white border-0"
+              className="flex-1 w-full bg-paper-strong border-0"
             />
           )}
         </div>

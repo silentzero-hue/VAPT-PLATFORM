@@ -87,37 +87,37 @@ export default function StatusBar({ className, forceVisible = false }: StatusBar
   return (
     <div
       className={cn(
-        "shrink-0 h-7 glass border-t border-white/[0.06]",
-        "px-3 flex items-center gap-4 text-[11px] text-fg-muted",
+        "shrink-0 h-7 bg-paper-soft/85 backdrop-blur-md border-t border-hairline",
+        "px-3 flex items-center gap-4 text-[11px] text-ink-muted",
         "select-none",
         className
       )}
       role="status"
       aria-label="Workspace summary"
     >
-      <span className="flex items-center gap-1.5 text-fg-muted">
+      <span className="flex items-center gap-1.5 text-ink-muted">
         <span
           className={cn(
             "h-1.5 w-1.5 rounded-full",
-            auth.user ? "bg-emerald-400" : "bg-amber-400"
+            auth.user ? "bg-emerald-500" : "bg-amber-500"
           )}
         />
         {auth.user ? "Live" : "Idle"}
       </span>
-      <span className="text-fg-subtle">·</span>
+      <span className="text-ink-subtle">·</span>
       {items.map((it, i) => {
         return (
           <span key={i} className="inline-flex items-center gap-1.5">
-            <AppleIcon name={it.icon} size={11} className="text-fg-subtle" />
-            <span className="text-fg font-medium tabular-nums">{it.value}</span>
+            <AppleIcon name={it.icon} size={11} className="text-ink-subtle" />
+            <span className="text-ink font-medium tabular-nums">{it.value}</span>
             <span>{it.label}</span>
             {i < items.length - 1 && (
-              <span className="text-fg-subtle ml-2.5">·</span>
+              <span className="text-ink-subtle ml-2.5">·</span>
             )}
           </span>
         );
       })}
-      <span className="ml-auto text-fg-subtle font-mono text-[10px]">
+      <span className="ml-auto text-ink-subtle font-mono text-[10px]">
         {workspaceName}
       </span>
     </div>

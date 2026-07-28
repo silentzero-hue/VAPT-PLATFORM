@@ -88,7 +88,7 @@ export default function FindingsPage() {
         left={
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Triage queue</h1>
-            <p className="text-sm text-fg-muted">
+            <p className="text-sm text-ink-muted">
               One row per (vulnerability, asset, port) — multiple hosts share a single vulnerability.
             </p>
           </div>
@@ -99,8 +99,8 @@ export default function FindingsPage() {
               value={engId ?? ""}
               onChange={(e) => { setEngagementId(e.target.value); setSelected(new Set()); }}
               className={cn(
-                "bg-white/[0.04] border border-white/[0.08] rounded-full",
-                "px-3 py-1.5 text-sm outline-none focus:border-accent/50",
+                "bg-paper-soft border border-hairline-strong rounded-full",
+                "px-3 py-1.5 text-sm outline-none focus:border-finder-blue/50",
                 "transition-colors duration-200 ease-out"
               )}
             >
@@ -111,7 +111,7 @@ export default function FindingsPage() {
               onClick={() => findings.refetch()}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm",
-                "bg-white/[0.04] border border-white/[0.08] hover:border-accent/40",
+                "bg-paper-soft border border-hairline-strong hover:border-finder-blue/40",
                 "transition-colors duration-200 ease-out"
               )}
             >
@@ -124,8 +124,8 @@ export default function FindingsPage() {
       {/* Bulk action toolbar (slide-down when items selected) */}
       {selected.size > 0 && (
         <div className="animate-slide-down glass-strong rounded-2xl p-3 flex flex-wrap items-center gap-2">
-          <span className="text-xs text-fg-muted ml-1">
-            <span className="text-fg font-medium">{selected.size}</span> selected
+          <span className="text-xs text-ink-muted ml-1">
+            <span className="text-ink font-medium">{selected.size}</span> selected
           </span>
           <button
             onClick={() => triage.mutate({ ids: [...selected], action: "confirm" })}
@@ -147,7 +147,7 @@ export default function FindingsPage() {
           </button>
           <button
             onClick={() => setSelected(new Set())}
-            className="ml-auto text-fg-muted hover:text-fg p-1.5 rounded-md hover:bg-white/[0.05] transition-colors duration-200"
+            className="ml-auto text-ink-muted hover:text-ink p-1.5 rounded-md hover:bg-paper-soft transition-colors duration-200"
             title="Clear selection"
           >
             <AppleIcon name="x-mark" size={14} />
@@ -158,15 +158,15 @@ export default function FindingsPage() {
       {/* Filters */}
       <Card className="p-3 flex flex-wrap items-center gap-2">
         <div className="relative flex-1 min-w-[220px]">
-          <AppleIcon name="magnifier" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted" />
+          <AppleIcon name="magnifier" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by title, CVE…"
             className={cn(
-              "w-full bg-white/[0.04] border border-white/[0.08] focus:border-accent/50",
+              "w-full bg-paper-soft border border-hairline-strong focus:border-finder-blue/50",
               "rounded-full pl-9 pr-4 py-1.5 text-sm outline-none",
-              "transition-colors duration-200 ease-out placeholder:text-fg-subtle"
+              "transition-colors duration-200 ease-out placeholder:text-ink-subtle"
             )}
           />
         </div>
@@ -209,13 +209,13 @@ export default function FindingsPage() {
 function FilterPill({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (v: string) => void }) {
   return (
     <div className="flex items-center gap-1.5 text-xs">
-      <span className="text-fg-muted flex items-center gap-1"><AppleIcon name="filter" size={10} /> {label}:</span>
+      <span className="text-ink-muted flex items-center gap-1"><AppleIcon name="filter" size={10} /> {label}:</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "bg-white/[0.04] border border-white/[0.08] rounded-md px-2 py-1 outline-none",
-          "focus:border-accent/50 transition-colors duration-200 ease-out"
+          "bg-paper-soft border border-hairline-strong rounded-md px-2 py-1 outline-none",
+          "focus:border-finder-blue/50 transition-colors duration-200 ease-out"
         )}
       >
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -267,7 +267,7 @@ function FindingsGrid({
                   <AppleIcon name="exclamation-triangle" size={10} /> SLA
                 </span>
               ) : f.sla_due_at ? (
-                <span className="text-[10px] text-fg-muted font-mono">
+                <span className="text-[10px] text-ink-muted font-mono">
                   due {formatDate(f.sla_due_at)}
                 </span>
               ) : null}
@@ -275,23 +275,23 @@ function FindingsGrid({
             <Link
               to={`/workspaces/${workspaceId}/vulnerabilities/${f.vulnerability_id}?finding=${f.id}`}
               onClick={(e) => e.stopPropagation()}
-              className="block mt-2 text-sm font-semibold leading-snug line-clamp-2 hover:text-accent transition-colors duration-200"
+              className="block mt-2 text-sm font-semibold leading-snug line-clamp-2 hover:text-finder-blue transition-colors duration-200"
             >
               {f.vuln_title ?? f.vuln_cve_id ?? "—"}
             </Link>
             {f.vuln_cve_id && (
-              <div className="text-[10px] font-mono text-fg-muted mt-0.5">{f.vuln_cve_id}</div>
+              <div className="text-[10px] font-mono text-ink-muted mt-0.5">{f.vuln_cve_id}</div>
             )}
-            <div className="mt-3 flex items-center gap-2 text-[11px] text-fg-muted">
+            <div className="mt-3 flex items-center gap-2 text-[11px] text-ink-muted">
               <span className="font-mono truncate">{f.asset_value ?? "—"}</span>
               {f.port && (
                 <>
-                  <span className="text-fg-subtle">·</span>
+                  <span className="text-ink-subtle">·</span>
                   <span className="font-mono">{f.port}/{f.protocol ?? "tcp"}</span>
                 </>
               )}
             </div>
-            <div className="mt-3 flex items-center justify-between text-[10px] text-fg-subtle">
+            <div className="mt-3 flex items-center justify-between text-[10px] text-ink-subtle">
               <span className="pill pill-muted">{f.status}</span>
               <span className="font-mono">{formatDate(f.first_seen)}</span>
             </div>
@@ -325,7 +325,7 @@ function FindingsTable({
     <Card className="overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-sm min-w-[920px]">
-          <thead className="text-fg-muted text-xs bg-white/[0.02]">
+          <thead className="text-ink-muted text-xs bg-paper-soft/50">
             <tr className="text-left">
               <th className="px-3 py-2.5 w-10">
                 <input
@@ -394,9 +394,9 @@ function FindingsRow({
     <>
       <tr
         className={cn(
-          "border-b border-white/[0.05] hover:bg-white/[0.03]",
+          "border-b border-hairline hover:bg-paper-soft",
           "transition-colors duration-200 ease-out",
-          checked && "bg-accent/[0.06]"
+          checked && "bg-finder-blue-soft"
         )}
       >
         <td className="px-3 py-2.5">
@@ -428,35 +428,35 @@ function FindingsRow({
         <td className="px-3 py-2.5 max-w-[280px]">
           <Link
             to={`/workspaces/${workspaceId}/vulnerabilities/${f.vulnerability_id}?finding=${f.id}`}
-            className="text-fg hover:text-accent truncate block transition-colors duration-200"
+            className="text-ink hover:text-finder-blue truncate block transition-colors duration-200"
           >
             {f.vuln_title ?? f.vuln_cve_id ?? "—"}
           </Link>
           {f.vuln_cve_id && (
-            <div className="text-[10px] font-mono text-fg-muted">{f.vuln_cve_id}</div>
+            <div className="text-[10px] font-mono text-ink-muted">{f.vuln_cve_id}</div>
           )}
         </td>
         <td className="px-3 py-2.5 font-mono text-xs truncate max-w-[200px]">{f.asset_value ?? "—"}</td>
-        <td className="px-3 py-2.5 font-mono text-xs text-fg-muted">
+        <td className="px-3 py-2.5 font-mono text-xs text-ink-muted">
           {f.port ? `${f.port}/${f.protocol ?? "tcp"}` : "—"}
         </td>
         <td className="px-3 py-2.5">
           <span className="pill pill-muted">{f.status}</span>
         </td>
-        <td className="px-3 py-2.5 text-fg-muted text-xs whitespace-nowrap">{formatDate(f.first_seen)}</td>
+        <td className="px-3 py-2.5 text-ink-muted text-xs whitespace-nowrap">{formatDate(f.first_seen)}</td>
         <td className="px-3 py-2.5">
           {f.sla_breached ? (
             <span className="pill pill-danger">breached</span>
           ) : f.sla_due_at ? (
-            <span className="text-fg-muted text-xs">{formatDate(f.sla_due_at)}</span>
+            <span className="text-ink-muted text-xs">{formatDate(f.sla_due_at)}</span>
           ) : (
-            <span className="text-fg-subtle">—</span>
+            <span className="text-ink-subtle">—</span>
           )}
         </td>
         <td className="px-3 py-2.5 text-right">
           <button
             onClick={() => setExpanded(expanded ? null : f.id)}
-            className="text-fg-muted hover:text-accent p-1 rounded transition-colors duration-200"
+            className="text-ink-muted hover:text-finder-blue p-1 rounded transition-colors duration-200"
             title="Discuss"
           >
             <AppleIcon name="message" size={12} />
@@ -464,8 +464,8 @@ function FindingsRow({
         </td>
       </tr>
       {expanded && (
-        <tr className="bg-white/[0.02]">
-          <td colSpan={10} className="px-3 py-3 border-b border-white/[0.05]">
+        <tr className="bg-paper-soft/50">
+          <td colSpan={10} className="px-3 py-3 border-b border-hairline">
             <CommentsPanel findingId={f.id} />
           </td>
         </tr>

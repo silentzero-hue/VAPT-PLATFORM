@@ -67,7 +67,7 @@ export default function PortalLanding() {
 
   if (meta.isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-fg-muted">
+      <div className="min-h-screen flex items-center justify-center text-ink-muted">
         Loading…
       </div>
     );
@@ -77,9 +77,9 @@ export default function PortalLanding() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="panel p-7 max-w-sm w-full text-center space-y-3">
-          <AppleIcon name="shield-off" size={28} className="text-rose-300 mx-auto" />
+          <AppleIcon name="shield-off" size={28} className="text-rose-700 mx-auto" />
           <h1 className="text-lg font-semibold">Share unavailable</h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             This link is invalid, has expired, or been revoked.
           </p>
         </div>
@@ -95,7 +95,7 @@ export default function PortalLanding() {
   const exhausted = m.max_views != null && m.current_views >= m.max_views;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-bg">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-paper">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -104,21 +104,21 @@ export default function PortalLanding() {
         className="panel p-7 w-full max-w-md space-y-4"
       >
         <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-lg bg-accent/15 border border-accent/30 flex items-center justify-center">
-            <AppleIcon name="shield" size={18} className="text-accent" />
+          <div className="h-9 w-9 rounded-lg bg-finder-blue-soft border border-finder-blue/30 flex items-center justify-center">
+            <AppleIcon name="shield" size={18} className="text-finder-blue" />
           </div>
           <div>
             <div className="font-semibold">{m.label ?? "Confidential report"}</div>
-            <div className="text-xs text-fg-muted">Shared via VAPT platform</div>
+            <div className="text-xs text-ink-muted">Shared via VAPT platform</div>
           </div>
         </div>
 
         {m.note && (
-          <p className="text-sm text-fg-muted whitespace-pre-wrap">{m.note}</p>
+          <p className="text-sm text-ink-muted whitespace-pre-wrap">{m.note}</p>
         )}
 
         {(expired || exhausted) && (
-          <div className="text-xs text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-lg p-2">
+          <div className="text-xs text-rose-700 bg-rose-500/10 border border-rose-500/30 rounded-lg p-2">
             {expired ? "This share has expired." : "View limit reached."}
           </div>
         )}
@@ -127,7 +127,7 @@ export default function PortalLanding() {
           <>
             {needsPassword && (
               <div>
-                <label className="text-xs text-fg-muted flex items-center gap-1.5">
+                <label className="text-xs text-ink-muted flex items-center gap-1.5">
                   <AppleIcon name="lock" size={12} /> Password
                 </label>
                 <input
@@ -136,14 +136,14 @@ export default function PortalLanding() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoFocus
-                  className="w-full bg-bg-soft border border-border-soft focus:border-accent rounded-lg px-3 py-2 text-sm outline-none mt-1"
+                  className="w-full bg-paper-soft border border-hairline focus:border-finder-blue rounded-lg px-3 py-2 text-sm outline-none mt-1"
                 />
               </div>
             )}
 
             {needsEmail && (
               <div>
-                <label className="text-xs text-fg-muted flex items-center gap-1.5">
+                <label className="text-xs text-ink-muted flex items-center gap-1.5">
                   <AppleIcon name="envelope" size={12} /> Your email
                 </label>
                 <input
@@ -151,9 +151,9 @@ export default function PortalLanding() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full bg-bg-soft border border-border-soft focus:border-accent rounded-lg px-3 py-2 text-sm outline-none mt-1"
+                  className="w-full bg-paper-soft border border-hairline focus:border-finder-blue rounded-lg px-3 py-2 text-sm outline-none mt-1"
                 />
-                <div className="text-[10px] text-fg-muted mt-1">
+                <div className="text-[10px] text-ink-muted mt-1">
                   {m.watermark
                     ? "Your email will be watermarked on the downloaded PDF."
                     : "Access is restricted to specific addresses."}
@@ -164,7 +164,7 @@ export default function PortalLanding() {
             <button
               type="submit"
               disabled={download.isPending}
-              className="w-full bg-accent hover:bg-accent-strong text-white font-medium rounded-lg py-2 text-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
+              className="w-full bg-finder-blue hover:bg-folder-to text-white font-medium rounded-lg py-2 text-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
             >
               <AppleIcon name="download" size={14} />
               {download.isPending ? "Preparing…" : "Download report"}
@@ -172,7 +172,7 @@ export default function PortalLanding() {
           </>
         )}
 
-        <div className="text-[10px] text-fg-subtle text-center pt-2 border-t border-border-soft">
+        <div className="text-[10px] text-ink-subtle text-center pt-2 border-t border-hairline">
           {m.max_views != null
             ? `${m.current_views} / ${m.max_views} views used`
             : `${m.current_views} views`}

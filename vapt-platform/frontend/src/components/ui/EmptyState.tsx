@@ -26,14 +26,14 @@ export default function EmptyState({
       }
     >
       {(icon || iconName) && (
-        <div className="h-12 w-12 rounded-2xl glass flex items-center justify-center">
-          {icon ?? <AppleIcon name={iconName!} size={20} className="text-fg-muted" />}
+        <div className="h-12 w-12 rounded-2xl bg-paper-soft border border-hairline flex items-center justify-center">
+          {icon ?? <AppleIcon name={iconName!} size={20} className="text-ink-muted" />}
         </div>
       )}
       <div className="space-y-1 max-w-sm">
-        <div className="text-sm font-medium text-fg">{title}</div>
+        <div className="text-sm font-medium text-ink">{title}</div>
         {description && (
-          <div className="text-xs text-fg-muted leading-relaxed">{description}</div>
+          <div className="text-xs text-ink-muted leading-relaxed">{description}</div>
         )}
       </div>
       {cta && <div className="pt-1">{cta}</div>}

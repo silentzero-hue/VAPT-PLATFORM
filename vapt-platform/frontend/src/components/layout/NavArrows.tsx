@@ -26,9 +26,9 @@ export default function NavArrows({
         disabled={!canGoBack}
         className={cn(
           "h-7 w-7 inline-flex items-center justify-center rounded-md",
-          "text-fg-muted hover:text-fg hover:bg-white/[0.06]",
+          "text-ink-muted hover:text-ink hover:bg-paper-soft",
           "transition-colors duration-150 ease-out",
-          "disabled:text-fg-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-fg-subtle"
+          "disabled:text-ink-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-ink-subtle"
         )}
       >
         <AppleIcon name="chevron-left" size={15} />
@@ -41,9 +41,9 @@ export default function NavArrows({
         disabled={!canGoForward}
         className={cn(
           "h-7 w-7 inline-flex items-center justify-center rounded-md",
-          "text-fg-muted hover:text-fg hover:bg-white/[0.06]",
+          "text-ink-muted hover:text-ink hover:bg-paper-soft",
           "transition-colors duration-150 ease-out",
-          "disabled:text-fg-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-fg-subtle"
+          "disabled:text-ink-subtle disabled:opacity-40 disabled:cursor-default disabled:hover:bg-transparent disabled:hover:text-ink-subtle"
         )}
       >
         <AppleIcon name="chevron-right" size={15} />

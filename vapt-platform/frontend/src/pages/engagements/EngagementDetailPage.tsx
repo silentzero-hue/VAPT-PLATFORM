@@ -112,17 +112,17 @@ export default function EngagementDetailPage() {
       <Card className="p-5">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div className="min-w-0">
-            <div className="flex items-center gap-2 text-[11px] text-fg-muted font-mono mb-1.5">
+            <div className="flex items-center gap-2 text-[11px] text-ink-muted font-mono mb-1.5">
               <span>{eng.data?.code}</span>
-              <span className="text-fg-subtle">·</span>
+              <span className="text-ink-subtle">·</span>
               <span className="uppercase tracking-wider">{eng.data?.type}</span>
             </div>
             <h1 className="text-2xl font-semibold tracking-tight leading-tight">
               {eng.data?.name ?? "—"}
             </h1>
-            <div className="text-sm text-fg-muted mt-1 flex flex-wrap gap-2">
+            <div className="text-sm text-ink-muted mt-1 flex flex-wrap gap-2">
               <span>{eng.data?.client}</span>
-              <span className="text-fg-subtle">·</span>
+              <span className="text-ink-subtle">·</span>
               <span>{eng.data?.methodology}</span>
             </div>
           </div>
@@ -131,8 +131,8 @@ export default function EngagementDetailPage() {
               onClick={() => runAgent.mutate()}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm",
-                "bg-accent/15 text-accent border border-accent/30",
-                "hover:bg-accent/25 transition-colors duration-200 ease-out"
+                "bg-finder-blue-soft text-finder-blue border border-finder-blue/30",
+                "hover:bg-finder-blue/25 transition-colors duration-200 ease-out"
               )}
             >
               <AppleIcon name="play" size={14} /> Run AI agent
@@ -141,7 +141,7 @@ export default function EngagementDetailPage() {
               to={`/workspaces/${wid}/engagements/${eid}/multiscan`}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm",
-                "bg-white/[0.04] border border-white/[0.08] hover:border-accent/40",
+                "bg-paper-soft border border-hairline-strong hover:border-finder-blue/40",
                 "transition-colors duration-200 ease-out"
               )}
             >
@@ -151,7 +151,7 @@ export default function EngagementDetailPage() {
               to={`/workspaces/${wid}/tableview?engagement_id=${eid}`}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm",
-                "bg-white/[0.04] border border-white/[0.08] hover:border-accent/40",
+                "bg-paper-soft border border-hairline-strong hover:border-finder-blue/40",
                 "transition-colors duration-200 ease-out"
               )}
             >
@@ -161,7 +161,7 @@ export default function EngagementDetailPage() {
               onClick={() => lock.mutate()}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm",
-                "bg-white/[0.04] border border-white/[0.08] hover:border-accent/40",
+                "bg-paper-soft border border-hairline-strong hover:border-finder-blue/40",
                 "transition-colors duration-200 ease-out"
               )}
             >
@@ -192,19 +192,19 @@ export default function EngagementDetailPage() {
             </h3>
             <dl className="text-xs space-y-2">
               <div className="flex justify-between">
-                <dt className="text-fg-muted">Start</dt>
+                <dt className="text-ink-muted">Start</dt>
                 <dd className="font-mono">{formatDate(eng.data?.start_date)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-fg-muted">End</dt>
+                <dt className="text-ink-muted">End</dt>
                 <dd className="font-mono">{formatDate(eng.data?.end_date)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-fg-muted">Report due</dt>
+                <dt className="text-ink-muted">Report due</dt>
                 <dd className="font-mono">{formatDate(eng.data?.report_due_date)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-fg-muted">Status</dt>
+                <dt className="text-ink-muted">Status</dt>
                 <dd>
                   <span className="pill pill-muted">{eng.data?.status}</span>
                 </dd>
@@ -216,7 +216,7 @@ export default function EngagementDetailPage() {
             <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5">
               <AppleIcon name="upload" size={14} /> Ingest scan results
             </h3>
-            <p className="text-xs text-fg-muted mb-3">
+            <p className="text-xs text-ink-muted mb-3">
               Drop a scan export from any of the supported tools. The dedup
               engine collapses the same vulnerability across hosts into a
               single record.
@@ -233,7 +233,7 @@ export default function EngagementDetailPage() {
                 htmlFor="engagement-scan-file"
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm cursor-pointer",
-                  "bg-white/[0.04] border border-white/[0.08] hover:border-accent/40",
+                  "bg-paper-soft border border-hairline-strong hover:border-finder-blue/40",
                   "transition-all duration-200 ease-out active:scale-[0.98]"
                 )}
               >
@@ -243,7 +243,7 @@ export default function EngagementDetailPage() {
               {file && (
                 <button
                   onClick={() => setFile(null)}
-                  className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted hover:text-rose-300 transition-colors duration-200"
+                  className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-ink-muted hover:text-rose-700 transition-colors duration-200"
                   title="Clear selection"
                 >
                   <AppleIcon name="x-mark" size={12} /> clear
@@ -254,7 +254,7 @@ export default function EngagementDetailPage() {
                 disabled={!file || upload.isPending}
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm",
-                  "bg-accent text-white hover:bg-accent-strong",
+                  "bg-finder-blue text-white hover:bg-folder-to",
                   "transition-all duration-200 ease-out active:scale-[0.98] disabled:opacity-50"
                 )}
               >
@@ -262,7 +262,7 @@ export default function EngagementDetailPage() {
               </button>
             </div>
             <div className="mt-3 flex flex-wrap gap-1.5">
-              <span className="text-[11px] text-fg-muted inline-flex items-center gap-1">
+              <span className="text-[11px] text-ink-muted inline-flex items-center gap-1">
                 <AppleIcon name="question" size={11} /> Supported formats:
               </span>
               {SUPPORTED_FORMATS.map((f) => (
@@ -295,12 +295,12 @@ export default function EngagementDetailPage() {
         <Card className="p-4 overflow-hidden">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold">Recent ingestions</h3>
-            <span className="text-xs text-fg-muted">{(jobs.data ?? []).length} job{(jobs.data ?? []).length === 1 ? "" : "s"}</span>
+            <span className="text-xs text-ink-muted">{(jobs.data ?? []).length} job{(jobs.data ?? []).length === 1 ? "" : "s"}</span>
           </div>
           <div className="overflow-x-auto -mx-4">
             <table className="w-full text-sm min-w-[760px]">
-              <thead className="text-xs text-fg-muted">
-                <tr className="text-left border-b border-white/[0.08]">
+              <thead className="text-xs text-ink-muted">
+                <tr className="text-left border-b border-hairline-strong">
                   <th className="px-4 py-2 font-medium">File</th>
                   <th className="px-4 py-2 font-medium">Format</th>
                   <th className="px-4 py-2 font-medium">Status</th>
@@ -315,12 +315,12 @@ export default function EngagementDetailPage() {
                 {(jobs.data ?? []).map((j) => (
                   <tr
                     key={j.id}
-                    className="border-b border-white/[0.05] hover:bg-white/[0.03] transition-colors duration-200"
+                    className="border-b border-hairline hover:bg-paper-soft transition-colors duration-200"
                   >
                     <td className="px-4 py-2.5 font-mono text-xs truncate max-w-[220px]">
                       {j.source_filename ?? "—"}
                     </td>
-                    <td className="px-4 py-2.5 text-fg-muted">{j.format}</td>
+                    <td className="px-4 py-2.5 text-ink-muted">{j.format}</td>
                     <td className="px-4 py-2.5">
                       <span
                         className={cn(
@@ -339,12 +339,12 @@ export default function EngagementDetailPage() {
                     <td className="px-4 py-2.5 font-mono text-right">{j.new_findings}</td>
                     <td className="px-4 py-2.5 font-mono text-right">{j.regressed_findings}</td>
                     <td className="px-4 py-2.5 font-mono text-right">{j.remediated_findings}</td>
-                    <td className="px-4 py-2.5 text-fg-muted text-xs">{formatDate(j.created_at)}</td>
+                    <td className="px-4 py-2.5 text-ink-muted text-xs">{formatDate(j.created_at)}</td>
                   </tr>
                 ))}
                 {(jobs.data ?? []).length === 0 && (
                   <tr>
-                    <td colSpan={8} className="text-center text-fg-muted py-10">
+                    <td colSpan={8} className="text-center text-ink-muted py-10">
                       No scans ingested yet
                     </td>
                   </tr>
@@ -356,9 +356,9 @@ export default function EngagementDetailPage() {
       )}
 
       {tab === "reports" && (
-        <Card className="p-6 text-center text-sm text-fg-muted">
+        <Card className="p-6 text-center text-sm text-ink-muted">
           Reports are managed in the{" "}
-          <Link to={`/workspaces/${wid}/reports`} className="text-accent hover:underline">
+          <Link to={`/workspaces/${wid}/reports`} className="text-finder-blue hover:underline">
             Reports
           </Link>{" "}
           section.
@@ -370,8 +370,8 @@ export default function EngagementDetailPage() {
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] p-3">
-      <div className="text-[11px] uppercase tracking-wider text-fg-muted">{label}</div>
+    <div className="rounded-lg bg-paper-soft border border-hairline p-3">
+      <div className="text-[11px] uppercase tracking-wider text-ink-muted">{label}</div>
       <div className="text-2xl font-semibold mt-1 font-mono">{value}</div>
     </div>
   );

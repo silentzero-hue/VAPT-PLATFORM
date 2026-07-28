@@ -66,9 +66,9 @@ export default function TokensPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="key" size={20} className="text-accent" /> API tokens
+            <AppleIcon name="key" size={20} className="text-finder-blue" /> API tokens
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Long-lived credentials for CI scanners and automation. Treat as secrets.
           </p>
         </div>
@@ -86,17 +86,17 @@ export default function TokensPage() {
           className="grid grid-cols-4 gap-3 items-end"
         >
           <div className="col-span-1">
-            <label className="text-xs text-fg-muted">Name</label>
+            <label className="text-xs text-ink-muted">Name</label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="ci-scanner-prod"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <div className="col-span-2">
-            <label className="text-xs text-fg-muted">Scopes</label>
+            <label className="text-xs text-ink-muted">Scopes</label>
             <div className="mt-1 flex flex-wrap gap-1">
               {SCOPE_PRESETS.map((s) => {
                 const on = scopes.includes(s);
@@ -111,8 +111,8 @@ export default function TokensPage() {
                     }
                     className={
                       on
-                        ? "chip chip-info border-accent/30"
-                        : "chip chip-muted hover:border-accent"
+                        ? "chip chip-info border-finder-blue/30"
+                        : "chip chip-muted hover:border-finder-blue"
                     }
                   >
                     {on && <AppleIcon name="check" size={10} />} {s}
@@ -122,18 +122,18 @@ export default function TokensPage() {
             </div>
           </div>
           <div className="col-span-1">
-            <label className="text-xs text-fg-muted">Expires (optional)</label>
+            <label className="text-xs text-ink-muted">Expires (optional)</label>
             <input
               type="datetime-local"
               value={expiresAt}
               onChange={(e) => setExpiresAt(e.target.value)}
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <button
             type="submit"
             disabled={create.isPending || !name}
-            className="col-span-4 sm:col-span-1 sm:col-start-4 bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
+            className="col-span-4 sm:col-span-1 sm:col-start-4 bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
           >
             {create.isPending ? "Creating…" : "Create"}
           </button>
@@ -142,7 +142,7 @@ export default function TokensPage() {
 
       <div className="panel overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="text-fg-muted text-xs bg-bg-soft">
+          <thead className="text-ink-muted text-xs bg-paper-soft">
             <tr className="text-left">
               <th className="px-3 py-2">Name</th>
               <th className="px-3 py-2">Prefix</th>
@@ -156,9 +156,9 @@ export default function TokensPage() {
           </thead>
           <tbody>
             {(tokens.data ?? []).map((t) => (
-              <tr key={t.id} className="border-t border-border-soft">
+              <tr key={t.id} className="border-t border-hairline">
                 <td className="px-3 py-2 font-medium">{t.name}</td>
-                <td className="px-3 py-2 font-mono text-xs text-fg-muted">
+                <td className="px-3 py-2 font-mono text-xs text-ink-muted">
                   {t.prefix}…
                 </td>
                 <td className="px-3 py-2">
@@ -170,20 +170,20 @@ export default function TokensPage() {
                     ))}
                   </div>
                 </td>
-                <td className="px-3 py-2 text-fg-muted text-xs">
+                <td className="px-3 py-2 text-ink-muted text-xs">
                   {formatDate(t.last_used_at)}
                 </td>
                 <td className="px-3 py-2 font-mono text-xs">{t.use_count}</td>
-                <td className="px-3 py-2 text-fg-muted text-xs">
+                <td className="px-3 py-2 text-ink-muted text-xs">
                   {formatDate(t.expires_at)}
                 </td>
                 <td className="px-3 py-2">
                   {t.revoked ? (
-                    <span className="pill bg-rose-500/15 text-rose-300 border-rose-500/30">
+                    <span className="pill bg-rose-50 text-rose-700 border-rose-500/30">
                       revoked
                     </span>
                   ) : (
-                    <span className="pill bg-emerald-500/15 text-emerald-300 border-emerald-500/30">
+                    <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30">
                       active
                     </span>
                   )}
@@ -193,7 +193,7 @@ export default function TokensPage() {
                     <button
                       onClick={() => revoke.mutate(t.id)}
                       disabled={revoke.isPending}
-                      className="text-xs px-2 py-1 bg-rose-500/15 text-rose-300 border border-rose-500/30 rounded hover:bg-rose-500/25"
+                      className="text-xs px-2 py-1 bg-rose-50 text-rose-700 border border-rose-500/30 rounded hover:bg-rose-100"
                     >
                       Revoke
                     </button>
@@ -203,7 +203,7 @@ export default function TokensPage() {
             ))}
             {(tokens.data ?? []).length === 0 && (
               <tr>
-                <td colSpan={8} className="text-center text-fg-muted py-8">
+                <td colSpan={8} className="text-center text-ink-muted py-8">
                   No tokens yet
                 </td>
               </tr>
@@ -221,29 +221,29 @@ export default function TokensPage() {
             className="panel p-5 w-full max-w-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-2 mb-3 text-amber-300">
+            <div className="flex items-center gap-2 mb-3 text-amber-700">
               <AppleIcon name="exclamation-triangle" size={16} />
               <h2 className="text-sm font-semibold">
                 Copy this token now — it will not be shown again
               </h2>
             </div>
-            <div className="bg-bg-soft border border-border-soft rounded-lg p-3 flex items-center gap-2">
+            <div className="bg-paper-soft border border-hairline rounded-lg p-3 flex items-center gap-2">
               <code className="flex-1 font-mono text-xs break-all">{revealed.raw}</code>
               <button
                 onClick={() => copy(revealed.raw)}
-                className="bg-accent/15 text-accent border border-accent/30 rounded px-2 py-1 text-xs flex items-center gap-1"
+                className="bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded px-2 py-1 text-xs flex items-center gap-1"
               >
                 <AppleIcon name="copy" size={10} /> Copy
               </button>
             </div>
-            <p className="text-xs text-fg-muted mt-3">
+            <p className="text-xs text-ink-muted mt-3">
               Store it in your secret manager. The prefix shown in the list is the only
               hint you'll get later.
             </p>
             <div className="flex justify-end mt-4">
               <button
                 onClick={() => setRevealed(null)}
-                className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
+                className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
                 <AppleIcon name="x-mark" size={14} /> I have saved it
               </button>

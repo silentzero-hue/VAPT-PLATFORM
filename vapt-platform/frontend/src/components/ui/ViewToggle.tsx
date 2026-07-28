@@ -24,7 +24,7 @@ export default function ViewToggle({
       aria-label={ariaLabel}
       className={cn(
         "inline-flex items-center gap-0.5 p-0.5 rounded-lg",
-        "bg-white/[0.04] border border-white/[0.08]",
+        "bg-paper-soft border border-hairline",
         className
       )}
     >
@@ -81,8 +81,8 @@ function ToggleButton({
         "inline-flex items-center justify-center h-7 w-7 rounded-md",
         "transition-colors duration-200 ease-out",
         active
-          ? "bg-accent/20 text-accent border border-accent/30"
-          : "text-fg-muted hover:text-fg border border-transparent"
+          ? "bg-finder-blue/15 text-finder-blue border border-finder-blue/30"
+          : "text-ink-muted hover:text-ink border border-transparent"
       )}
     >
       {children}

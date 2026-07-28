@@ -80,9 +80,9 @@ export default function WebhooksPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="link" size={20} className="text-accent" /> Webhooks
+            <AppleIcon name="link" size={20} className="text-finder-blue" /> Webhooks
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Push platform events to your CI / SIEM / Slack
           </p>
         </div>
@@ -100,28 +100,28 @@ export default function WebhooksPage() {
           className="grid grid-cols-3 gap-3 items-end"
         >
           <div>
-            <label className="text-xs text-fg-muted">Name</label>
+            <label className="text-xs text-ink-muted">Name</label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="slack-alerts"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <div>
-            <label className="text-xs text-fg-muted">URL</label>
+            <label className="text-xs text-ink-muted">URL</label>
             <input
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               required
               placeholder="https://hooks.slack.com/…"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <div className="col-span-3">
-            <label className="text-xs text-fg-muted">Events</label>
+            <label className="text-xs text-ink-muted">Events</label>
             <div className="mt-1 flex flex-wrap gap-1">
               {EVENT_OPTIONS.map((ev) => {
                 const on = events.includes(ev);
@@ -134,8 +134,8 @@ export default function WebhooksPage() {
                     }
                     className={
                       on
-                        ? "chip chip-info border-accent/30"
-                        : "chip chip-muted hover:border-accent font-mono"
+                        ? "chip chip-info border-finder-blue/30"
+                        : "chip chip-muted hover:border-finder-blue font-mono"
                     }
                   >
                     {ev}
@@ -147,7 +147,7 @@ export default function WebhooksPage() {
           <button
             type="submit"
             disabled={create.isPending || !name || !url}
-            className="col-span-3 sm:col-span-1 sm:col-start-3 bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
+            className="col-span-3 sm:col-span-1 sm:col-start-3 bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
           >
             {create.isPending ? "Creating…" : "Create"}
           </button>
@@ -156,7 +156,7 @@ export default function WebhooksPage() {
 
       <div className="panel overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="text-fg-muted text-xs bg-bg-soft">
+          <thead className="text-ink-muted text-xs bg-paper-soft">
             <tr className="text-left">
               <th className="px-3 py-2">Name</th>
               <th className="px-3 py-2">URL</th>
@@ -169,9 +169,9 @@ export default function WebhooksPage() {
           </thead>
           <tbody>
             {(endpoints.data ?? []).map((ep) => (
-              <tr key={ep.id} className="border-t border-border-soft">
+              <tr key={ep.id} className="border-t border-hairline">
                 <td className="px-3 py-2 font-medium">{ep.name}</td>
-                <td className="px-3 py-2 font-mono text-xs text-fg-muted truncate max-w-xs">
+                <td className="px-3 py-2 font-mono text-xs text-ink-muted truncate max-w-xs">
                   {ep.url}
                 </td>
                 <td className="px-3 py-2">
@@ -185,23 +185,23 @@ export default function WebhooksPage() {
                 </td>
                 <td className="px-3 py-2">
                   {ep.active ? (
-                    <span className="pill bg-emerald-500/15 text-emerald-300 border-emerald-500/30">
+                    <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30">
                       active
                     </span>
                   ) : (
-                    <span className="pill bg-bg-soft text-fg-muted border-border-soft">
+                    <span className="pill bg-paper-soft text-ink-muted border-hairline">
                       paused
                     </span>
                   )}
                 </td>
-                <td className="px-3 py-2 text-fg-muted text-xs">
+                <td className="px-3 py-2 text-ink-muted text-xs">
                   {formatDate(ep.last_delivery_at)}
                 </td>
                 <td className="px-3 py-2 font-mono text-xs">
                   {ep.failure_count > 0 ? (
-                    <span className="text-rose-300">{ep.failure_count}</span>
+                    <span className="text-rose-700">{ep.failure_count}</span>
                   ) : (
-                    <span className="text-fg-subtle">0</span>
+                    <span className="text-ink-subtle">0</span>
                   )}
                 </td>
                 <td className="px-3 py-2">
@@ -209,13 +209,13 @@ export default function WebhooksPage() {
                     <button
                       onClick={() => test.mutate(ep.id)}
                       disabled={test.isPending}
-                      className="text-xs px-2 py-1 bg-accent/15 text-accent border border-accent/30 rounded hover:bg-accent/25 flex items-center gap-1"
+                      className="text-xs px-2 py-1 bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded hover:bg-finder-blue/25 flex items-center gap-1"
                     >
                       <AppleIcon name="zap" size={10} /> Test
                     </button>
                     <button
                       onClick={() => del.mutate(ep.id)}
-                      className="text-xs px-2 py-1 bg-rose-500/15 text-rose-300 border border-rose-500/30 rounded hover:bg-rose-500/25"
+                      className="text-xs px-2 py-1 bg-rose-50 text-rose-700 border border-rose-500/30 rounded hover:bg-rose-100"
                     >
                       Delete
                     </button>
@@ -225,7 +225,7 @@ export default function WebhooksPage() {
             ))}
             {(endpoints.data ?? []).length === 0 && (
               <tr>
-                <td colSpan={7} className="text-center text-fg-muted py-8">
+                <td colSpan={7} className="text-center text-ink-muted py-8">
                   No webhook endpoints yet
                 </td>
               </tr>
@@ -239,7 +239,7 @@ export default function WebhooksPage() {
           <AppleIcon name="send" size={14} /> Recent deliveries
         </h3>
         <table className="w-full text-sm">
-          <thead className="text-fg-muted text-xs bg-bg-soft">
+          <thead className="text-ink-muted text-xs bg-paper-soft">
             <tr className="text-left">
               <th className="px-2 py-2">Event</th>
               <th className="px-2 py-2">Status</th>
@@ -250,16 +250,16 @@ export default function WebhooksPage() {
           </thead>
           <tbody>
             {(deliveries.data ?? []).slice(0, 30).map((d) => (
-              <tr key={d.id} className="border-t border-border-soft">
+              <tr key={d.id} className="border-t border-hairline">
                 <td className="px-2 py-2 font-mono text-xs">{d.event}</td>
                 <td className="px-2 py-2">
                   <span
                     className={
                       d.status === "success"
-                        ? "pill bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                        ? "pill bg-emerald-50 text-emerald-700 border-emerald-500/30"
                         : d.status === "failed"
-                          ? "pill bg-rose-500/15 text-rose-300 border-rose-500/30"
-                          : "pill bg-amber-500/15 text-amber-300 border-amber-500/30"
+                          ? "pill bg-rose-50 text-rose-700 border-rose-500/30"
+                          : "pill bg-amber-50 text-amber-700 border-amber-500/30"
                     }
                   >
                     {d.status}
@@ -269,14 +269,14 @@ export default function WebhooksPage() {
                   {d.response_status ?? "—"}
                 </td>
                 <td className="px-2 py-2 font-mono text-xs">{d.attempts}</td>
-                <td className="px-2 py-2 text-fg-muted text-xs">
+                <td className="px-2 py-2 text-ink-muted text-xs">
                   {formatDate(d.created_at)}
                 </td>
               </tr>
             ))}
             {(deliveries.data ?? []).length === 0 && (
               <tr>
-                <td colSpan={5} className="text-center text-fg-muted py-6">
+                <td colSpan={5} className="text-center text-ink-muted py-6">
                   No deliveries yet
                 </td>
               </tr>

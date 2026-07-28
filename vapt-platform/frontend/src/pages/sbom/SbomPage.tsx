@@ -46,9 +46,9 @@ export default function SbomPage() {
     <div className="space-y-4 max-w-4xl">
       <div>
         <h1 className="text-2xl font-semibold flex items-center gap-2">
-          <AppleIcon name="package" size={20} className="text-accent" /> SBOM ingestion
+          <AppleIcon name="package" size={20} className="text-finder-blue" /> SBOM ingestion
         </h1>
-        <p className="text-sm text-fg-muted">
+        <p className="text-sm text-ink-muted">
           Upload a CycloneDX or SPDX JSON to attach components and known CVEs to an engagement
         </p>
       </div>
@@ -62,12 +62,12 @@ export default function SbomPage() {
       >
         <div className="grid grid-cols-3 gap-3">
           <div className="col-span-1">
-            <label className="text-xs text-fg-muted">Engagement</label>
+            <label className="text-xs text-ink-muted">Engagement</label>
             <select
               value={engagementId}
               onChange={(e) => setEngagementId(e.target.value)}
               required
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             >
               <option value="">Select…</option>
               {(engs.data ?? []).map((e) => (
@@ -78,16 +78,16 @@ export default function SbomPage() {
             </select>
           </div>
           <div className="col-span-2">
-            <label className="text-xs text-fg-muted">SBOM file (.cdx.json or .spdx.json)</label>
+            <label className="text-xs text-ink-muted">SBOM file (.cdx.json or .spdx.json)</label>
             <input
               type="file"
               accept=".json,.cdx.json,.spdx.json,application/json"
               onChange={(e) => setFile(e.target.files?.[0] ?? null)}
               required
-              className="block w-full mt-1 text-sm file:mr-3 file:bg-accent/15 file:text-accent file:border file:border-accent/30 file:rounded-lg file:px-3 file:py-1.5 file:text-sm file:cursor-pointer bg-bg-soft border border-border-soft rounded-lg"
+              className="block w-full mt-1 text-sm file:mr-3 file:bg-finder-blue-soft file:text-finder-blue file:border file:border-finder-blue/30 file:rounded-lg file:px-3 file:py-1.5 file:text-sm file:cursor-pointer bg-paper-soft border border-hairline rounded-lg"
             />
             {file && (
-              <div className="text-xs text-fg-muted mt-1 font-mono">
+              <div className="text-xs text-ink-muted mt-1 font-mono">
                 {file.name} · {(file.size / 1024).toFixed(1)} KB
               </div>
             )}
@@ -97,7 +97,7 @@ export default function SbomPage() {
           <button
             type="submit"
             disabled={upload.isPending || !file || !engagementId}
-            className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="upload" size={14} /> {upload.isPending ? "Uploading…" : "Upload & parse"}
           </button>
@@ -110,14 +110,14 @@ export default function SbomPage() {
             <h3 className="text-sm font-semibold">
               Parsed components ({result.format})
             </h3>
-            <div className="text-xs text-fg-muted">
+            <div className="text-xs text-ink-muted">
               {result.stats.total} components ·{" "}
-              <span className="text-rose-300">{result.stats.with_vulns} with CVEs</span>
+              <span className="text-rose-700">{result.stats.with_vulns} with CVEs</span>
             </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="text-fg-muted text-xs bg-bg-soft">
+              <thead className="text-ink-muted text-xs bg-paper-soft">
                 <tr className="text-left">
                   <th className="px-2 py-2">Name</th>
                   <th className="px-2 py-2">Version</th>
@@ -128,12 +128,12 @@ export default function SbomPage() {
               </thead>
               <tbody>
                 {result.components.map((c, i) => (
-                  <tr key={i} className="border-t border-border-soft">
+                  <tr key={i} className="border-t border-hairline">
                     <td className="px-2 py-2 font-medium">{c.name}</td>
-                    <td className="px-2 py-2 font-mono text-xs text-fg-muted">
+                    <td className="px-2 py-2 font-mono text-xs text-ink-muted">
                       {c.version ?? "—"}
                     </td>
-                    <td className="px-2 py-2 font-mono text-xs text-fg-muted truncate max-w-xs">
+                    <td className="px-2 py-2 font-mono text-xs text-ink-muted truncate max-w-xs">
                       {c.purl ?? "—"}
                     </td>
                     <td className="px-2 py-2">
@@ -147,16 +147,16 @@ export default function SbomPage() {
                     </td>
                     <td className="px-2 py-2 font-mono text-xs">
                       {c.vulnerabilities > 0 ? (
-                        <span className="text-rose-300">{c.vulnerabilities}</span>
+                        <span className="text-rose-700">{c.vulnerabilities}</span>
                       ) : (
-                        <span className="text-fg-subtle">0</span>
+                        <span className="text-ink-subtle">0</span>
                       )}
                     </td>
                   </tr>
                 ))}
                 {result.components.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="text-center text-fg-muted py-6">
+                    <td colSpan={5} className="text-center text-ink-muted py-6">
                       No components in this SBOM
                     </td>
                   </tr>

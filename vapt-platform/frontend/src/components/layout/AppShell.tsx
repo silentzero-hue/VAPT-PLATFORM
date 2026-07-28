@@ -179,28 +179,28 @@ export default function AppShell() {
   };
 
   return (
-    <div className="min-h-screen flex bg-bg text-fg">
+    <div className="min-h-screen flex bg-paper text-ink">
       <aside
         className={cn(
-          "shrink-0 sticky top-0 self-start h-screen border-r border-white/[0.06]",
-          "glass-strong flex flex-col",
+          "shrink-0 sticky top-0 self-start h-screen border-r border-hairline",
+          "bg-paper-soft/80 backdrop-blur-xl flex flex-col",
           "transition-[width] duration-300 ease-out",
           collapsed ? "w-[68px]" : "w-[240px]"
         )}
       >
         <div
           className={cn(
-            "h-14 flex items-center gap-3 border-b border-white/[0.06] shrink-0",
+            "h-14 flex items-center gap-3 border-b border-hairline shrink-0",
             collapsed ? "justify-center px-0" : "px-4"
           )}
         >
-          <div className="h-7 w-7 rounded-md bg-gradient-to-br from-accent to-accent-strong flex items-center justify-center shrink-0 shadow-accent-glow">
+          <div className="h-7 w-7 rounded-md bg-gradient-to-br from-finder-blue to-folder-to flex items-center justify-center shrink-0 shadow-accent-glow">
             <AppleIcon name="shield" size={14} className="text-white" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <div className="font-semibold tracking-tight text-sm leading-none">VAPT Platform</div>
-              <div className="text-[10px] text-fg-muted mt-0.5">Technovage Edition</div>
+              <div className="font-semibold tracking-tight text-sm leading-none text-ink">VAPT Platform</div>
+              <div className="text-[10px] text-ink-muted mt-0.5">Technovage Edition</div>
             </div>
           )}
         </div>
@@ -215,7 +215,7 @@ export default function AppShell() {
           {NAV_GROUPS.map((group) => (
             <div key={group.label} className="mb-1">
               {!collapsed && (
-                <div className="px-4 py-1.5 text-[10px] uppercase tracking-wider text-fg-subtle font-semibold">
+                <div className="px-4 py-1.5 text-[10px] uppercase tracking-wider text-ink-subtle font-semibold">
                   {group.label}
                 </div>
               )}
@@ -238,7 +238,7 @@ export default function AppShell() {
           ))}
         </nav>
 
-        <div className="border-t border-white/[0.06] p-2 space-y-1">
+        <div className="border-t border-hairline p-2 space-y-1">
           <SystemHealthWidget collapsed={collapsed} />
           <UserWidget user={auth.user} collapsed={collapsed} onLogout={logout} />
           <CollapseToggle collapsed={collapsed} onToggle={() => setCollapsed((c) => !c)} />
@@ -246,7 +246,7 @@ export default function AppShell() {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="sticky top-0 z-30 h-14 glass-soft border-b border-white/[0.06] flex items-center px-4 gap-3">
+        <header className="sticky top-0 z-30 h-14 bg-paper-strong/80 backdrop-blur-xl border-b border-hairline flex items-center px-4 gap-3">
           <NavArrows
             canGoBack={canGoBack}
             canGoForward={canGoForward}
@@ -256,23 +256,23 @@ export default function AppShell() {
           <Breadcrumb base={base} />
           <div className="flex-1 max-w-md mx-auto">
             <div className="relative">
-              <AppleIcon name="magnifier" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-subtle" />
+              <AppleIcon name="magnifier" size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-subtle" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 type="search"
                 placeholder="Search reports, findings, hosts…"
                 className={cn(
-                  "w-full bg-white/[0.04] border border-white/[0.06] rounded-md",
-                  "pl-9 pr-3 h-8 text-sm outline-none",
+                  "w-full bg-paper-soft border border-hairline rounded-md",
+                  "pl-9 pr-3 h-8 text-sm outline-none text-ink",
                   "transition-colors duration-200 ease-out",
-                  "placeholder:text-fg-subtle",
-                  "focus:border-accent/50 focus:bg-white/[0.06]"
+                  "placeholder:text-ink-subtle",
+                  "focus:border-finder-blue/50 focus:bg-paper-strong"
                 )}
               />
             </div>
           </div>
-          <DarkModeToggle />
+          <ThemeToggle />
           <NotificationBell />
           <UserAvatar user={auth.user} />
         </header>
@@ -314,14 +314,14 @@ function NavItem({
         "transition-colors duration-150 ease-out text-left",
         collapsed ? "h-9 justify-center px-0 my-0.5 mx-1" : "h-8 px-3 my-0.5",
         active
-          ? "bg-accent/15 text-accent"
-          : "text-fg-muted hover:text-fg hover:bg-white/[0.04]"
+          ? "bg-finder-blue-soft text-finder-blue"
+          : "text-ink-muted hover:text-ink hover:bg-paper-soft"
       )}
     >
       {active && (
         <span
           className={cn(
-            "absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-r-full bg-accent",
+            "absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-r-full bg-finder-blue",
             collapsed && "hidden"
           )}
         />
@@ -331,7 +331,7 @@ function NavItem({
         size={15}
         className={cn(
           "shrink-0",
-          active ? "text-accent" : "text-fg-muted group-hover:text-fg"
+          active ? "text-finder-blue" : "text-ink-muted group-hover:text-ink"
         )}
       />
       {!collapsed && (
@@ -342,8 +342,8 @@ function NavItem({
               className={cn(
                 "shrink-0 text-[10px] tabular-nums px-1.5 py-0.5 rounded-md min-w-[20px] text-center",
                 active
-                  ? "bg-accent/25 text-accent"
-                  : "bg-white/[0.06] text-fg-muted group-hover:bg-white/[0.1] group-hover:text-fg"
+                  ? "bg-finder-blue/20 text-finder-blue"
+                  : "bg-paper-soft text-ink-muted group-hover:bg-paper-deep group-hover:text-ink"
               )}
             >
               {badge! >= 1000 ? `${(badge! / 1000).toFixed(1)}k` : badge}
@@ -365,12 +365,12 @@ function Breadcrumb({ base }: { base: string }) {
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ");
   return (
-    <div className="flex items-center gap-1.5 text-sm text-fg-muted min-w-0 flex-1">
-      <span className="font-medium text-fg">Default Workspace</span>
+    <div className="flex items-center gap-1.5 text-sm text-ink-muted min-w-0 flex-1">
+      <span className="font-medium text-ink">Default Workspace</span>
       {parts.map((p, i) => (
         <span key={i} className="flex items-center gap-1.5 min-w-0">
-          <AppleIcon name="chevron-right" size={12} className="text-fg-subtle shrink-0" />
-          <span className={cn("truncate", i === parts.length - 1 ? "text-fg" : "")}>
+          <AppleIcon name="chevron-right" size={12} className="text-ink-subtle shrink-0" />
+          <span className={cn("truncate", i === parts.length - 1 ? "text-ink" : "")}>
             {titleize(p)}
           </span>
         </span>
@@ -405,8 +405,8 @@ function WorkspaceSwitcher({
 
   if (memberships.length === 0) {
     return (
-      <div className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md bg-white/[0.04] text-xs text-fg-muted">
-        <AppleIcon name="building" size={12} className="text-accent shrink-0" />
+      <div className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md bg-paper-soft text-xs text-ink-muted border border-hairline">
+        <AppleIcon name="building" size={12} className="text-finder-blue shrink-0" />
         <span className="truncate flex-1 text-left">{name}</span>
       </div>
     );
@@ -418,11 +418,11 @@ function WorkspaceSwitcher({
         onClick={() => setOpen((o) => !o)}
         className={cn(
           "w-full flex items-center gap-2 px-2 py-1.5 rounded-md",
-          "bg-white/[0.04] hover:bg-white/[0.08] text-xs text-fg-muted hover:text-fg",
+          "bg-paper-soft hover:bg-paper-deep text-xs text-ink-muted hover:text-ink border border-hairline",
           "transition-colors duration-150"
         )}
       >
-        <AppleIcon name="building" size={12} className="text-accent shrink-0" />
+        <AppleIcon name="building" size={12} className="text-finder-blue shrink-0" />
         <span className="truncate flex-1 text-left">{name}</span>
         <AppleIcon
           name="chevron-right"
@@ -437,7 +437,7 @@ function WorkspaceSwitcher({
         <div
           className={cn(
             "absolute left-0 right-0 top-full mt-1 z-40",
-            "rounded-md py-1 glass-strong shadow-glass-strong animate-fade-in"
+            "rounded-md py-1 bg-paper-strong border border-hairline-strong shadow-glass-strong animate-fade-in"
           )}
         >
           {memberships.map((m) => (
@@ -451,14 +451,14 @@ function WorkspaceSwitcher({
                 "w-full flex items-center gap-2 px-2 py-1.5 text-xs text-left",
                 "transition-colors duration-150",
                 m.workspace_id === currentWid
-                  ? "bg-accent/15 text-accent"
-                  : "text-fg-muted hover:bg-white/[0.06] hover:text-fg"
+                  ? "bg-finder-blue-soft text-finder-blue"
+                  : "text-ink-muted hover:bg-paper-soft hover:text-ink"
               )}
             >
               <AppleIcon name="building" size={11} className="shrink-0" />
               <span className="truncate flex-1">{m.workspace_name}</span>
               {m.workspace_id === currentWid && (
-                <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
+                <span className="h-1.5 w-1.5 rounded-full bg-finder-blue shrink-0" />
               )}
             </button>
           ))}
@@ -488,7 +488,7 @@ function SystemHealthWidget({ collapsed }: { collapsed: boolean }) {
       <span
         className={cn(
           "h-1.5 w-1.5 rounded-full shrink-0",
-          ok ? "bg-emerald-400" : "bg-amber-400",
+          ok ? "bg-emerald-500" : "bg-amber-400",
           ok && "animate-pulse"
         )}
       />
@@ -512,7 +512,7 @@ function UserWidget({
       onClick={onLogout}
       aria-label="Logout"
       className={cn(
-        "w-full flex items-center gap-2 rounded-md text-fg-muted hover:text-fg hover:bg-white/[0.04]",
+        "w-full flex items-center gap-2 rounded-md text-ink-muted hover:text-ink hover:bg-paper-soft",
         "transition-colors duration-150",
         collapsed ? "justify-center h-8" : "px-2 h-8 text-xs"
       )}
@@ -522,7 +522,7 @@ function UserWidget({
         <AppleIcon name="logout" size={14} />
       ) : (
         <>
-          <div className="h-5 w-5 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-[10px] font-semibold text-accent shrink-0">
+          <div className="h-5 w-5 rounded-full bg-finder-blue-soft border border-finder-blue/30 flex items-center justify-center text-[10px] font-semibold text-finder-blue shrink-0">
             {(user.email?.[0] ?? "?").toUpperCase()}
           </div>
           <span className="truncate flex-1 text-left">{user.email}</span>
@@ -545,7 +545,7 @@ function CollapseToggle({
       onClick={onToggle}
       aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       className={cn(
-        "w-full flex items-center gap-2 rounded-md text-fg-muted hover:text-fg hover:bg-white/[0.04]",
+        "w-full flex items-center gap-2 rounded-md text-ink-muted hover:text-ink hover:bg-paper-soft",
         "transition-colors duration-150",
         collapsed ? "justify-center h-8" : "px-2 h-8 text-xs"
       )}
@@ -557,13 +557,13 @@ function CollapseToggle({
   );
 }
 
-function DarkModeToggle() {
+function ThemeToggle() {
   return (
     <button
       aria-label="Toggle theme"
       className={cn(
         "h-8 w-8 rounded-md flex items-center justify-center",
-        "text-fg-muted hover:text-fg hover:bg-white/[0.04]",
+        "text-ink-muted hover:text-ink hover:bg-paper-soft",
         "transition-colors duration-150"
       )}
       title="Theme"
@@ -579,7 +579,7 @@ function NotificationBell() {
       aria-label="Notifications"
       className={cn(
         "relative h-8 w-8 rounded-md flex items-center justify-center",
-        "text-fg-muted hover:text-fg hover:bg-white/[0.04]",
+        "text-ink-muted hover:text-ink hover:bg-paper-soft",
         "transition-colors duration-150"
       )}
       title="Notifications"
@@ -596,7 +596,7 @@ function UserAvatar({ user }: { user: ReturnType<typeof useAuth>["user"] }) {
     <div
       className={cn(
         "h-8 w-8 rounded-full flex items-center justify-center text-xs font-semibold",
-        "bg-accent/20 border border-accent/30 text-accent shrink-0"
+        "bg-finder-blue-soft border border-finder-blue/30 text-finder-blue shrink-0"
       )}
       title={user.email}
     >

@@ -73,7 +73,7 @@ function AppRoutes() {
 
   if (!bootChecked) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center text-fg-muted">
+      <div className="h-screen w-screen flex items-center justify-center text-ink-muted">
         Loading…
       </div>
     );

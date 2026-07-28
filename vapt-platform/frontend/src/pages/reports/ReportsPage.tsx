@@ -121,7 +121,7 @@ export default function ReportsPage() {
         left={
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Reports</h1>
-            <p className="text-sm text-fg-muted">
+            <p className="text-sm text-ink-muted">
               Drafts, in-review, and approved reports.
             </p>
           </div>
@@ -132,7 +132,7 @@ export default function ReportsPage() {
             disabled={createReport.isPending}
             className={cn(
               "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm",
-              "bg-accent text-white hover:bg-accent-strong",
+              "bg-finder-blue text-white hover:bg-folder-to",
               "transition-all duration-200 ease-out active:scale-[0.98]",
               "disabled:opacity-50"
             )}
@@ -160,8 +160,8 @@ export default function ReportsPage() {
               ariaLabel={`Open report ${r.title}`}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
-                <div className="h-9 w-9 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
-                  <AppleIcon name="doc" size={16} className="text-accent" />
+                <div className="h-9 w-9 rounded-lg bg-finder-blue-soft border border-finder-blue/20 flex items-center justify-center shrink-0">
+                  <AppleIcon name="doc" size={16} className="text-finder-blue" />
                 </div>
                 <span className={cn("pill shrink-0", STATUS_PILL[r.status] ?? "pill-muted")}>
                   {STATUS_LABEL[r.status] ?? r.status}
@@ -169,26 +169,26 @@ export default function ReportsPage() {
               </div>
               <div className="text-base font-semibold leading-snug line-clamp-2">{r.title}</div>
               {r.engagement_id && (
-                <div className="text-[10px] font-mono text-fg-muted mt-1 truncate">
+                <div className="text-[10px] font-mono text-ink-muted mt-1 truncate">
                   {r.engagement_id}
                 </div>
               )}
 
-              <div className="mt-4 flex items-center gap-3 text-[11px] text-fg-muted">
+              <div className="mt-4 flex items-center gap-3 text-[11px] text-ink-muted">
                 <span>
-                  <span className="font-mono text-fg">{r.versions?.length ?? 0}</span> version
+                  <span className="font-mono text-ink">{r.versions?.length ?? 0}</span> version
                   {(r.versions?.length ?? 0) === 1 ? "" : "s"}
                 </span>
                 {r.signed_sha256 ? (
-                  <span className="inline-flex items-center gap-1 text-emerald-300">
+                  <span className="inline-flex items-center gap-1 text-emerald-700">
                     <AppleIcon name="shield-check" size={12} /> Signed
                   </span>
                 ) : (
-                  <span className="text-fg-subtle">Unsigned</span>
+                  <span className="text-ink-subtle">Unsigned</span>
                 )}
               </div>
 
-              <div className="mt-3 text-[10px] text-fg-subtle font-mono">
+              <div className="mt-3 text-[10px] text-ink-subtle font-mono">
                 Updated {formatDate(r.updated_at)}
               </div>
 
@@ -202,7 +202,7 @@ export default function ReportsPage() {
                     disabled={downloadReport.isPending}
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs",
-                      "bg-accent text-white hover:bg-accent-strong",
+                      "bg-finder-blue text-white hover:bg-folder-to",
                       "transition-all duration-200 ease-out active:scale-[0.98]",
                       "disabled:opacity-50"
                     )}
@@ -233,7 +233,7 @@ export default function ReportsPage() {
                     }}
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs",
-                      "bg-white/[0.04] border border-white/[0.08] hover:border-accent/40",
+                      "bg-paper-soft border border-hairline-strong hover:border-finder-blue/40",
                       "transition-colors duration-200 ease-out"
                     )}
                   >
@@ -259,18 +259,18 @@ export default function ReportsPage() {
               <h2 className="text-sm font-semibold">New report</h2>
               <button
                 onClick={() => setNewReportOpen(false)}
-                className="text-fg-muted hover:text-fg"
+                className="text-ink-muted hover:text-ink"
               >
                 <AppleIcon name="x-mark" size={16} />
               </button>
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-xs text-fg-muted">Engagement</label>
+                <label className="text-xs text-ink-muted">Engagement</label>
                 <select
                   value={newReportEng}
                   onChange={(e) => setNewReportEng(e.target.value)}
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 >
                   {(engs.data ?? []).map((e: any) => (
                     <option key={e.id} value={e.id}>
@@ -280,26 +280,26 @@ export default function ReportsPage() {
                 </select>
               </div>
               <div>
-                <label className="text-xs text-fg-muted">Title (optional)</label>
+                <label className="text-xs text-ink-muted">Title (optional)</label>
                 <input
                   value={newReportTitle}
                   onChange={(e) => setNewReportTitle(e.target.value)}
                   placeholder="VAPT Report"
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 />
               </div>
             </div>
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => setNewReportOpen(false)}
-                className="bg-bg-soft border border-border-soft rounded-lg px-3 py-1.5 text-sm"
+                className="bg-paper-soft border border-hairline rounded-lg px-3 py-1.5 text-sm"
               >
                 Cancel
               </button>
               <button
                 onClick={submitNewReport}
                 disabled={!newReportEng || createReport.isPending}
-                className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
+                className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
               >
                 Create
               </button>

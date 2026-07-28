@@ -36,14 +36,14 @@ export default function AgentPage() {
     <div className="space-y-4">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-semibold flex items-center gap-2"><AppleIcon name="sparkles" size={20} className="text-accent" /> Agent Review</h1>
-          <p className="text-sm text-fg-muted">
+          <h1 className="text-2xl font-semibold flex items-center gap-2"><AppleIcon name="sparkles" size={20} className="text-finder-blue" /> Agent Review</h1>
+          <p className="text-sm text-ink-muted">
             The agent drafts via MCP tools. It never reaches <code>approved</code> on its own — that's your job.
           </p>
         </div>
         <Link
           to={`/workspaces/${workspaceId}/agent/live`}
-          className="bg-accent/15 hover:bg-accent/25 text-accent border border-accent/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
+          className="bg-finder-blue-soft hover:bg-finder-blue/25 text-finder-blue border border-finder-blue/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
         >
           <AppleIcon name="activity" size={14} /> Live run feed
         </Link>
@@ -55,20 +55,20 @@ export default function AgentPage() {
           <select
             value={eid ?? ""}
             onChange={(e) => setSelected(e.target.value)}
-            className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm"
+            className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm"
           >
             {(engs.data ?? []).map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
           </select>
           <h3 className="text-sm font-semibold mt-4 mb-2 flex items-center gap-1.5"><AppleIcon name="bot" size={14} /> AI-drafted vulnerabilities</h3>
-          <div className="text-xs text-fg-muted mb-2">{vulns.data?.length ?? 0} have a draft</div>
+          <div className="text-xs text-ink-muted mb-2">{vulns.data?.length ?? 0} have a draft</div>
           <ul className="space-y-1 max-h-[60vh] overflow-y-auto">
             {(vulns.data ?? []).map((v) => (
-              <li key={v.id} className="text-sm flex items-center justify-between border-t border-border-soft py-1.5">
+              <li key={v.id} className="text-sm flex items-center justify-between border-t border-hairline py-1.5">
                 <div className="truncate pr-2">{v.title}</div>
                 {v.ai_draft_approved ? (
-                  <span className="pill bg-emerald-500/15 text-emerald-300 border-emerald-500/30"><AppleIcon name="check" size={10} /> approved</span>
+                  <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30"><AppleIcon name="check" size={10} /> approved</span>
                 ) : (
-                  <span className="pill bg-amber-500/15 text-amber-300 border-amber-500/30">pending</span>
+                  <span className="pill bg-amber-50 text-amber-700 border-amber-500/30">pending</span>
                 )}
               </li>
             ))}
@@ -76,7 +76,7 @@ export default function AgentPage() {
         </div>
         <div className="panel p-4 col-span-2">
           <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5"><AppleIcon name="rect-grid" size={14} /> Agent workflow</h3>
-          <p className="text-xs text-fg-muted mb-4">
+          <p className="text-xs text-ink-muted mb-4">
             Read-only trace of the deterministic agent loop. Use the per-vulnerability page
             to edit / approve drafts; the report page is the only path to <code>approved</code>.
           </p>
@@ -90,11 +90,11 @@ export default function AgentPage() {
               ["render_report", "Render the docx into S3 (status=draft)."],
               ["flag_for_human_review", "Hand off. Agent terminates here."],
             ].map(([t, d], i) => (
-              <li key={t} className="flex items-start gap-3 border-t border-border-soft py-2">
-                <span className="h-5 w-5 rounded-full bg-accent/15 border border-accent/30 text-accent text-[11px] font-mono flex items-center justify-center">{i + 1}</span>
+              <li key={t} className="flex items-start gap-3 border-t border-hairline py-2">
+                <span className="h-5 w-5 rounded-full bg-finder-blue-soft border border-finder-blue/30 text-finder-blue text-[11px] font-mono flex items-center justify-center">{i + 1}</span>
                 <div>
-                  <div className="font-mono text-xs text-accent">mcp.{t}</div>
-                  <div className="text-fg-muted text-xs">{d}</div>
+                  <div className="font-mono text-xs text-finder-blue">mcp.{t}</div>
+                  <div className="text-ink-muted text-xs">{d}</div>
                 </div>
               </li>
             ))}

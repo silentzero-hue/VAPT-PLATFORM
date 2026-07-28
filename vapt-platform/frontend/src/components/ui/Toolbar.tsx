@@ -12,8 +12,9 @@ export default function Toolbar({ left, right, className, children }: ToolbarPro
   return (
     <div
       className={cn(
-        "sticky top-0 z-20 glass",
-        "px-6 py-3 flex items-center gap-3",
+        "sticky top-0 z-20 bg-paper-strong/80 backdrop-blur-xl",
+        "border-b border-hairline",
+        "px-6 py-3 flex items-center gap-3 text-ink",
         className
       )}
     >

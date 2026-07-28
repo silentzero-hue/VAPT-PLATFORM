@@ -72,13 +72,13 @@ export default function MultiScanPage() {
     const allChecked = rows.length > 0 && rows.every((r) => selected.has(r.finding_id));
     return (
       <div className="panel overflow-hidden">
-        <div className={cn("px-4 py-2.5 border-b border-border-soft flex items-center justify-between", accent)}>
+        <div className={cn("px-4 py-2.5 border-b border-hairline flex items-center justify-between", accent)}>
           <h3 className="text-sm font-semibold">
             {title}{" "}
-            <span className="text-xs text-fg-muted font-normal">({rows.length})</span>
+            <span className="text-xs text-ink-muted font-normal">({rows.length})</span>
           </h3>
           {withSelection && rows.length > 0 && (
-            <label className="text-xs text-fg-muted flex items-center gap-1.5">
+            <label className="text-xs text-ink-muted flex items-center gap-1.5">
               <input
                 type="checkbox"
                 className="accent-accent"
@@ -91,7 +91,7 @@ export default function MultiScanPage() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-fg-muted text-xs bg-bg-soft">
+            <thead className="text-ink-muted text-xs bg-paper-soft">
               <tr className="text-left">
                 {withSelection && <th className="px-3 py-2 w-8"></th>}
                 <th className="px-3 py-2">Severity</th>
@@ -109,8 +109,8 @@ export default function MultiScanPage() {
                   <tr
                     key={r.finding_id}
                     className={cn(
-                      "border-t border-border-soft",
-                      checked && "bg-accent/5"
+                      "border-t border-hairline",
+                      checked && "bg-finder-blue/5"
                     )}
                   >
                     {withSelection && (
@@ -137,13 +137,13 @@ export default function MultiScanPage() {
                     <td className="px-3 py-2 font-mono text-xs">
                       {r.asset_value ?? "—"}
                     </td>
-                    <td className="px-3 py-2 font-mono text-xs text-fg-muted">
+                    <td className="px-3 py-2 font-mono text-xs text-ink-muted">
                       {r.port ?? "—"}
                     </td>
-                    <td className="px-3 py-2 font-mono text-[10px] text-fg-muted">
+                    <td className="px-3 py-2 font-mono text-[10px] text-ink-muted">
                       {r.cve_id ?? "—"}
                     </td>
-                    <td className="px-3 py-2 text-xs text-fg-muted">
+                    <td className="px-3 py-2 text-xs text-ink-muted">
                       {formatDate(r.last_seen)}
                     </td>
                   </tr>
@@ -153,7 +153,7 @@ export default function MultiScanPage() {
                 <tr>
                   <td
                     colSpan={withSelection ? 7 : 6}
-                    className="text-center text-fg-muted py-6"
+                    className="text-center text-ink-muted py-6"
                   >
                     None
                   </td>
@@ -171,19 +171,19 @@ export default function MultiScanPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="check-shield" size={20} className="text-accent" /> Multi-scan compare
+            <AppleIcon name="check-shield" size={20} className="text-finder-blue" /> Multi-scan compare
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Pick a baseline and a current ingestion job to see what stayed, regressed, or got fixed
           </p>
         </div>
         {selected.size > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-xs text-fg-muted">{selected.size} selected</span>
+            <span className="text-xs text-ink-muted">{selected.size} selected</span>
             <button
               onClick={() => bulkDelete.mutate([...selected])}
               disabled={bulkDelete.isPending}
-              className="bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+              className="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
               <AppleIcon name="trash" size={14} />
               {bulkDelete.isPending ? "Deleting…" : "Bulk delete new findings"}
@@ -195,11 +195,11 @@ export default function MultiScanPage() {
       <div className="panel p-4">
         <div className="grid grid-cols-[1fr_auto_1fr_auto] items-end gap-3">
           <div>
-            <label className="text-xs text-fg-muted">Baseline (older)</label>
+            <label className="text-xs text-ink-muted">Baseline (older)</label>
             <select
               value={baseline}
               onChange={(e) => setBaseline(e.target.value)}
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2.5 py-1.5 text-sm mt-1 outline-none focus:border-accent"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2.5 py-1.5 text-sm mt-1 outline-none focus:border-finder-blue"
             >
               <option value="">Select job…</option>
               {(jobs.data ?? []).map((j) => (
@@ -212,17 +212,17 @@ export default function MultiScanPage() {
           <button
             onClick={swap}
             disabled={!baseline || !current}
-            className="bg-bg-soft border border-border-soft rounded-lg p-2 text-fg-muted hover:text-accent disabled:opacity-40 mb-0.5"
+            className="bg-paper-soft border border-hairline rounded-lg p-2 text-ink-muted hover:text-finder-blue disabled:opacity-40 mb-0.5"
             title="Swap baseline and current"
           >
             <AppleIcon name="arrow-left-right" size={14} />
           </button>
           <div>
-            <label className="text-xs text-fg-muted">Current (newer)</label>
+            <label className="text-xs text-ink-muted">Current (newer)</label>
             <select
               value={current}
               onChange={(e) => setCurrent(e.target.value)}
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2.5 py-1.5 text-sm mt-1 outline-none focus:border-accent"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2.5 py-1.5 text-sm mt-1 outline-none focus:border-finder-blue"
             >
               <option value="">Select job…</option>
               {(jobs.data ?? []).map((j) => (
@@ -235,14 +235,14 @@ export default function MultiScanPage() {
           <button
             onClick={() => compare.refetch()}
             disabled={!baseline || !current || baseline === current || compare.isFetching}
-            className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="check-shield" size={14} />
             {compare.isFetching ? "Comparing…" : "Run compare"}
           </button>
         </div>
         {baseline && current && baseline === current && (
-          <p className="text-xs text-amber-300 mt-2">
+          <p className="text-xs text-amber-700 mt-2">
             Pick two different jobs to compare.
           </p>
         )}
@@ -272,7 +272,7 @@ export default function MultiScanPage() {
       )}
 
       {!compare.data && !compare.isFetching && (
-        <div className="panel p-10 text-center text-fg-muted text-sm">
+        <div className="panel p-10 text-center text-ink-muted text-sm">
           Select a baseline and a current ingestion job, then run compare.
         </div>
       )}

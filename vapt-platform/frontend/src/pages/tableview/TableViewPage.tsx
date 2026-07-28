@@ -11,19 +11,19 @@ import type { Engagement, Severity, TableRow, TableViewPayload } from "../../typ
 const SEVERITY_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
 
 const SEVERITY_HEADING: Record<Severity, string> = {
-  critical: "bg-rose-500/15 border-rose-500/40 text-rose-200",
-  high: "bg-orange-500/15 border-orange-500/40 text-orange-200",
-  medium: "bg-amber-500/15 border-amber-500/40 text-amber-200",
-  low: "bg-emerald-500/15 border-emerald-500/40 text-emerald-200",
-  info: "bg-accent/15 border-accent/40 text-accent",
+  critical: "bg-rose-50 border-rose-500/40 text-rose-200",
+  high: "bg-orange-50 border-orange-200 text-orange-700",
+  medium: "bg-amber-50 border-amber-200 text-amber-700",
+  low: "bg-emerald-50 border-emerald-200 text-emerald-700",
+  info: "bg-finder-blue-soft border-finder-blue/40 text-finder-blue",
 };
 
 const SEVERITY_TEXT: Record<Severity, string> = {
-  critical: "text-rose-300",
-  high: "text-orange-300",
-  medium: "text-amber-300",
-  low: "text-emerald-300",
-  info: "text-accent",
+  critical: "text-rose-700",
+  high: "text-orange-700",
+  medium: "text-amber-700",
+  low: "text-emerald-700",
+  info: "text-finder-blue",
 };
 
 export default function TableViewPage() {
@@ -82,9 +82,9 @@ export default function TableViewPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="doc" size={20} className="text-accent" /> Table view
+            <AppleIcon name="doc" size={20} className="text-finder-blue" /> Table view
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Banded executive view of all findings, grouped by severity — ready to print or export
           </p>
         </div>
@@ -92,7 +92,7 @@ export default function TableViewPage() {
           <select
             value={activeEngagementId}
             onChange={(e) => setEngagementId(e.target.value)}
-            className="bg-bg-soft border border-border-soft rounded-lg px-2.5 py-1.5 text-sm"
+            className="bg-paper-soft border border-hairline rounded-lg px-2.5 py-1.5 text-sm"
           >
             <option value="">Select engagement…</option>
             {(engs.data ?? []).map((e) => (
@@ -104,21 +104,21 @@ export default function TableViewPage() {
           <button
             onClick={() => downloadFile.mutate({ fmt: "docx" })}
             disabled={!activeEngagementId || downloadFile.isPending}
-            className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="download" size={14} /> DOCX
           </button>
           <button
             onClick={() => downloadFile.mutate({ fmt: "html" })}
             disabled={!activeEngagementId || downloadFile.isPending}
-            className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="download" size={14} /> HTML
           </button>
           <button
             onClick={() => window.print()}
             disabled={!data.data}
-            className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="print" size={14} /> Print
           </button>
@@ -126,22 +126,22 @@ export default function TableViewPage() {
       </div>
 
       {data.isLoading && (
-        <div className="panel p-10 text-center text-fg-muted text-sm">
+        <div className="panel p-10 text-center text-ink-muted text-sm">
           Loading findings…
         </div>
       )}
 
       {data.data && (
         <div className="panel p-6 space-y-5 print:p-0 print:shadow-none">
-          <div className="border-b border-border-soft pb-3 flex items-end justify-between">
+          <div className="border-b border-hairline pb-3 flex items-end justify-between">
             <div>
-              <div className="text-xs text-fg-muted font-mono">
+              <div className="text-xs text-ink-muted font-mono">
                 {data.data.engagement.code}
               </div>
               <h2 className="text-xl font-semibold">{data.data.engagement.name}</h2>
-              <p className="text-sm text-fg-muted">{data.data.engagement.client}</p>
+              <p className="text-sm text-ink-muted">{data.data.engagement.client}</p>
             </div>
-            <div className="text-xs text-fg-muted">
+            <div className="text-xs text-ink-muted">
               Generated {formatDate(data.data.generated_at)}
             </div>
           </div>
@@ -166,13 +166,13 @@ export default function TableViewPage() {
                   <span className="text-xs font-mono">{total} total</span>
                 </div>
                 {rows.length === 0 ? (
-                  <p className="text-sm text-fg-muted px-2">
+                  <p className="text-sm text-ink-muted px-2">
                     No {sev} findings.
                   </p>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
-                      <thead className="text-fg-muted text-xs bg-bg-soft">
+                      <thead className="text-ink-muted text-xs bg-paper-soft">
                         <tr className="text-left">
                           <th className="px-3 py-2">CVE</th>
                           <th className="px-3 py-2">Title</th>
@@ -186,9 +186,9 @@ export default function TableViewPage() {
                         {rows.map((r, i) => (
                           <tr
                             key={`${r.cve_id ?? r.title}-${i}`}
-                            className="border-t border-border-soft"
+                            className="border-t border-hairline"
                           >
-                            <td className="px-3 py-2 font-mono text-xs text-fg-muted">
+                            <td className="px-3 py-2 font-mono text-xs text-ink-muted">
                               {r.cve_id ?? "—"}
                             </td>
                             <td
@@ -202,16 +202,16 @@ export default function TableViewPage() {
                             <td className="px-3 py-2 font-mono text-xs">
                               {r.cvss_score != null ? r.cvss_score.toFixed(1) : "—"}
                             </td>
-                            <td className="px-3 py-2 font-mono text-xs text-fg-muted">
+                            <td className="px-3 py-2 font-mono text-xs text-ink-muted">
                               {r.hosts.length}
                             </td>
-                            <td className="px-3 py-2 font-mono text-xs text-fg-muted">
+                            <td className="px-3 py-2 font-mono text-xs text-ink-muted">
                               {r.ports.length === 0
                                 ? "—"
                                 : r.ports.slice(0, 6).join(", ") +
                                   (r.ports.length > 6 ? "…" : "")}
                             </td>
-                            <td className="px-3 py-2 font-mono text-xs text-fg-muted truncate max-w-xs">
+                            <td className="px-3 py-2 font-mono text-xs text-ink-muted truncate max-w-xs">
                               {r.sample_asset ?? "—"}
                             </td>
                           </tr>
@@ -227,7 +227,7 @@ export default function TableViewPage() {
           {SEVERITY_ORDER.every(
             (s) => (data.data!.by_severity?.[s] ?? []).length === 0
           ) && (
-            <div className="text-center text-fg-muted py-10 text-sm">
+            <div className="text-center text-ink-muted py-10 text-sm">
               No findings to display.
             </div>
           )}
@@ -235,7 +235,7 @@ export default function TableViewPage() {
       )}
 
       {!data.isLoading && !data.data && (
-        <div className="panel p-10 text-center text-fg-muted text-sm">
+        <div className="panel p-10 text-center text-ink-muted text-sm">
           Select an engagement to generate the table view.
         </div>
       )}

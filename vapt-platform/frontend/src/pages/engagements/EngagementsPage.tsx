@@ -16,10 +16,10 @@ import ViewToggle, { type ViewMode } from "../../components/ui/ViewToggle";
 const STATUS_PILL: Record<string, string> = {
   active: "bg-sev-low/15 text-sev-low border-sev-low/30",
   in_reporting: "bg-sev-info/15 text-sev-info border-sev-info/30",
-  delivered: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-  closed: "bg-white/[0.06] text-fg-muted border-white/[0.08]",
+  delivered: "bg-emerald-50 text-emerald-700 border-emerald-500/30",
+  closed: "bg-paper-soft text-ink-muted border-hairline-strong",
   planned: "bg-sev-medium/15 text-sev-medium border-sev-medium/30",
-  cancelled: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+  cancelled: "bg-rose-50 text-rose-700 border-rose-500/30",
 };
 
 const STATUS_LABEL: Record<EngagementStatus, string> = {
@@ -124,7 +124,7 @@ export default function EngagementsPage() {
         left={
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Engagements</h1>
-            <p className="text-sm text-fg-muted">
+            <p className="text-sm text-ink-muted">
               Track each pentest contract from kickoff to delivery.
             </p>
           </div>
@@ -138,10 +138,10 @@ export default function EngagementsPage() {
                 type="search"
                 placeholder="Filter…"
                 className={cn(
-                  "bg-white/[0.04] border border-white/[0.08] rounded-full",
+                  "bg-paper-soft border border-hairline-strong rounded-full",
                   "pl-3 pr-3 h-8 text-sm outline-none w-44",
-                  "focus:border-accent/50 transition-colors duration-200 ease-out",
-                  "placeholder:text-fg-subtle"
+                  "focus:border-finder-blue/50 transition-colors duration-200 ease-out",
+                  "placeholder:text-ink-subtle"
                 )}
               />
             </div>
@@ -150,7 +150,7 @@ export default function EngagementsPage() {
               onClick={() => setShowNew(true)}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm",
-                "bg-accent text-white hover:bg-accent-strong",
+                "bg-finder-blue text-white hover:bg-folder-to",
                 "transition-all duration-200 ease-out active:scale-[0.98]"
               )}
             >
@@ -169,7 +169,7 @@ export default function EngagementsPage() {
             cta={
               <button
                 onClick={() => setShowNew(true)}
-                className="rounded-full bg-accent hover:bg-accent-strong text-white px-4 py-1.5 text-sm transition-colors duration-200"
+                className="rounded-full bg-finder-blue hover:bg-folder-to text-white px-4 py-1.5 text-sm transition-colors duration-200"
               >
                 <AppleIcon name="plus" size={14} className="inline-block mr-1" /> New engagement
               </button>
@@ -178,7 +178,7 @@ export default function EngagementsPage() {
         </Card>
       ) : filtered.length === 0 ? (
         <Card>
-          <div className="p-6 text-center text-sm text-fg-muted">
+          <div className="p-6 text-center text-sm text-ink-muted">
             No engagements match "{q}".
           </div>
         </Card>
@@ -213,7 +213,7 @@ export default function EngagementsPage() {
               <h2 className="text-sm font-semibold">New engagement</h2>
               <button
                 onClick={() => setShowNew(false)}
-                className="text-fg-muted hover:text-fg"
+                className="text-ink-muted hover:text-ink"
               >
                 <AppleIcon name="x-mark" size={16} />
               </button>
@@ -226,7 +226,7 @@ export default function EngagementsPage() {
               className="grid grid-cols-2 gap-3"
             >
               <div>
-                <label className="text-xs text-fg-muted">Code</label>
+                <label className="text-xs text-ink-muted">Code</label>
                 <input
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
@@ -234,15 +234,15 @@ export default function EngagementsPage() {
                   minLength={2}
                   maxLength={40}
                   placeholder="ENG-2026-01"
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1 font-mono"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1 font-mono"
                 />
               </div>
               <div>
-                <label className="text-xs text-fg-muted">Type</label>
+                <label className="text-xs text-ink-muted">Type</label>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 >
                   <option value="webapp">webapp</option>
                   <option value="network">network</option>
@@ -255,7 +255,7 @@ export default function EngagementsPage() {
                 </select>
               </div>
               <div className="col-span-2">
-                <label className="text-xs text-fg-muted">Name</label>
+                <label className="text-xs text-ink-muted">Name</label>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -263,51 +263,51 @@ export default function EngagementsPage() {
                   minLength={2}
                   maxLength={200}
                   placeholder="Acme webapp pentest"
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 />
               </div>
               <div className="col-span-2">
-                <label className="text-xs text-fg-muted">Client</label>
+                <label className="text-xs text-ink-muted">Client</label>
                 <input
                   value={client}
                   onChange={(e) => setClient(e.target.value)}
                   required
                   maxLength={200}
                   placeholder="Acme Corp"
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 />
               </div>
               <div>
-                <label className="text-xs text-fg-muted">Start date</label>
+                <label className="text-xs text-ink-muted">Start date</label>
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 />
               </div>
               <div>
-                <label className="text-xs text-fg-muted">End date</label>
+                <label className="text-xs text-ink-muted">End date</label>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 />
               </div>
               <div className="col-span-2">
-                <label className="text-xs text-fg-muted">Report due</label>
+                <label className="text-xs text-ink-muted">Report due</label>
                 <input
                   type="date"
                   value={reportDue}
                   onChange={(e) => setReportDue(e.target.value)}
-                  className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+                  className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
                 />
               </div>
               <button
                 type="submit"
                 disabled={create.isPending}
-                className="col-span-2 bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
+                className="col-span-2 bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm disabled:opacity-50"
               >
                 {create.isPending ? "Creating…" : "Create engagement"}
               </button>
@@ -345,7 +345,7 @@ function EngagementGrid({
           name={e.name}
           sub={
             <span className="inline-flex items-center gap-1">
-              <span className="font-mono text-fg-muted">
+              <span className="font-mono text-ink-muted">
                 {e.findings_total ?? 0}
               </span>
               <span>findings</span>
@@ -362,8 +362,8 @@ function EngagementGrid({
         onClick={onCreateNew}
         className={cn(
           "flex flex-col items-center gap-1.5 p-2 rounded-lg",
-          "border-2 border-dashed border-white/[0.12] text-fg-subtle",
-          "hover:border-accent/50 hover:text-fg hover:bg-white/[0.04]",
+          "border-2 border-dashed border-hairline-strong text-ink-subtle",
+          "hover:border-finder-blue/50 hover:text-ink hover:bg-paper-soft",
           "transition-colors duration-150 ease-out"
         )}
       >
@@ -400,7 +400,7 @@ function EngagementList({
     <Card className="overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-sm min-w-[760px]">
-          <thead className="text-fg-muted text-xs bg-white/[0.02]">
+          <thead className="text-ink-muted text-xs bg-paper-soft/50">
             <tr className="text-left">
               <th className="px-3 py-2.5 font-medium">Name</th>
               <th className="px-3 py-2.5 font-medium">Code</th>
@@ -419,8 +419,8 @@ function EngagementList({
                   key={e.id}
                   onClick={() => onOpen(e)}
                   className={cn(
-                    "border-t border-white/[0.05] cursor-pointer",
-                    "hover:bg-white/[0.03] transition-colors duration-150"
+                    "border-t border-hairline cursor-pointer",
+                    "hover:bg-paper-soft transition-colors duration-150"
                   )}
                 >
                   <td className="px-3 py-2.5">
@@ -436,10 +436,10 @@ function EngagementList({
                       <span className="font-medium truncate">{e.name}</span>
                     </div>
                   </td>
-                  <td className="px-3 py-2.5 font-mono text-[11px] text-fg-muted">
+                  <td className="px-3 py-2.5 font-mono text-[11px] text-ink-muted">
                     {e.code}
                   </td>
-                  <td className="px-3 py-2.5 text-fg-muted truncate max-w-[180px]">
+                  <td className="px-3 py-2.5 text-ink-muted truncate max-w-[180px]">
                     {e.client}
                   </td>
                   <td className="px-3 py-2.5">
@@ -451,7 +451,7 @@ function EngagementList({
                     <span
                       className={cn(
                         "inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] border",
-                        STATUS_PILL[e.status] ?? "bg-white/[0.06] text-fg-muted border-white/[0.08]"
+                        STATUS_PILL[e.status] ?? "bg-paper-soft text-ink-muted border-hairline-strong"
                       )}
                     >
                       {STATUS_LABEL[e.status as EngagementStatus] ?? e.status}
@@ -460,7 +460,7 @@ function EngagementList({
                   <td className="px-3 py-2.5 text-right font-mono tabular-nums">
                     {e.findings_total ?? 0}
                   </td>
-                  <td className="px-3 py-2.5 text-fg-muted text-xs whitespace-nowrap">
+                  <td className="px-3 py-2.5 text-ink-muted text-xs whitespace-nowrap">
                     {e.report_due_date ? formatDate(e.report_due_date) : "—"}
                   </td>
                 </tr>
@@ -489,13 +489,13 @@ function EngagementColumns({
           const list = groupedByStatus[col.key] ?? [];
           return (
             <div key={col.key} className="min-h-[280px] flex flex-col">
-              <div className="px-3 py-2 text-[11px] uppercase tracking-wider text-fg-muted border-b border-white/[0.05] flex items-center justify-between">
+              <div className="px-3 py-2 text-[11px] uppercase tracking-wider text-ink-muted border-b border-hairline flex items-center justify-between">
                 <span className="font-semibold">{col.label}</span>
-                <span className="text-fg-subtle tabular-nums">{list.length}</span>
+                <span className="text-ink-subtle tabular-nums">{list.length}</span>
               </div>
               <div className="flex-1 overflow-y-auto p-2 space-y-1">
                 {list.length === 0 ? (
-                  <div className="text-[11px] text-fg-subtle text-center py-4">
+                  <div className="text-[11px] text-ink-subtle text-center py-4">
                     No items
                   </div>
                 ) : (
@@ -507,7 +507,7 @@ function EngagementColumns({
                         onClick={() => onOpen(e)}
                         className={cn(
                           "w-full text-left px-2 py-1.5 rounded-md",
-                          "hover:bg-white/[0.05] active:bg-white/[0.08]",
+                          "hover:bg-paper-soft active:bg-paper-deep",
                           "transition-colors duration-150"
                         )}
                       >
@@ -522,12 +522,12 @@ function EngagementColumns({
                           )}
                           <div className="min-w-0 flex-1">
                             <div className="text-[12px] truncate">{e.name}</div>
-                            <div className="text-[10px] text-fg-muted truncate font-mono">
+                            <div className="text-[10px] text-ink-muted truncate font-mono">
                               {e.code}
                             </div>
                           </div>
                         </div>
-                        <div className="flex items-center justify-between mt-1 text-[10px] text-fg-subtle">
+                        <div className="flex items-center justify-between mt-1 text-[10px] text-ink-subtle">
                           <span className="truncate">{e.client}</span>
                           <span
                             className={cn(
@@ -548,7 +548,7 @@ function EngagementColumns({
         })}
       </div>
       {items.length === 0 && (
-        <div className="p-6 text-center text-sm text-fg-muted">
+        <div className="p-6 text-center text-sm text-ink-muted">
           No engagements to show.
         </div>
       )}

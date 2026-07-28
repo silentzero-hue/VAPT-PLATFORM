@@ -45,9 +45,9 @@ export default function FolderCard({
         "group flex flex-col items-center gap-1.5 p-2 rounded-lg",
         "border-2 border-transparent bg-transparent",
         "transition-colors duration-150 ease-out text-center",
-        "focus:outline-none focus-visible:border-accent/40",
-        "hover:bg-white/[0.04]",
-        selected && "border-accent/60 bg-accent/10",
+        "focus:outline-none focus-visible:border-finder-blue/40",
+        "hover:bg-paper-soft",
+        selected && "border-finder-blue/60 bg-finder-blue-soft",
         className
       )}
     >
@@ -69,10 +69,10 @@ export default function FolderCard({
           fill={`url(#${gid})`}
         />
       </svg>
-      <div className="text-[11.5px] leading-tight text-fg line-clamp-2 max-w-full">
+      <div className="text-[11.5px] leading-tight text-ink line-clamp-2 max-w-full">
         {name}
       </div>
-      {sub && <div className="text-[10px] text-fg-subtle">{sub}</div>}
+      {sub && <div className="text-[10px] text-ink-subtle">{sub}</div>}
     </button>
   );
 }

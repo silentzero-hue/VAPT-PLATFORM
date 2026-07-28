@@ -85,16 +85,16 @@ export default function LdapPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="server" size={20} className="text-accent" /> LDAP / Active Directory
+            <AppleIcon name="server" size={20} className="text-finder-blue" /> LDAP / Active Directory
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Provision and sync users from your corporate directory
           </p>
         </div>
         <button
           onClick={() => sync.mutate()}
           disabled={sync.isPending || !cfg.data}
-          className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+          className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
         >
           <AppleIcon name="arrow-uturn-clockwise" size={14} /> {sync.isPending ? "Syncing…" : "Sync now"}
         </button>
@@ -102,21 +102,21 @@ export default function LdapPage() {
 
       {cfg.data?.last_sync_at && (
         <div className="panel p-3 text-xs flex items-center gap-3">
-          <span className="text-fg-muted">Last sync:</span>
+          <span className="text-ink-muted">Last sync:</span>
           <span>{formatDate(cfg.data.last_sync_at)}</span>
           {cfg.data.last_sync_status && (
             <span
               className={
                 cfg.data.last_sync_status === "ok"
-                  ? "pill bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
-                  : "pill bg-rose-500/15 text-rose-300 border-rose-500/30"
+                  ? "pill bg-emerald-50 text-emerald-700 border-emerald-500/30"
+                  : "pill bg-rose-50 text-rose-700 border-rose-500/30"
               }
             >
               {cfg.data.last_sync_status}
             </span>
           )}
           {cfg.data.last_sync_message && (
-            <span className="text-fg-muted truncate">{cfg.data.last_sync_message}</span>
+            <span className="text-ink-muted truncate">{cfg.data.last_sync_message}</span>
           )}
         </div>
       )}
@@ -131,17 +131,17 @@ export default function LdapPage() {
         <h3 className="text-sm font-semibold">Connection</h3>
         <div className="grid grid-cols-3 gap-3">
           <div className="col-span-2">
-            <label className="text-xs text-fg-muted">Server URL</label>
+            <label className="text-xs text-ink-muted">Server URL</label>
             <input
               value={serverUrl}
               onChange={(e) => setServerUrl(e.target.value)}
               required
               placeholder="ldaps://ldap.example.com:636"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <div>
-            <label className="text-xs text-fg-muted">TLS</label>
+            <label className="text-xs text-ink-muted">TLS</label>
             <label className="flex items-center gap-2 mt-1 text-sm">
               <input
                 type="checkbox"
@@ -153,23 +153,23 @@ export default function LdapPage() {
             </label>
           </div>
           <div className="col-span-2">
-            <label className="text-xs text-fg-muted">Bind DN</label>
+            <label className="text-xs text-ink-muted">Bind DN</label>
             <input
               value={bindDn}
               onChange={(e) => setBindDn(e.target.value)}
               required
               placeholder="cn=svc-vapt,ou=services,dc=example,dc=com"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <div>
-            <label className="text-xs text-fg-muted">Bind password</label>
+            <label className="text-xs text-ink-muted">Bind password</label>
             <input
               type="password"
               value={bindPassword}
               onChange={(e) => setBindPassword(e.target.value)}
               placeholder={cfg.data?.bind_password ? "••••••" : "set"}
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
         </div>
@@ -177,22 +177,22 @@ export default function LdapPage() {
         <h3 className="text-sm font-semibold pt-2">User search</h3>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-fg-muted">Search base</label>
+            <label className="text-xs text-ink-muted">Search base</label>
             <input
               value={userSearchBase}
               onChange={(e) => setUserSearchBase(e.target.value)}
               required
               placeholder="ou=people,dc=example,dc=com"
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             />
           </div>
           <div>
-            <label className="text-xs text-fg-muted">Search filter</label>
+            <label className="text-xs text-ink-muted">Search filter</label>
             <input
               value={userSearchFilter}
               onChange={(e) => setUserSearchFilter(e.target.value)}
               required
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1 font-mono"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1 font-mono"
             />
           </div>
         </div>
@@ -200,11 +200,11 @@ export default function LdapPage() {
         <h3 className="text-sm font-semibold pt-2">Role mapping</h3>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-fg-muted">Default role (no group match)</label>
+            <label className="text-xs text-ink-muted">Default role (no group match)</label>
             <select
               value={defaultRole}
               onChange={(e) => setDefaultRole(e.target.value)}
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1"
             >
               <option value="viewer">viewer</option>
               <option value="analyst">analyst</option>
@@ -213,13 +213,13 @@ export default function LdapPage() {
             </select>
           </div>
           <div>
-            <label className="text-xs text-fg-muted">Group → role (one per line)</label>
+            <label className="text-xs text-ink-muted">Group → role (one per line)</label>
             <textarea
               value={groupRoleMap}
               onChange={(e) => setGroupRoleMap(e.target.value)}
               rows={3}
               placeholder={"cn=pentesters,ou=groups,dc=example,dc=com=analyst\ncn=sec-leads,...=senior_analyst"}
-              className="w-full bg-bg-soft border border-border-soft rounded-lg px-2 py-1.5 text-sm mt-1 font-mono"
+              className="w-full bg-paper-soft border border-hairline rounded-lg px-2 py-1.5 text-sm mt-1 font-mono"
             />
           </div>
         </div>
@@ -228,7 +228,7 @@ export default function LdapPage() {
           <button
             type="submit"
             disabled={save.isPending}
-            className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+            className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
             <AppleIcon name="save" size={14} /> {save.isPending ? "Saving…" : "Save config"}
           </button>

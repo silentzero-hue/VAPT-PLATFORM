@@ -40,7 +40,7 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
     const parts = text.split(/(@[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g);
     return parts.map((p, i) =>
       p.startsWith("@") ? (
-        <span key={i} className="text-accent font-medium">{p}</span>
+        <span key={i} className="text-finder-blue font-medium">{p}</span>
       ) : (
         <span key={i}>{p}</span>
       )
@@ -51,18 +51,18 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
     <div className="panel p-4 space-y-3">
       <h3 className="text-sm font-semibold flex items-center gap-2">
         <AppleIcon name="message" size={14} /> Discussion
-        <span className="text-fg-muted text-xs font-normal">({list.data?.length ?? 0})</span>
+        <span className="text-ink-muted text-xs font-normal">({list.data?.length ?? 0})</span>
       </h3>
 
       <div className="space-y-2 max-h-96 overflow-y-auto">
         {(list.data ?? []).map((c) => (
-          <div key={c.id} className="border-t border-border-soft pt-2">
+          <div key={c.id} className="border-t border-hairline pt-2">
             <div className="flex items-start gap-2">
-              <div className="h-7 w-7 rounded-full bg-accent/20 border border-accent/30 text-accent text-xs flex items-center justify-center font-mono">
+              <div className="h-7 w-7 rounded-full bg-finder-blue/20 border border-finder-blue/30 text-finder-blue text-xs flex items-center justify-center font-mono">
                 {(c.author_id ?? "?").slice(0, 2)}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-xs text-fg-muted flex items-center gap-2">
+                <div className="text-xs text-ink-muted flex items-center gap-2">
                   <span className="font-mono">{c.author_id?.slice(0, 8) ?? "system"}</span>
                   <span>·</span>
                   <span>{formatDistanceToNow(new Date(c.created_at), { addSuffix: true })}</span>
@@ -73,28 +73,28 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
                     <textarea
                       value={editBody}
                       onChange={(e) => setEditBody(e.target.value)}
-                      className="w-full bg-bg-soft border border-border-soft focus:border-accent rounded p-2 text-sm outline-none"
+                      className="w-full bg-paper-soft border border-hairline focus:border-finder-blue rounded p-2 text-sm outline-none"
                       rows={2}
                     />
                     <div className="flex gap-2">
                       <button onClick={() => update.mutate({ id: c.id, body: editBody })}
-                        className="bg-accent hover:bg-accent-strong text-white rounded px-2 py-1 text-xs">Save</button>
-                      <button onClick={() => setEditing(null)} className="text-fg-muted text-xs px-2">Cancel</button>
+                        className="bg-finder-blue hover:bg-folder-to text-white rounded px-2 py-1 text-xs">Save</button>
+                      <button onClick={() => setEditing(null)} className="text-ink-muted text-xs px-2">Cancel</button>
                     </div>
                   </div>
                 ) : (
-                  <div className={cn("text-sm whitespace-pre-wrap mt-1", c.deleted && "italic text-fg-muted")}>
+                  <div className={cn("text-sm whitespace-pre-wrap mt-1", c.deleted && "italic text-ink-muted")}>
                     {c.deleted ? "[deleted]" : renderBody(c.body)}
                   </div>
                 )}
                 {!c.deleted && editing !== c.id && (
                   <div className="mt-1 flex gap-2 text-xs">
                     <button onClick={() => { setEditing(c.id); setEditBody(c.body); }}
-                      className="text-fg-muted hover:text-fg flex items-center gap-1">
+                      className="text-ink-muted hover:text-ink flex items-center gap-1">
                       <AppleIcon name="pencil" size={10} /> edit
                     </button>
                     <button onClick={() => del.mutate(c.id)}
-                      className="text-fg-muted hover:text-rose-300 flex items-center gap-1">
+                      className="text-ink-muted hover:text-rose-700 flex items-center gap-1">
                       <AppleIcon name="trash" size={10} /> delete
                     </button>
                   </div>
@@ -104,26 +104,26 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
           </div>
         ))}
         {(list.data ?? []).length === 0 && (
-          <div className="text-center text-fg-muted text-xs py-4">No comments yet</div>
+          <div className="text-center text-ink-muted text-xs py-4">No comments yet</div>
         )}
       </div>
 
-      <div className="border-t border-border pt-3">
+      <div className="border-t border-hairline pt-3">
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="Write a comment. Use @user@email to mention."
           rows={2}
-          className="w-full bg-bg-soft border border-border-soft focus:border-accent rounded p-2 text-sm outline-none"
+          className="w-full bg-paper-soft border border-hairline focus:border-finder-blue rounded p-2 text-sm outline-none"
         />
         <div className="flex items-center justify-between mt-2">
-          <div className="text-[10px] text-fg-muted flex items-center gap-1">
+          <div className="text-[10px] text-ink-muted flex items-center gap-1">
             <AppleIcon name="at-symbol" size={10} /> mentions notify the user in-app + email
           </div>
           <button
             onClick={() => create.mutate()}
             disabled={!body.trim() || create.isPending}
-            className="bg-accent hover:bg-accent-strong text-white rounded px-3 py-1 text-sm disabled:opacity-50"
+            className="bg-finder-blue hover:bg-folder-to text-white rounded px-3 py-1 text-sm disabled:opacity-50"
           >
             Post
           </button>

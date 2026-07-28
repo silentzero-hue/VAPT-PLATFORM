@@ -12,16 +12,16 @@ export default function LegacyHelpPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="question" size={20} className="text-accent" /> Legacy import help
+            <AppleIcon name="question" size={20} className="text-finder-blue" /> Legacy import help
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             How to migrate data from the old <code className="font-mono">vulnerabilities.db</code>{" "}
             into this platform
           </p>
         </div>
         <Link
           to={back}
-          className="bg-bg-soft border border-border-soft hover:border-accent rounded-lg px-3 py-1.5 text-sm"
+          className="bg-paper-soft border border-hairline hover:border-finder-blue rounded-lg px-3 py-1.5 text-sm"
         >
           ← Back to importer
         </Link>
@@ -30,10 +30,10 @@ export default function LegacyHelpPage() {
       <Section icon={<AppleIcon name="server" size={14} />} title="1. Locating the legacy file">
         <p>
           The old automation tool stores all of its findings in a single SQLite file called{" "}
-          <code className="font-mono text-fg">vulnerabilities.db</code>. It usually lives next to
+          <code className="font-mono text-ink">vulnerabilities.db</code>. It usually lives next to
           the legacy CLI binary or under the tool's data directory. Common paths:
         </p>
-        <ul className="list-disc pl-5 space-y-1 text-fg-muted">
+        <ul className="list-disc pl-5 space-y-1 text-ink-muted">
           <li>
             <code className="font-mono">/opt/old-vapt/data/vulnerabilities.db</code>
           </li>
@@ -57,7 +57,7 @@ export default function LegacyHelpPage() {
           table with the following columns. Missing columns are tolerated and filled with{" "}
           <code className="font-mono">NULL</code>; extra columns are ignored.
         </p>
-        <pre className="text-xs bg-bg-soft border border-border-soft rounded-lg p-3 overflow-x-auto">
+        <pre className="text-xs bg-paper-soft border border-hairline rounded-lg p-3 overflow-x-auto">
 {`CREATE TABLE findings (
   id          INTEGER PRIMARY KEY,
   name        TEXT NOT NULL,        -- vulnerability title
@@ -78,25 +78,25 @@ export default function LegacyHelpPage() {
       </Section>
 
       <Section icon={<AppleIcon name="rect-grid" size={14} />} title="3. Migration path">
-        <ol className="list-decimal pl-5 space-y-2 text-fg-muted">
+        <ol className="list-decimal pl-5 space-y-2 text-ink-muted">
           <li>
-            On the importer page, pick the target <span className="text-fg">engagement</span> and
+            On the importer page, pick the target <span className="text-ink">engagement</span> and
             paste the absolute path of the legacy <code className="font-mono">vulnerabilities.db</code>{" "}
             file.
           </li>
           <li>
-            Click <span className="text-fg">Preview</span> — the platform opens the file
+            Click <span className="text-ink">Preview</span> — the platform opens the file
             read-only, counts the rows, and shows three sample titles so you can sanity-check
             that you pointed at the right database.
           </li>
           <li>
-            Click <span className="text-fg">Import</span>. Rows are normalized, deduplicated
+            Click <span className="text-ink">Import</span>. Rows are normalized, deduplicated
             against existing vulnerabilities by (CVE / title + host + port), and inserted as
             findings. You will see counts for <em>rows processed</em>,{" "}
             <em>new vulnerabilities</em>, and <em>new findings</em>.
           </li>
           <li>
-            Open <span className="text-fg">Multi-scan compare</span> for the engagement, pick the
+            Open <span className="text-ink">Multi-scan compare</span> for the engagement, pick the
             legacy ingestion job as the <em>baseline</em> and your latest scan as the{" "}
             <em>current</em> job, then run the compare to see what was fixed and what regressed.
           </li>
@@ -110,7 +110,7 @@ export default function LegacyHelpPage() {
       <Section icon={<AppleIcon name="shield-check" size={14} />} title="4. Security note">
         <p>
           The legacy importer is{" "}
-          <span className="text-emerald-300 font-medium">strictly read-only</span> on the source
+          <span className="text-emerald-700 font-medium">strictly read-only</span> on the source
           SQLite file. The platform opens the database with{" "}
           <code className="font-mono">mode=ro</code>, executes only a bounded set of read
           queries (<code className="font-mono">SELECT COUNT(*)</code> and{" "}
@@ -139,10 +139,10 @@ function Section({
   return (
     <section className="panel p-4 space-y-2">
       <h2 className="text-sm font-semibold flex items-center gap-2">
-        <span className="text-accent">{icon}</span>
+        <span className="text-finder-blue">{icon}</span>
         {title}
       </h2>
-      <div className="text-sm text-fg-muted space-y-2 [&_p]:text-fg-muted">{children}</div>
+      <div className="text-sm text-ink-muted space-y-2 [&_p]:text-ink-muted">{children}</div>
     </section>
   );
 }
@@ -166,7 +166,7 @@ function ColumnMapping() {
   return (
     <div className="overflow-x-auto mt-2">
       <table className="w-full text-sm">
-        <thead className="text-fg-muted text-xs bg-bg-soft">
+        <thead className="text-ink-muted text-xs bg-paper-soft">
           <tr className="text-left">
             <th className="px-3 py-2">Legacy column</th>
             <th className="px-3 py-2">→ Target field</th>
@@ -175,10 +175,10 @@ function ColumnMapping() {
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.source} className="border-t border-border-soft">
+            <tr key={r.source} className="border-t border-hairline">
               <td className={cn("px-3 py-2 font-mono text-xs")}>{r.source}</td>
-              <td className="px-3 py-2 font-mono text-xs text-accent">{r.target}</td>
-              <td className="px-3 py-2 text-fg-muted">{r.notes || "—"}</td>
+              <td className="px-3 py-2 font-mono text-xs text-finder-blue">{r.target}</td>
+              <td className="px-3 py-2 text-ink-muted">{r.notes || "—"}</td>
             </tr>
           ))}
         </tbody>

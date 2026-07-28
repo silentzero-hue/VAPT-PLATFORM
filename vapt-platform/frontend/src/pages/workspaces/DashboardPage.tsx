@@ -11,11 +11,11 @@ import Card from "../../components/ui/Card";
 import EmptyState from "../../components/ui/EmptyState";
 
 const SEV_COLORS: Record<string, string> = {
-  critical: "#ff4d6d",
-  high: "#ff8c42",
-  medium: "#ffd166",
-  low: "#3ddc97",
-  info: "#7aa1ff",
+  critical: "#ff3b30",
+  high: "#ff9500",
+  medium: "#ffcc00",
+  low: "#34c759",
+  info: "#5e5ce6",
 };
 
 const SEV_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
@@ -73,21 +73,21 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 max-w-[1400px] mx-auto">
       {/* Hero */}
-      <div className="relative overflow-hidden rounded-2xl glass-strong p-6">
+      <div className="relative overflow-hidden rounded-2xl bg-paper-strong border border-hairline shadow-card p-6">
         <div
-          className="absolute inset-0 opacity-30 pointer-events-none"
+          className="absolute inset-0 opacity-40 pointer-events-none"
           style={{
             background:
-              "radial-gradient(120% 100% at 100% 0%, rgba(91,141,239,0.18) 0%, transparent 60%)",
+              "radial-gradient(120% 100% at 100% 0%, rgba(10,132,255,0.10) 0%, transparent 60%)",
           }}
         />
         <div className="relative flex items-end justify-between gap-4 flex-wrap">
           <div className="min-w-0">
-            <div className="text-xs uppercase tracking-wider text-fg-muted mb-1">
+            <div className="text-xs uppercase tracking-wider text-ink-muted mb-1">
               Workspace overview
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight truncate">{workspaceName}</h1>
-            <p className="text-sm text-fg-muted mt-1">
+            <h1 className="text-3xl font-semibold tracking-tight truncate text-ink">{workspaceName}</h1>
+            <p className="text-sm text-ink-muted mt-1">
               Live posture across {(engs.data ?? []).length} engagement
               {(engs.data ?? []).length === 1 ? "" : "s"} in this workspace.
             </p>
@@ -97,7 +97,7 @@ export default function DashboardPage() {
               onClick={() => navigate(`/workspaces/${workspaceId}/engagements`)}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm",
-                "bg-accent text-white hover:bg-accent-strong",
+                "bg-finder-blue text-white hover:bg-folder-to",
                 "transition-all duration-200 ease-out active:scale-[0.98]"
               )}
             >
@@ -112,9 +112,9 @@ export default function DashboardPage() {
         <StatTile
           label="Open findings"
           value={open}
-          accent="text-accent"
+          accent="text-finder-blue"
           icon="bug"
-          gradient="from-accent/15 to-transparent"
+          gradient="from-finder-blue/15 to-transparent"
         />
         <StatTile
           label="SLA breached"
@@ -145,7 +145,7 @@ export default function DashboardPage() {
           <h2 className="text-sm font-semibold mb-3">Severity distribution</h2>
           <div className="h-64">
             {sevData.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-xs text-fg-muted">
+              <div className="h-full flex items-center justify-center text-xs text-ink-muted">
                 No findings yet
               </div>
             ) : (
@@ -155,10 +155,11 @@ export default function DashboardPage() {
                     {sevData.map((d) => <Cell key={d.name} fill={SEV_COLORS[d.name] ?? "#666"} />)}
                   </Pie>
                   <Tooltip
-                    contentStyle={{ background: "#11182d", border: "1px solid #1d2640", borderRadius: 8 }}
-                    itemStyle={{ color: "#e6e9f5" }}
+                    contentStyle={{ background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", borderRadius: 8, color: "#26251f" }}
+                    itemStyle={{ color: "#26251f" }}
+                    labelStyle={{ color: "#26251f" }}
                   />
-                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Legend wrapperStyle={{ fontSize: 11, color: "#6b6a63" }} />
                 </PieChart>
               </ResponsiveContainer>
             )}
@@ -170,7 +171,7 @@ export default function DashboardPage() {
           </h2>
           <div className="h-64">
             {((engs.data ?? []).length === 0) ? (
-              <div className="h-full flex items-center justify-center text-xs text-fg-muted">
+              <div className="h-full flex items-center justify-center text-xs text-ink-muted">
                 No engagements to chart
               </div>
             ) : (
@@ -181,14 +182,15 @@ export default function DashboardPage() {
                     total: e.findings_total ?? 0,
                   }))}
                 >
-                  <CartesianGrid stroke="#1d2640" strokeDasharray="3 3" />
-                  <XAxis dataKey="name" stroke="#5e6885" tick={{ fontSize: 11 }} />
-                  <YAxis stroke="#5e6885" tick={{ fontSize: 11 }} />
+                  <CartesianGrid stroke="rgba(0,0,0,0.08)" strokeDasharray="3 3" />
+                  <XAxis dataKey="name" stroke="#9c9a92" tick={{ fontSize: 11 }} />
+                  <YAxis stroke="#9c9a92" tick={{ fontSize: 11 }} />
                   <Tooltip
-                    contentStyle={{ background: "#11182d", border: "1px solid #1d2640", borderRadius: 8 }}
-                    itemStyle={{ color: "#e6e9f5" }}
+                    contentStyle={{ background: "#ffffff", border: "1px solid rgba(0,0,0,0.10)", borderRadius: 8, color: "#26251f" }}
+                    itemStyle={{ color: "#26251f" }}
+                    labelStyle={{ color: "#26251f" }}
                   />
-                  <Bar dataKey="total" fill="#5b8def" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="total" fill="#0a84ff" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -201,7 +203,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Engagements</h2>
-            <span className="text-xs text-fg-muted">
+            <span className="text-xs text-ink-muted">
               {(engs.data ?? []).length} item{(engs.data ?? []).length === 1 ? "" : "s"}
             </span>
           </div>
@@ -214,7 +216,7 @@ export default function DashboardPage() {
                 cta={
                   <button
                     onClick={() => navigate(`/workspaces/${workspaceId}/engagements`)}
-                    className="rounded-full bg-accent hover:bg-accent-strong text-white px-4 py-1.5 text-sm transition-colors duration-200"
+                    className="rounded-full bg-finder-blue hover:bg-folder-to text-white px-4 py-1.5 text-sm transition-colors duration-200"
                   >
                     Browse engagements
                   </button>
@@ -238,7 +240,7 @@ export default function DashboardPage() {
                       <div className={cn("sev-bar", SEVERITY_BAR[dom] ?? "bg-sev-info")} />
                     )}
                     <div className="flex items-center justify-between gap-2">
-                      <div className="font-mono text-[11px] text-fg-muted truncate">
+                      <div className="font-mono text-[11px] text-ink-muted truncate">
                         {e.code}
                       </div>
                       <span className="pill pill-muted shrink-0">{e.status}</span>
@@ -246,10 +248,10 @@ export default function DashboardPage() {
                     <div className="mt-1 text-base font-semibold leading-tight line-clamp-2">
                       {e.name}
                     </div>
-                    <div className="text-xs text-fg-muted truncate">{e.client}</div>
-                    <div className="mt-3 flex items-center gap-3 text-[11px] text-fg-muted">
+                    <div className="text-xs text-ink-muted truncate">{e.client}</div>
+                    <div className="mt-3 flex items-center gap-3 text-[11px] text-ink-muted">
                       <span className="uppercase tracking-wider">{e.type}</span>
-                      <span className="text-fg-subtle">·</span>
+                      <span className="text-ink-subtle">·</span>
                       <span className="font-mono">{e.findings_total ?? 0} findings</span>
                     </div>
                     {e.severity_breakdown && (
@@ -275,7 +277,7 @@ export default function DashboardPage() {
             <AppleIcon name="clock" size={14} /> Recent activity
           </h2>
           {recent.length === 0 ? (
-            <div className="text-xs text-fg-muted py-4 text-center">No activity yet</div>
+            <div className="text-xs text-ink-muted py-4 text-center">No activity yet</div>
           ) : (
             <ul className="space-y-3">
               {recent.map((f) => (
@@ -290,14 +292,14 @@ export default function DashboardPage() {
                   <div className="text-xs font-medium truncate">
                     {f.vuln_title ?? f.vuln_cve_id ?? "—"}
                   </div>
-                  <div className="text-[11px] text-fg-muted flex items-center gap-1.5 mt-0.5">
+                  <div className="text-[11px] text-ink-muted flex items-center gap-1.5 mt-0.5">
                     <span className={cn("font-mono", SEVERITY_TEXT[f.effective_severity])}>
                       {f.effective_severity}
                     </span>
-                    <span className="text-fg-subtle">·</span>
+                    <span className="text-ink-subtle">·</span>
                     <span className="font-mono truncate">{f.asset_value ?? "—"}</span>
                   </div>
-                  <div className="text-[10px] text-fg-subtle mt-0.5">
+                  <div className="text-[10px] text-ink-subtle mt-0.5">
                     {formatDate(f.last_seen)}
                   </div>
                 </li>
@@ -332,7 +334,7 @@ function StatTile({
         )}
       />
       <div className="relative flex items-center justify-between">
-        <div className="text-[11px] uppercase tracking-wider text-fg-muted">{label}</div>
+        <div className="text-[11px] uppercase tracking-wider text-ink-muted">{label}</div>
         <AppleIcon name={icon} size={14} className={accent} />
       </div>
       <div className={cn("relative text-3xl font-semibold mt-2 tracking-tight", accent)}>

@@ -64,16 +64,16 @@ export default function ThreatIntelPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="shield-exclamation" size={20} className="text-accent" /> Threat intelligence
+            <AppleIcon name="shield-exclamation" size={20} className="text-finder-blue" /> Threat intelligence
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Enrich vulns with EPSS / KEV / CVSS v3 and rank findings by composite risk
           </p>
         </div>
         <button
           onClick={() => recompute.mutate()}
           disabled={recompute.isPending}
-          className="bg-accent hover:bg-accent-strong text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+          className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
         >
           <AppleIcon name="arrow-uturn-clockwise" size={14} />
           {recompute.isPending ? "Recomputing…" : "Recompute all risk scores"}
@@ -85,7 +85,7 @@ export default function ThreatIntelPage() {
           <h3 className="text-sm font-semibold mb-3">Vulnerabilities</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="text-fg-muted text-xs bg-bg-soft">
+              <thead className="text-ink-muted text-xs bg-paper-soft">
                 <tr className="text-left">
                   <th className="px-2 py-2">Severity</th>
                   <th className="px-2 py-2">Title / CVE</th>
@@ -98,14 +98,14 @@ export default function ThreatIntelPage() {
               </thead>
               <tbody>
                 {(vulns.data ?? []).map((v) => (
-                  <tr key={v.id} className="border-t border-border-soft hover:bg-bg-soft/40">
+                  <tr key={v.id} className="border-t border-hairline hover:bg-paper-soft/40">
                     <td className="px-2 py-2">
                       <span className={`chip ${SEVERITY_COLOR[v.severity]}`}>{v.severity}</span>
                     </td>
                     <td className="px-2 py-2">
                       <div className="truncate max-w-xs">{v.title}</div>
                       {v.cve_id && (
-                        <div className="font-mono text-[10px] text-fg-muted">{v.cve_id}</div>
+                        <div className="font-mono text-[10px] text-ink-muted">{v.cve_id}</div>
                       )}
                     </td>
                     <td className="px-2 py-2 font-mono text-xs">
@@ -116,25 +116,25 @@ export default function ThreatIntelPage() {
                         <span>
                           {(v.epss_score * 100).toFixed(1)}%
                           {v.epss_percentile != null && (
-                            <span className="text-fg-muted">
+                            <span className="text-ink-muted">
                               {" "}· p{(v.epss_percentile * 100).toFixed(0)}
                             </span>
                           )}
                         </span>
                       ) : (
-                        <span className="text-fg-subtle">—</span>
+                        <span className="text-ink-subtle">—</span>
                       )}
                     </td>
                     <td className="px-2 py-2">
                       {v.kev ? (
-                        <span className="pill bg-rose-500/15 text-rose-300 border-rose-500/30">
+                        <span className="pill bg-rose-50 text-rose-700 border-rose-500/30">
                           KEV
                         </span>
                       ) : (
-                        <span className="text-fg-subtle">—</span>
+                        <span className="text-ink-subtle">—</span>
                       )}
                     </td>
-                    <td className="px-2 py-2 text-fg-muted text-xs">
+                    <td className="px-2 py-2 text-ink-muted text-xs">
                       {formatDate(v.fetched_at)}
                     </td>
                     <td className="px-2 py-2">
@@ -142,7 +142,7 @@ export default function ThreatIntelPage() {
                         {v.cve_id && (
                           <button
                             onClick={() => showIntel.mutate(v.cve_id!)}
-                            className="text-xs px-2 py-1 bg-bg-soft border border-border-soft rounded hover:border-accent"
+                            className="text-xs px-2 py-1 bg-paper-soft border border-hairline rounded hover:border-finder-blue"
                           >
                             View
                           </button>
@@ -150,7 +150,7 @@ export default function ThreatIntelPage() {
                         <button
                           onClick={() => enrich.mutate(v.id)}
                           disabled={enrich.isPending}
-                          className="bg-accent/15 hover:bg-accent/25 text-accent border border-accent/30 rounded-lg px-2 py-1 text-xs flex items-center gap-1 disabled:opacity-50"
+                          className="bg-finder-blue-soft hover:bg-finder-blue/25 text-finder-blue border border-finder-blue/30 rounded-lg px-2 py-1 text-xs flex items-center gap-1 disabled:opacity-50"
                         >
                           <AppleIcon name="sparkles" size={10} /> Enrich
                         </button>
@@ -160,7 +160,7 @@ export default function ThreatIntelPage() {
                 ))}
                 {(vulns.data ?? []).length === 0 && (
                   <tr>
-                    <td colSpan={7} className="text-center text-fg-muted py-8">
+                    <td colSpan={7} className="text-center text-ink-muted py-8">
                       No vulnerabilities
                     </td>
                   </tr>
@@ -178,9 +178,9 @@ export default function ThreatIntelPage() {
             {(topRisk.data ?? []).map((f: any, i: number) => (
               <li
                 key={f.id ?? i}
-                className="flex items-center gap-2 border-t border-border-soft py-1.5"
+                className="flex items-center gap-2 border-t border-hairline py-1.5"
               >
-                <span className="font-mono text-xs text-fg-muted w-6">#{i + 1}</span>
+                <span className="font-mono text-xs text-ink-muted w-6">#{i + 1}</span>
                 <span
                   className={`chip ${SEVERITY_COLOR[f.effective_severity] ?? "chip-muted"}`}
                 >
@@ -189,13 +189,13 @@ export default function ThreatIntelPage() {
                 <span className="flex-1 truncate">
                   {f.vuln_title ?? f.title ?? "—"}
                 </span>
-                <span className="font-mono text-xs text-accent">
+                <span className="font-mono text-xs text-finder-blue">
                   {(f.risk_score ?? 0).toFixed(1)}
                 </span>
               </li>
             ))}
             {(topRisk.data ?? []).length === 0 && (
-              <li className="text-fg-muted text-center py-6">
+              <li className="text-ink-muted text-center py-6">
                 No ranked findings yet
               </li>
             )}
@@ -216,12 +216,12 @@ export default function ThreatIntelPage() {
               <h2 className="text-lg font-semibold font-mono">{intelModal.cveId}</h2>
               <button
                 onClick={() => setIntelModal(null)}
-                className="text-fg-muted hover:text-fg"
+                className="text-ink-muted hover:text-ink"
               >
                 <AppleIcon name="x-mark" size={16} />
               </button>
             </div>
-            <pre className="text-xs bg-bg-soft border border-border-soft rounded-lg p-3 overflow-x-auto whitespace-pre-wrap">
+            <pre className="text-xs bg-paper-soft border border-hairline rounded-lg p-3 overflow-x-auto whitespace-pre-wrap">
               {JSON.stringify(intelModal.data, null, 2)}
             </pre>
           </div>

@@ -94,9 +94,9 @@ export default function AgentLivePage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
-            <AppleIcon name="activity" size={20} className="text-accent" /> Agent live
+            <AppleIcon name="activity" size={20} className="text-finder-blue" /> Agent live
           </h1>
-          <p className="text-sm text-fg-muted">
+          <p className="text-sm text-ink-muted">
             Replay the streaming trace of an agent run
           </p>
         </div>
@@ -113,29 +113,29 @@ export default function AgentLivePage() {
                   key={r.id}
                   className={
                     isActive
-                      ? "border border-accent/30 rounded-lg p-2 bg-accent/5"
-                      : "border border-border-soft rounded-lg p-2"
+                      ? "border border-finder-blue/30 rounded-lg p-2 bg-finder-blue/5"
+                      : "border border-hairline rounded-lg p-2"
                   }
                 >
                   <div className="flex items-center justify-between">
-                    <div className="text-xs font-mono text-fg-muted truncate pr-2">
+                    <div className="text-xs font-mono text-ink-muted truncate pr-2">
                       {r.session_id.slice(0, 12)}…
                     </div>
                     <span
                       className={
                         r.status === "completed"
-                          ? "pill bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                          ? "pill bg-emerald-50 text-emerald-700 border-emerald-500/30"
                           : r.status === "failed"
-                            ? "pill bg-rose-500/15 text-rose-300 border-rose-500/30"
+                            ? "pill bg-rose-50 text-rose-700 border-rose-500/30"
                             : r.status === "cancelled"
-                              ? "pill bg-bg-soft text-fg-muted border-border-soft"
-                              : "pill bg-amber-500/15 text-amber-300 border-amber-500/30"
+                              ? "pill bg-paper-soft text-ink-muted border-hairline"
+                              : "pill bg-amber-50 text-amber-700 border-amber-500/30"
                       }
                     >
                       {r.status}
                     </span>
                   </div>
-                  <div className="text-[11px] text-fg-muted mt-1 flex gap-2">
+                  <div className="text-[11px] text-ink-muted mt-1 flex gap-2">
                     <span>iter {r.iterations}</span>
                     <span>·</span>
                     <span>draft {r.vulns_drafted}</span>
@@ -146,14 +146,14 @@ export default function AgentLivePage() {
                     {isActive && connected ? (
                       <button
                         onClick={disconnect}
-                        className="text-xs px-2 py-1 bg-rose-500/15 text-rose-300 border border-rose-500/30 rounded hover:bg-rose-500/25 flex items-center gap-1"
+                        className="text-xs px-2 py-1 bg-rose-50 text-rose-700 border border-rose-500/30 rounded hover:bg-rose-100 flex items-center gap-1"
                       >
                         <AppleIcon name="x-mark" size={10} /> Disconnect
                       </button>
                     ) : (
                       <button
                         onClick={() => connect(r.session_id)}
-                        className="text-xs px-2 py-1 bg-accent/15 text-accent border border-accent/30 rounded hover:bg-accent/25 flex items-center gap-1"
+                        className="text-xs px-2 py-1 bg-finder-blue-soft text-finder-blue border border-finder-blue/30 rounded hover:bg-finder-blue/25 flex items-center gap-1"
                       >
                         <AppleIcon name="bolt" size={10} /> Connect
                       </button>
@@ -163,7 +163,7 @@ export default function AgentLivePage() {
               );
             })}
             {(runs.data ?? []).length === 0 && (
-              <li className="text-fg-muted text-center py-6 text-sm">No runs yet</li>
+              <li className="text-ink-muted text-center py-6 text-sm">No runs yet</li>
             )}
           </ul>
         </div>
@@ -173,18 +173,18 @@ export default function AgentLivePage() {
             <h3 className="text-sm font-semibold flex items-center gap-1.5">
               <AppleIcon name="plug" size={14} /> Live stream
               {activeSession && (
-                <span className="ml-2 font-mono text-[10px] text-fg-muted">
+                <span className="ml-2 font-mono text-[10px] text-ink-muted">
                   {activeSession.slice(0, 16)}…
                 </span>
               )}
               {connected && (
-                <span className="ml-2 pill bg-emerald-500/15 text-emerald-300 border-emerald-500/30">
+                <span className="ml-2 pill bg-emerald-50 text-emerald-700 border-emerald-500/30">
                   connected
                 </span>
               )}
             </h3>
             {meta.data && (
-              <div className="text-[11px] text-fg-muted">
+              <div className="text-[11px] text-ink-muted">
                 started {formatDate(meta.data.started_at)} ·{" "}
                 {meta.data.finished_at
                   ? `ended ${formatDate(meta.data.finished_at)}`
@@ -192,9 +192,9 @@ export default function AgentLivePage() {
               </div>
             )}
           </div>
-          <div className="bg-bg-soft border border-border-soft rounded-lg p-2 max-h-[60vh] overflow-y-auto font-mono text-xs space-y-1">
+          <div className="bg-paper-soft border border-hairline rounded-lg p-2 max-h-[60vh] overflow-y-auto font-mono text-xs space-y-1">
             {events.length === 0 && (
-              <div className="text-fg-muted text-center py-10">
+              <div className="text-ink-muted text-center py-10">
                 {activeSession
                   ? "Waiting for events…"
                   : "Pick a run on the left and press Connect."}
@@ -203,35 +203,35 @@ export default function AgentLivePage() {
             {events.map((e, i) => (
               <div
                 key={i}
-                className="border-t border-border-soft first:border-t-0 py-1.5 px-1"
+                className="border-t border-hairline first:border-t-0 py-1.5 px-1"
               >
                 {e.type === "tool_call" && (
                   <div>
-                    <div className="text-accent flex items-center gap-1.5">
+                    <div className="text-finder-blue flex items-center gap-1.5">
                       <AppleIcon name="wrench" size={10} /> mcp.{e.name}
                     </div>
-                    <pre className="text-fg-muted whitespace-pre-wrap break-all ml-4">
+                    <pre className="text-ink-muted whitespace-pre-wrap break-all ml-4">
                       {JSON.stringify(e.args, null, 2)}
                     </pre>
                   </div>
                 )}
                 {e.type === "tool_result" && (
                   <div>
-                    <div className="text-emerald-300 flex items-center gap-1.5">
+                    <div className="text-emerald-700 flex items-center gap-1.5">
                       <AppleIcon name="wrench" size={10} /> ← {e.name}
                     </div>
-                    <pre className="text-fg-muted whitespace-pre-wrap break-all ml-4">
+                    <pre className="text-ink-muted whitespace-pre-wrap break-all ml-4">
                       {JSON.stringify(e.result, null, 2)}
                     </pre>
                   </div>
                 )}
                 {e.type === "message" && (
                   <div>
-                    <span className="text-fg-muted">[{e.role}]</span> {e.content}
+                    <span className="text-ink-muted">[{e.role}]</span> {e.content}
                   </div>
                 )}
                 {e.type === "status" && (
-                  <div className="text-amber-300">status: {e.status}</div>
+                  <div className="text-amber-700">status: {e.status}</div>
                 )}
               </div>
             ))}
