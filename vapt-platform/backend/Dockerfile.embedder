@@ -1,0 +1,30 @@
+FROM python:3.12-slim
+
+# Sentence-transformers embedder sidecar.
+# Used by the dedup engine when EMBEDDING_BACKEND=sentence_transformer.
+# The backend uses an HTTP client to call this service, so this image
+# doesn't need to know about the rest of the platform.
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir \
+    "sentence-transformers==3.2.1" \
+    "torch==2.4.1" \
+    "uvicorn[standard]==0.32.1" \
+    "fastapi==0.115.5" \
+    "pydantic==2.10.3"
+
+COPY embedder_service.py /app/embedder_service.py
+
+# Pre-download the default model at build time so the first request
+# is not a 5-minute wait. Use a smaller model by default.
+ARG MODEL=sentence-transformers/all-MiniLM-L6-v2
+ENV MODEL=${MODEL}
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('${MODEL}')"
+
+EXPOSE 9090
+CMD ["uvicorn", "embedder_service:app", "--host", "0.0.0.0", "--port", "9090"]

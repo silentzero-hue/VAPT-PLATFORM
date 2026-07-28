@@ -1,0 +1,17 @@
+# Caddy reverse-proxy for the VAPT platform
+{$CADDY_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy /api/* backend:8000
+    reverse_proxy /mcp/* mcp:8081
+    reverse_proxy /* frontend:5173
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "no-referrer"
+        -Server
+    }
+
+    tls {$CADDY_EMAIL}
+}

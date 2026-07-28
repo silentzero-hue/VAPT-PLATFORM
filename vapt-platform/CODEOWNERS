@@ -1,0 +1,14 @@
+# CODEOWNERS — any change to these paths requires senior review.
+# The dedup engine is the spec's central guarantee; regressions here
+# collapse a one-vuln-many-hosts invariant into N duplicate rows.
+
+/backend/app/services/dedup/        @vapt/senior-engineers
+/backend/alembic/versions/         @vapt/senior-engineers
+/backend/app/services/agent/       @vapt/senior-engineers
+/backend/app/mcp_server/           @vapt/senior-engineers
+/backend/app/services/auth.py      @vapt/senior-engineers
+/backend/app/api/v1/auth.py        @vapt/senior-engineers
+/backend/app/api/v1/reports.py     @vapt/senior-engineers
+/backend/app/services/portal.py    @vapt/senior-engineers
+/backend/app/services/webhooks.py  @vapt/senior-engineers
+/backend/app/services/ldap_sync.py @vapt/senior-engineers

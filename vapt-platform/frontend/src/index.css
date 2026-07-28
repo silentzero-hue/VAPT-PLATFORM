@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-feature-settings: "cv11", "ss01", "ss03";
+  -webkit-font-smoothing: antialiased;
+  background: linear-gradient(135deg, #0b1020 0%, #0d1228 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ----- Scrollbar ----- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3358 transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: #2a3358; border-radius: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3358 transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(91, 141, 239, 0.35); border-radius: 3px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+
+/* ----- Card / Panel ----- */
+.panel {
+  @apply bg-bg-panel border border-border rounded-xl shadow-panel;
+}
+.panel-soft {
+  @apply bg-bg-soft border border-border-soft rounded-xl;
+}
+
+/* ----- Glass (macOS-style) ----- */
+.glass {
+  @apply bg-white/[0.04] backdrop-blur-xl border border-white/[0.08];
+}
+.glass-strong {
+  @apply bg-white/[0.07] backdrop-blur-xl border border-white/[0.12];
+}
+
+/* ----- Card hover (Photos-style lift) ----- */
+.card-hover {
+  @apply transition-all duration-200 ease-out
+         hover:scale-[1.015] hover:bg-white/[0.06] hover:border-white/[0.15]
+         active:scale-[0.98];
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+.card-hover:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ----- Severity chips ----- */
+.chip {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-md;
+}
+.chip-critical { @apply bg-sev-critical/15 text-sev-critical border border-sev-critical/30; }
+.chip-high     { @apply bg-sev-high/15 text-sev-high border border-sev-high/30; }
+.chip-medium   { @apply bg-sev-medium/15 text-sev-medium border border-sev-medium/30; }
+.chip-low      { @apply bg-sev-low/15 text-sev-low border border-sev-low/30; }
+.chip-info     { @apply bg-sev-info/15 text-sev-info border border-sev-info/30; }
+.chip-muted    { @apply bg-bg-soft text-fg-muted border border-border-soft; }
+
+/* ----- Status pills ----- */
+.pill { @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-[11px] font-medium rounded-full border; }
+.pill-success { @apply bg-emerald-500/15 text-emerald-300 border-emerald-500/30; }
+.pill-warning { @apply bg-amber-500/15 text-amber-300 border-amber-500/30; }
+.pill-danger  { @apply bg-rose-500/15 text-rose-300 border-rose-500/30; }
+.pill-info    { @apply bg-accent/15 text-accent border-accent/30; }
+.pill-muted   { @apply bg-bg-soft text-fg-muted border-border-soft; }
+
+/* ----- Tabs ----- */
+.tabs { @apply flex items-center gap-1 border-b border-border; }
+.tab  { @apply px-3 py-2 text-sm text-fg-muted hover:text-fg border-b-2 border-transparent transition-colors duration-200; }
+.tab-active { @apply text-fg border-b-2 border-accent; }
+
+/* ----- Severity accent bar (left edge of cards) ----- */
+.sev-bar { @apply absolute left-0 top-0 bottom-0 w-1; }
+.sev-bar-critical { @apply bg-sev-critical; }
+.sev-bar-high     { @apply bg-sev-high; }
+.sev-bar-medium   { @apply bg-sev-medium; }
+.sev-bar-low      { @apply bg-sev-low; }
+.sev-bar-info     { @apply bg-sev-info; }

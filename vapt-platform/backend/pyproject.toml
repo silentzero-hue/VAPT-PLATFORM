@@ -1,0 +1,101 @@
+[project]
+name = "vapt-platform"
+version = "0.1.0"
+description = "Vulnerability Assessment & Penetration Testing management platform"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi==0.115.5",
+    "uvicorn[standard]==0.32.1",
+    "gunicorn==23.0.0",
+    "sqlalchemy[asyncio]==2.0.36",
+    "asyncpg==0.30.0",
+    "alembic==1.14.0",
+    "psycopg2-binary==2.9.10",
+    "pydantic==2.10.3",
+    "pydantic-settings==2.6.1",
+    "email-validator==2.2.0",
+    "python-jose[cryptography]==3.3.0",
+    "passlib==1.7.4",
+    "argon2-cffi==23.1.0",
+    "pyotp==2.9.0",
+    "qrcode[pil]==8.0",
+    "redis[hiredis]==5.2.0",
+    "arq==0.26.3",
+    "boto3==1.35.81",
+    "aioboto3==13.3.0",
+    "python-multipart==0.0.20",
+    "python-docx==1.1.2",
+    "docxtpl==0.18.0",
+    "jinja2==3.1.4",
+    "anthropic==0.39.0",
+    "openai==1.59.6",
+    "mcp[cli]==1.2.0",
+    "httpx==0.28.1",
+    "tenacity==9.0.0",
+    "structlog==24.4.0",
+    "slowapi==0.1.9",
+    "defusedxml==0.7.1",
+    "lxml==5.3.0",
+    "numpy==1.26.4",
+    "pgvector==0.3.6",
+    "prometheus-client==0.21.1",
+    "python-json-logger==2.0.7",
+    "cryptography==44.0.0",
+    "reportlab==4.2.5",
+    "mammoth==1.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.4",
+    "pytest-asyncio==0.24.0",
+    "pytest-cov==6.0.0",
+    "httpx==0.28.1",
+    "faker==33.1.0",
+    "freezegun==1.5.1",
+    "ruff==0.8.4",
+    "mypy==1.13.0",
+    "python-dotenv==1.0.1",
+    "pip-audit==2.7.3",
+    "types-defusedxml==0.7.5",
+    "types-python-jose==3.3.4",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*", "app.cli*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+# E = pycodestyle errors, W = warnings, F = pyflakes, I = isort,
+# B = bugbear, UP = pyupgrade, C4 = comprehensions
+select = ["E", "W", "F", "I", "B", "UP", "C4", "SIM", "PL"]
+# Allow long lines in docstrings / comments
+ignore = ["E501", "PLR0913", "PLR2004"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLR2004", "B011"]
+"alembic/versions/**" = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+ignore_missing_imports = true
+# The SQLAlchemy Mapped[...] forward references are intentional; the mypy
+# plugin would catch the real errors.
+plugins = []
+exclude = ["alembic/versions/.*"]
+

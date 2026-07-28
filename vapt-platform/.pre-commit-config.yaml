@@ -1,0 +1,22 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+  - repo: local
+    hooks:
+      - id: vapt-dedup-guarantee
+        name: VAPT dedup guarantee (1 vuln / N findings)
+        entry: bash -c 'cd backend && pytest tests/test_dedup.py::test_same_vuln_many_hosts_one_record -xvs'
+        language: system
+        pass_filenames: false
+        types: [python]
