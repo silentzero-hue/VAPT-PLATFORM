@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import ANALYST_ROLES, ADMIN_ROLES, CurrentUser, get_current_user
+from app.api.deps import ANALYST_ROLES, CurrentUser, check_workspace_scope_or_admin, get_current_user
 from app.core.db import get_session
 from app.models.engagement import Engagement
 from app.models.user import Role
@@ -140,8 +140,9 @@ async def legacy_import(
     engagement_id: uuid.UUID = Form(...),
     db_path: str = Form(...),
 ):
-    if cu.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and cu.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        cu, wid, required_roles={Role.ADMIN.value},
+    )
     e = await db.get(Engagement, engagement_id)
     if not e or e.workspace_id != wid:
         raise HTTPException(404, "engagement not found")
@@ -213,8 +214,9 @@ async def legacy_preview(
     cu: Annotated[CurrentUser, Depends(get_current_user)],
 ):
     """Dry-run: count rows in a legacy DB without ingesting."""
-    if cu.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and cu.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        cu, wid, required_roles={Role.ADMIN.value},
+    )
     try:
         items = read_legacy_db(db_path)
     except Exception as e:  # noqa: BLE001

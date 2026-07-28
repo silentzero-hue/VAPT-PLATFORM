@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import ADMIN_ROLES, CurrentUser, get_current_user
+from app.api.deps import CurrentUser, check_workspace_scope_or_admin, get_current_user
 from app.core.db import get_session
 from app.models.ingestion import IngestionJob
 from app.models.ldap import LdapConfig
@@ -108,8 +108,9 @@ async def upsert(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     cfg = await db.scalar(select(LdapConfig).where(LdapConfig.workspace_id == wid))
     if not cfg:
         cfg = LdapConfig(workspace_id=wid)
@@ -132,8 +133,9 @@ async def get(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     cfg = await db.scalar(select(LdapConfig).where(LdapConfig.workspace_id == wid))
     return _to_out(cfg) if cfg else None
 
@@ -144,8 +146,9 @@ async def sync(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     return await sync_workspace(db, wid)
 
 
@@ -207,6 +210,8 @@ async def stats(
     current: Annotated[CurrentUser, Depends(get_current_user)],
     days: int = 30,
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES, Role.SENIOR_ANALYST.value) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid,
+        required_roles={Role.ADMIN.value, Role.SENIOR_ANALYST.value},
+    )
     return await per_analyst_stats(db, wid, days=days)

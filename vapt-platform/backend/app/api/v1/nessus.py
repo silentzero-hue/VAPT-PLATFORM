@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import ADMIN_ROLES, CurrentUser, get_current_user
+from app.api.deps import CurrentUser, check_workspace_scope_or_admin, get_current_user
 from app.core.db import get_session
 from app.models.engagement import Engagement
 from app.models.nessus import NessusScanCache, NessusServer
@@ -67,8 +67,9 @@ async def get_server(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     s = await db.scalar(select(NessusServer).where(NessusServer.workspace_id == wid))
     if not s:
         return None
@@ -81,8 +82,9 @@ async def upsert(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     s = await db.scalar(select(NessusServer).where(NessusServer.workspace_id == wid))
     if not s:
         s = NessusServer(workspace_id=wid, created_by=current.user.id)
@@ -105,8 +107,9 @@ async def update(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     s = await db.scalar(select(NessusServer).where(NessusServer.workspace_id == wid))
     if not s:
         raise HTTPException(404, "not configured")
@@ -129,8 +132,9 @@ async def sync(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     s = await db.scalar(select(NessusServer).where(NessusServer.workspace_id == wid))
     if not s:
         raise HTTPException(404, "not configured")
@@ -178,8 +182,9 @@ async def ingest(
     current: Annotated[CurrentUser, Depends(get_current_user)],
     engagement_id: uuid.UUID = Query(...),
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid, required_roles={Role.ADMIN.value},
+    )
     s = await db.scalar(select(NessusServer).where(NessusServer.workspace_id == wid))
     if not s:
         raise HTTPException(404, "not configured")

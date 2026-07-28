@@ -125,6 +125,36 @@ def require_workspace(
     return current
 
 
+def check_workspace_scope_or_admin(
+    current: CurrentUser,
+    workspace_id: UUID,
+    required_roles: set[str] | None = None,
+) -> None:
+    """Enforce workspace scope (or platform_admin) AND an optional role gate.
+
+    SECURITY: The legacy `role in ADMIN_ROLES` shortcut is removed — only
+    `platform_admin` may act across workspaces. A workspace `admin` is
+    restricted to their own workspace even though they hold the
+    workspace-admin role.
+
+    Pass `required_roles` (workspace-local roles only — do NOT include
+    `platform_admin` because that case is short-circuited above) to also
+    require a specific role inside the matched workspace.
+    """
+    if current.role == Role.PLATFORM_ADMIN.value:
+        return
+    if current.workspace_id != workspace_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="cross-workspace access denied",
+        )
+    if required_roles is not None and current.role not in required_roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"role '{current.role}' not in {sorted(required_roles)}",
+        )
+
+
 # Permissions matrix — small & explicit on purpose.
 ANALYST_ROLES = {Role.PLATFORM_ADMIN.value, Role.ADMIN.value, Role.SENIOR_ANALYST.value, Role.ANALYST.value}
 APPROVE_ROLES = {Role.PLATFORM_ADMIN.value, Role.ADMIN.value, Role.SENIOR_ANALYST.value}

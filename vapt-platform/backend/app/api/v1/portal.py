@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import ADMIN_ROLES, CurrentUser, get_current_user
+from app.api.deps import CurrentUser, check_workspace_scope_or_admin, get_current_user
 from app.core.db import get_session
 from app.models.portal import PortalShare
 from app.models.user import Role
@@ -52,8 +52,10 @@ async def create(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES, Role.SENIOR_ANALYST.value) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid,
+        required_roles={Role.ADMIN.value, Role.SENIOR_ANALYST.value},
+    )
     if body.require_password and not body.password:
         raise HTTPException(400, "password required")
     share, raw = await create_share(
@@ -83,8 +85,10 @@ async def list_shares(
     db: Annotated[AsyncSession, Depends(get_session)],
     current: Annotated[CurrentUser, Depends(get_current_user)],
 ):
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES, Role.SENIOR_ANALYST.value) and current.workspace_id != wid:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, wid,
+        required_roles={Role.ADMIN.value, Role.SENIOR_ANALYST.value},
+    )
     rows = (await db.execute(
         select(PortalShare).where(PortalShare.workspace_id == wid)
         .order_by(PortalShare.created_at.desc())
@@ -106,8 +110,10 @@ async def revoke_one(
     s = await db.get(PortalShare, sid)
     if not s:
         raise HTTPException(404, "not found")
-    if current.role not in (Role.PLATFORM_ADMIN.value, *ADMIN_ROLES, Role.SENIOR_ANALYST.value) and current.workspace_id != s.workspace_id:
-        raise HTTPException(403, "no access")
+    check_workspace_scope_or_admin(
+        current, s.workspace_id,
+        required_roles={Role.ADMIN.value, Role.SENIOR_ANALYST.value},
+    )
     await revoke(db, sid, reason="manual revoke")
 
 
