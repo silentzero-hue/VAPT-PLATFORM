@@ -173,10 +173,7 @@ Keeps:
 
 - Roles (in `app/models/user.py`): `platform_admin`, `admin`, `senior_analyst`, `analyst`, `viewer`
 - The user object has `is_platform_admin` (boolean) AND a `WorkspaceMembership` per workspace
-- **Centralized workspace check** lives in `_check_workspace_scope(current, wid)` in
-  each router. **Never** use the broken `current.role in ADMIN_ROLES` shortcut
-  for cross-workspace access — it lets any admin of any workspace mutate
-  others. This was a P0 audit finding and is now fixed across 8 files.
+- **Centralized workspace check** lives in `check_workspace_scope_or_admin(current, wid, required_roles=None)` in `backend/app/api/deps.py`. **Never** use the broken `current.role in ADMIN_ROLES` shortcut for cross-workspace access — it lets any admin of any workspace mutate others. The `ADMIN_ROLES` constant itself is kept for `workspaces.py` (the only file that still references it, in a docstring), but the cross-tenant access bug is fixed across 14 endpoints in `portal.py`, `multiscan.py`, `features.py`, `nessus.py`. Unit tests in `backend/tests/test_workspace_scope_helper.py` pin the cross-tenant denial.
 - `current.workspace_id` for `platform_admin` is `None` — they have a
   pass-through in `_check_workspace_scope`. `platform_admin` also doesn't appear
   in `WorkspaceMembership` rows.
