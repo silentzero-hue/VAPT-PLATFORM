@@ -127,7 +127,7 @@ export default function ThreatIntelPage() {
                     </td>
                     <td className="px-2 py-2">
                       {v.kev ? (
-                        <span className="pill bg-rose-50 text-rose-700 border-rose-500/30">
+                        <span className="pill bg-sev-critical-soft text-sev-critical-strong border-sev-critical">
                           KEV
                         </span>
                       ) : (

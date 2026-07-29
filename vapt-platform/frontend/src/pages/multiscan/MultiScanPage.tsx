@@ -183,7 +183,7 @@ export default function MultiScanPage() {
             <button
               onClick={() => bulkDelete.mutate([...selected])}
               disabled={bulkDelete.isPending}
-              className="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
+              className="bg-sev-critical-soft hover:bg-sev-critical/15 text-sev-critical-strong border border-sev-critical rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
             >
               <Trash2 size={14} />
               {bulkDelete.isPending ? "Deleting…" : "Bulk delete new findings"}
@@ -242,7 +242,7 @@ export default function MultiScanPage() {
           </button>
         </div>
         {baseline && current && baseline === current && (
-          <p className="text-xs text-amber-700 mt-2">
+          <p className="text-xs text-sev-medium-strong mt-2">
             Pick two different jobs to compare.
           </p>
         )}
@@ -252,19 +252,19 @@ export default function MultiScanPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 min-w-0">
           {renderTable(
             "STILL PRESENT",
-            "bg-amber-500/10",
+            "bg-sev-medium-soft",
             compare.data.still_present,
             false
           )}
           {renderTable(
             "NEW FINDINGS",
-            "bg-rose-500/10",
+            "bg-sev-critical-soft",
             compare.data.new_findings,
             true
           )}
           {renderTable(
             "FIXED",
-            "bg-emerald-500/10",
+            "bg-sev-low-soft",
             compare.data.fixed,
             false
           )}

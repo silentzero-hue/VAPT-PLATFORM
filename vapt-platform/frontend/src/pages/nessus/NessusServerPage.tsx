@@ -263,9 +263,9 @@ export default function NessusServerPage() {
                   className={cn(
                     "pill",
                     server.data.last_sync_status === "ok"
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-500/30"
+                      ? "bg-sev-low-soft text-sev-low-strong border-sev-low"
                       : server.data.last_sync_status === "error"
-                      ? "bg-rose-50 text-rose-700 border-rose-500/30"
+                      ? "bg-sev-critical-soft text-sev-critical-strong border-sev-critical"
                       : "bg-paper-soft text-ink-muted border-hairline"
                   )}
                 >
@@ -317,9 +317,9 @@ export default function NessusServerPage() {
                         className={cn(
                           "pill",
                           s.status === "completed"
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-500/30"
+                            ? "bg-sev-low-soft text-sev-low-strong border-sev-low"
                             : s.status === "running"
-                            ? "bg-amber-50 text-amber-700 border-amber-500/30"
+                            ? "bg-sev-medium-soft text-sev-medium-strong border-sev-medium"
                             : "bg-paper-soft text-ink-muted border-hairline"
                         )}
                       >
@@ -338,7 +338,7 @@ export default function NessusServerPage() {
                     </td>
                     <td className="px-3 py-2 text-right">
                       {imported ? (
-                        <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30">
+                        <span className="pill bg-sev-low-soft text-sev-low-strong border-sev-low">
                           imported
                         </span>
                       ) : (

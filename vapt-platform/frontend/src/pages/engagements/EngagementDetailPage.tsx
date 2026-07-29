@@ -243,7 +243,7 @@ export default function EngagementDetailPage() {
               {file && (
                 <button
                   onClick={() => setFile(null)}
-                  className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-ink-muted hover:text-rose-700 transition-colors duration-200"
+                  className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-ink-muted hover:text-sev-critical-strong transition-colors duration-200"
                   title="Clear selection"
                 >
                   <X size={12} /> clear

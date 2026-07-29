@@ -94,7 +94,7 @@ export function CommentsPanel({ findingId }: { findingId: string }) {
                       <Pencil size={10} /> edit
                     </button>
                     <button onClick={() => del.mutate(c.id)}
-                      className="text-ink-muted hover:text-rose-700 flex items-center gap-1">
+                      className="text-ink-muted hover:text-sev-critical-strong flex items-center gap-1">
                       <Trash2 size={10} /> delete
                     </button>
                   </div>

@@ -14,12 +14,12 @@ import ViewToggle, { type ViewMode } from "../../components/ui/ViewToggle";
 import { List, Plus, X } from "lucide-react";
 
 const STATUS_PILL: Record<string, string> = {
-  active: "bg-sev-low/15 text-sev-low border-sev-low/30",
-  in_reporting: "bg-sev-info/15 text-sev-info border-sev-info/30",
-  delivered: "bg-emerald-50 text-emerald-700 border-emerald-500/30",
+  active: "bg-sev-low-soft text-sev-low-strong border-sev-low",
+  in_reporting: "bg-sev-info-soft text-sev-info-strong border-sev-info",
+  delivered: "bg-sev-low-soft text-sev-low-strong border-sev-low",
   closed: "bg-paper-soft text-ink-muted border-hairline-strong",
-  planned: "bg-sev-medium/15 text-sev-medium border-sev-medium/30",
-  cancelled: "bg-rose-50 text-rose-700 border-rose-500/30",
+  planned: "bg-sev-medium-soft text-sev-medium-strong border-sev-medium",
+  cancelled: "bg-sev-critical-soft text-sev-critical-strong border-sev-critical",
 };
 
 const STATUS_LABEL: Record<EngagementStatus, string> = {

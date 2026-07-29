@@ -180,7 +180,7 @@ export default function ReportsPage() {
                   {(r.versions?.length ?? 0) === 1 ? "" : "s"}
                 </span>
                 {r.signed_sha256 ? (
-                  <span className="inline-flex items-center gap-1 text-emerald-700">
+                  <span className="inline-flex items-center gap-1 text-sev-low-strong">
                     <ShieldCheck size={12} /> Signed
                   </span>
                 ) : (

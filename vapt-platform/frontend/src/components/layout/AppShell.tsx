@@ -501,7 +501,7 @@ function SystemHealthWidget({ collapsed }: { collapsed: boolean }) {
     <div
       className={cn(
         "flex items-center gap-2 rounded-md px-2 py-1.5 text-xs",
-        ok ? "text-emerald-400" : "text-amber-400",
+        ok ? "text-sev-low-strong" : "text-sev-medium-strong",
         collapsed && "justify-center"
       )}
       title={collapsed ? (ok ? "All systems operational" : "Issues detected") : undefined}
@@ -509,7 +509,7 @@ function SystemHealthWidget({ collapsed }: { collapsed: boolean }) {
       <span
         className={cn(
           "h-1.5 w-1.5 rounded-full shrink-0",
-          ok ? "bg-emerald-500" : "bg-amber-400",
+          ok ? "bg-sev-low" : "bg-sev-medium",
           ok && "animate-pulse"
         )}
       />

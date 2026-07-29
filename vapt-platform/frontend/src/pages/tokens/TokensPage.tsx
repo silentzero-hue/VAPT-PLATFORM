@@ -179,11 +179,11 @@ export default function TokensPage() {
                 </td>
                 <td className="px-3 py-2">
                   {t.revoked ? (
-                    <span className="pill bg-rose-50 text-rose-700 border-rose-500/30">
+                    <span className="pill bg-sev-critical-soft text-sev-critical-strong border-sev-critical">
                       revoked
                     </span>
                   ) : (
-                    <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30">
+                    <span className="pill bg-sev-low-soft text-sev-low-strong border-sev-low">
                       active
                     </span>
                   )}
@@ -193,7 +193,7 @@ export default function TokensPage() {
                     <button
                       onClick={() => revoke.mutate(t.id)}
                       disabled={revoke.isPending}
-                      className="text-xs px-2 py-1 bg-rose-50 text-rose-700 border border-rose-500/30 rounded hover:bg-rose-100"
+                      className="text-xs px-2 py-1 bg-sev-critical-soft text-sev-critical-strong border border-sev-critical rounded hover:bg-sev-critical/15"
                     >
                       Revoke
                     </button>
@@ -221,7 +221,7 @@ export default function TokensPage() {
             className="panel p-5 w-full max-w-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-2 mb-3 text-amber-700">
+            <div className="flex items-center gap-2 mb-3 text-sev-medium-strong">
               <AlertTriangle size={16} />
               <h2 className="text-sm font-semibold">
                 Copy this token now — it will not be shown again

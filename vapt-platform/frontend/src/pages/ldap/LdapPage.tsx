@@ -108,8 +108,8 @@ export default function LdapPage() {
             <span
               className={
                 cfg.data.last_sync_status === "ok"
-                  ? "pill bg-emerald-50 text-emerald-700 border-emerald-500/30"
-                  : "pill bg-rose-50 text-rose-700 border-rose-500/30"
+                  ? "pill bg-sev-low-soft text-sev-low-strong border-sev-low"
+                  : "pill bg-sev-critical-soft text-sev-critical-strong border-sev-critical"
               }
             >
               {cfg.data.last_sync_status}

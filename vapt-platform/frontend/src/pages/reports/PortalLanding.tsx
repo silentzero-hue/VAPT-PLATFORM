@@ -77,7 +77,7 @@ export default function PortalLanding() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="panel p-7 max-w-sm w-full text-center space-y-3">
-          <ShieldOff size={28} className="text-rose-700 mx-auto" />
+          <ShieldOff size={28} className="text-sev-critical-strong mx-auto" />
           <h1 className="text-lg font-semibold">Share unavailable</h1>
           <p className="text-sm text-ink-muted">
             This link is invalid, has expired, or been revoked.
@@ -118,7 +118,7 @@ export default function PortalLanding() {
         )}
 
         {(expired || exhausted) && (
-          <div className="text-xs text-rose-700 bg-rose-500/10 border border-rose-500/30 rounded-lg p-2">
+          <div className="text-xs text-sev-critical-strong bg-sev-critical-soft border border-sev-critical rounded-lg p-2">
             {expired ? "This share has expired." : "View limit reached."}
           </div>
         )}

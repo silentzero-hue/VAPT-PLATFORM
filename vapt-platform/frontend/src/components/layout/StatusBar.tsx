@@ -99,7 +99,7 @@ export default function StatusBar({ className, forceVisible = false }: StatusBar
         <span
           className={cn(
             "h-1.5 w-1.5 rounded-full",
-            auth.user ? "bg-emerald-500" : "bg-amber-500"
+            auth.user ? "bg-sev-low" : "bg-sev-medium"
           )}
         />
         {auth.user ? "Live" : "Idle"}

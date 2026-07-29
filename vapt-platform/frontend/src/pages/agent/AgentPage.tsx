@@ -66,9 +66,9 @@ export default function AgentPage() {
               <li key={v.id} className="text-sm flex items-center justify-between border-t border-hairline py-1.5">
                 <div className="truncate pr-2">{v.title}</div>
                 {v.ai_draft_approved ? (
-                  <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30"><Check size={10} /> approved</span>
+                  <span className="pill bg-sev-low-soft text-sev-low-strong border-sev-low"><Check size={10} /> approved</span>
                 ) : (
-                  <span className="pill bg-amber-50 text-amber-700 border-amber-500/30">pending</span>
+                  <span className="pill bg-sev-medium-soft text-sev-medium-strong border-sev-medium">pending</span>
                 )}
               </li>
             ))}

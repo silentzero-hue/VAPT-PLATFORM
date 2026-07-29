@@ -26,11 +26,11 @@ type FindingRow = {
 
 const SEV_OPTIONS: Severity[] = ["critical", "high", "medium", "low", "info"];
 const SEV_PILL: Record<Severity, string> = {
-  critical: "bg-red-50 text-red-700 border-red-200",
-  high: "bg-orange-50 text-orange-700 border-orange-200",
-  medium: "bg-amber-50 text-amber-700 border-amber-200",
-  low: "bg-yellow-50 text-yellow-700 border-yellow-200",
-  info: "bg-indigo-50 text-indigo-700 border-indigo-200",
+  critical: "bg-sev-critical-soft text-sev-critical-strong border-sev-critical",
+  high: "bg-sev-high-soft text-sev-high-strong border-sev-high",
+  medium: "bg-sev-medium-soft text-sev-medium-strong border-sev-medium",
+  low: "bg-sev-low-soft text-sev-low-strong border-sev-low",
+  info: "bg-sev-info-soft text-sev-info-strong border-sev-info",
 };
 
 const SUGGEST_DEBOUNCE_MS = 500;
@@ -666,7 +666,7 @@ export default function ReportEditPage() {
         </div>
 
         {ctxQ.isError && (
-          <div className="text-xs text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded-lg p-2">
+          <div className="text-xs text-sev-medium-strong bg-sev-medium-soft border border-sev-medium rounded-lg p-2">
             Findings preview unavailable (no rendered version yet). The list will populate after the first render.
           </div>
         )}
@@ -802,12 +802,12 @@ export default function ReportEditPage() {
           <div className="flex-1 text-xs text-ink-muted flex items-center gap-2">
             {isDirty ? (
               <>
-                <span className="h-2 w-2 rounded-full bg-amber-400" />
+                <span className="h-2 w-2 rounded-full bg-sev-medium" />
                 Unsaved changes
               </>
             ) : (
               <>
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="h-2 w-2 rounded-full bg-sev-low" />
                 All changes saved
               </>
             )}
@@ -888,9 +888,9 @@ export default function ReportEditPage() {
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-semibold">Report preview</h2>
               {editMode && (
-                <span className="text-xs text-amber-700 bg-amber-500/10 border border-amber-500/30 rounded px-2 py-0.5">
-                  Editing — changes flow into the editor and Save draft
-                </span>
+                  <span className="text-xs text-sev-medium-strong bg-sev-medium-soft border border-sev-medium rounded px-2 py-0.5">
+                    Editing — changes flow into the editor and Save draft
+                  </span>
               )}
             </div>
             <div className="flex items-center gap-2">
@@ -985,7 +985,7 @@ export default function ReportEditPage() {
             <iframe
               src={`/api/v1/reports/${rid}/preview.pdf`}
               title="Report PDF preview"
-              className="flex-1 w-full bg-gray-100 border-0"
+              className="flex-1 w-full bg-paper-soft border-0"
             />
           ) : (
             <iframe

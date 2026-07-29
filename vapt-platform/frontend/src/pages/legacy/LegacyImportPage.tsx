@@ -186,12 +186,12 @@ export default function LegacyImportPage() {
             <Stat
               label="New findings"
               value={importRun.data.data.new_findings}
-              accent="text-rose-700"
+              accent="text-sev-critical-strong"
             />
             <Stat
               label="Merged findings"
               value={importRun.data.data.merged_findings}
-              accent="text-emerald-700"
+              accent="text-sev-low-strong"
             />
             <div className="col-span-2">
               <div className="text-xs text-ink-muted">Imported at</div>

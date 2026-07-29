@@ -47,7 +47,7 @@ export default function ReportDetailPage() {
         <div>
           <h1 className="text-2xl font-semibold">{d.title}</h1>
           <p className="text-sm text-ink-muted">
-            <span className={`pill ${d.status === "approved" ? "bg-emerald-50 text-emerald-700 border-emerald-500/30" : d.status === "pending_review" ? "bg-amber-50 text-amber-700 border-amber-500/30" : "bg-paper-soft text-ink-muted border-hairline"}`}>
+            <span className={`pill ${d.status === "approved" ? "bg-sev-low-soft text-sev-low-strong border-sev-low" : d.status === "pending_review" ? "bg-sev-medium-soft text-sev-medium-strong border-sev-medium" : "bg-paper-soft text-ink-muted border-hairline"}`}>
               {d.status}
             </span>
             {d.signed_sha256 && <span className="ml-2 font-mono text-xs text-ink-muted">SHA256 {d.signed_sha256.slice(0, 16)}…</span>}
@@ -71,7 +71,7 @@ export default function ReportDetailPage() {
               </button>
               <button
                 onClick={() => approve.mutate()}
-                className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-500/30 rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
+                className="bg-sev-low-soft hover:bg-sev-low/15 text-sev-low-strong border border-sev-low rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5"
               >
                 <Check size={14} /> Approve & Lock
               </button>
@@ -109,7 +109,7 @@ export default function ReportDetailPage() {
       </div>
 
       {d.locked && (
-        <div className="panel p-3 bg-emerald-500/5 border-emerald-500/30 flex items-center gap-2 text-sm text-emerald-700">
+        <div className="panel p-3 bg-sev-low-soft border-sev-low flex items-center gap-2 text-sm text-sev-low-strong">
           <Lock size={14} /> Locked at {formatDate(d.locked_at)} — content is signed and immutable
         </div>
       )}
@@ -125,7 +125,7 @@ export default function ReportDetailPage() {
                   <div className="text-xs text-ink-muted">{v.note ?? "—"}</div>
                   <div className="text-xs text-ink-muted mt-1">SHA {v.sha256?.slice(0, 16)}… · {formatDate(v.created_at)}</div>
                 </div>
-                <span className={`pill ${v.status === "approved" ? "bg-emerald-50 text-emerald-700 border-emerald-500/30" : v.status === "pending_review" ? "bg-amber-50 text-amber-700 border-amber-500/30" : "bg-paper-soft text-ink-muted border-hairline"}`}>
+                <span className={`pill ${v.status === "approved" ? "bg-sev-low-soft text-sev-low-strong border-sev-low" : v.status === "pending_review" ? "bg-sev-medium-soft text-sev-medium-strong border-sev-medium" : "bg-paper-soft text-ink-muted border-hairline"}`}>
                   {v.status}
                 </span>
               </li>

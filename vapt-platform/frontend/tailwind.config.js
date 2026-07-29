@@ -4,7 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        // macOS Finder light-theme palette
+        // -----------------------------------------------------------------
+        // macOS Finder light theme — single source of truth
+        // -----------------------------------------------------------------
         paper: "#fbfaf8",
         "paper-soft": "#f5f3ed",
         "paper-strong": "#ffffff",
@@ -18,18 +20,41 @@ export default {
         "finder-blue-soft": "rgba(10,132,255,0.16)",
         "folder-from": "#6fb1fc",
         "folder-to": "#2e7cf6",
-        // Backwards-compatible aliases (used by older code)
+
+        // Severity scale (macOS Finder colors)
+        sev: {
+          // Base colors (for solid swatches / dot indicators / bars)
+          critical: "#ff3b30",
+          high: "#ff9500",
+          medium: "#ffcc00",
+          low: "#34c759",
+          info: "#5e5ce6",
+          // Soft backgrounds (8% tint) for chip/pill fills
+          "critical-soft": "rgba(255,59,48,0.08)",
+          "high-soft": "rgba(255,149,0,0.08)",
+          "medium-soft": "rgba(255,204,0,0.08)",
+          "low-soft": "rgba(52,199,89,0.08)",
+          "info-soft": "rgba(94,92,230,0.08)",
+          // Strong text/border colors (700-tint) for readable contrast on light
+          "critical-strong": "#b91c1c",
+          "high-strong": "#b45309",
+          "medium-strong": "#a16207",
+          "low-strong": "#15803d",
+          "info-strong": "#3730a3",
+        },
+
+        // -----------------------------------------------------------------
+        // DEPRECATED: backwards-compat aliases for the old `bg-*` / `fg-*`
+        // / `accent-*` / `border-*` token names. They now point to the
+        // light theme values so existing code keeps rendering, but new
+        // code should use the active tokens above (paper, ink, hairline,
+        // finder-blue, sev-*).
+        // -----------------------------------------------------------------
         bg: {
           DEFAULT: "#fbfaf8",
           panel: "#ffffff",
           soft: "#f5f3ed",
           deep: "#ede9de",
-        },
-        border: {
-          DEFAULT: "rgba(0,0,0,0.10)",
-          soft: "rgba(0,0,0,0.06)",
-          glass: "rgba(255,255,255,0.7)",
-          "glass-strong": "rgba(255,255,255,0.9)",
         },
         fg: {
           DEFAULT: "#26251f",
@@ -40,13 +65,14 @@ export default {
           DEFAULT: "#0a84ff",
           strong: "#0a84ff",
         },
-        // Severity scale (Finder-aligned, slightly muted for light bg)
-        sev: {
-          critical: "#ff3b30",
-          high: "#ff9500",
-          medium: "#ffcc00",
-          low: "#34c759",
-          info: "#5e5ce6",
+        border: {
+          DEFAULT: "rgba(0,0,0,0.10)",
+          soft: "rgba(0,0,0,0.06)",
+          // glass / glass-strong were rgba(255,255,255,0.7/0.9) which
+          // are invisible on a light paper background. They now alias
+          // to hairline / hairline-strong so old code still works.
+          glass: "rgba(0,0,0,0.18)",
+          "glass-strong": "rgba(0,0,0,0.18)",
         },
       },
       boxShadow: {

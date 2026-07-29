@@ -11,18 +11,18 @@ import { FileText, Download, Printer } from "lucide-react";
 const SEVERITY_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
 
 const SEVERITY_HEADING: Record<Severity, string> = {
-  critical: "bg-rose-50 border-rose-500/40 text-rose-200",
-  high: "bg-orange-50 border-orange-200 text-orange-700",
-  medium: "bg-amber-50 border-amber-200 text-amber-700",
-  low: "bg-emerald-50 border-emerald-200 text-emerald-700",
-  info: "bg-finder-blue-soft border-finder-blue/40 text-finder-blue",
+  critical: "bg-sev-critical-soft border-sev-critical text-sev-critical-strong",
+  high: "bg-sev-high-soft border-sev-high text-sev-high-strong",
+  medium: "bg-sev-medium-soft border-sev-medium text-sev-medium-strong",
+  low: "bg-sev-low-soft border-sev-low text-sev-low-strong",
+  info: "bg-sev-info-soft border-sev-info text-sev-info-strong",
 };
 
 const SEVERITY_TEXT: Record<Severity, string> = {
-  critical: "text-rose-700",
-  high: "text-orange-700",
-  medium: "text-amber-700",
-  low: "text-emerald-700",
+  critical: "text-sev-critical-strong",
+  high: "text-sev-high-strong",
+  medium: "text-sev-medium-strong",
+  low: "text-sev-low-strong",
   info: "text-finder-blue",
 };
 

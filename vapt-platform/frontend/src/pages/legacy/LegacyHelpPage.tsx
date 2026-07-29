@@ -110,7 +110,7 @@ export default function LegacyHelpPage() {
       <Section icon={<ShieldCheck size={14} />} title="4. Security note">
         <p>
           The legacy importer is{" "}
-          <span className="text-emerald-700 font-medium">strictly read-only</span> on the source
+          <span className="text-sev-low-strong font-medium">strictly read-only</span> on the source
           SQLite file. The platform opens the database with{" "}
           <code className="font-mono">mode=ro</code>, executes only a bounded set of read
           queries (<code className="font-mono">SELECT COUNT(*)</code> and{" "}

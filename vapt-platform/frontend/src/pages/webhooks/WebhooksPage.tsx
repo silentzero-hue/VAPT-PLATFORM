@@ -185,7 +185,7 @@ export default function WebhooksPage() {
                 </td>
                 <td className="px-3 py-2">
                   {ep.active ? (
-                    <span className="pill bg-emerald-50 text-emerald-700 border-emerald-500/30">
+                    <span className="pill bg-sev-low-soft text-sev-low-strong border-sev-low">
                       active
                     </span>
                   ) : (
@@ -199,7 +199,7 @@ export default function WebhooksPage() {
                 </td>
                 <td className="px-3 py-2 font-mono text-xs">
                   {ep.failure_count > 0 ? (
-                    <span className="text-rose-700">{ep.failure_count}</span>
+                    <span className="text-sev-critical-strong">{ep.failure_count}</span>
                   ) : (
                     <span className="text-ink-subtle">0</span>
                   )}
@@ -215,7 +215,7 @@ export default function WebhooksPage() {
                     </button>
                     <button
                       onClick={() => del.mutate(ep.id)}
-                      className="text-xs px-2 py-1 bg-rose-50 text-rose-700 border border-rose-500/30 rounded hover:bg-rose-100"
+                      className="text-xs px-2 py-1 bg-sev-critical-soft text-sev-critical-strong border border-sev-critical rounded hover:bg-sev-critical/15"
                     >
                       Delete
                     </button>
@@ -256,10 +256,10 @@ export default function WebhooksPage() {
                   <span
                     className={
                       d.status === "success"
-                        ? "pill bg-emerald-50 text-emerald-700 border-emerald-500/30"
+                        ? "pill bg-sev-low-soft text-sev-low-strong border-sev-low"
                         : d.status === "failed"
-                          ? "pill bg-rose-50 text-rose-700 border-rose-500/30"
-                          : "pill bg-amber-50 text-amber-700 border-amber-500/30"
+                          ? "pill bg-sev-critical-soft text-sev-critical-strong border-sev-critical"
+                          : "pill bg-sev-medium-soft text-sev-medium-strong border-sev-medium"
                     }
                   >
                     {d.status}

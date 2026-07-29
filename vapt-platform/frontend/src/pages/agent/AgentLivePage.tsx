@@ -124,12 +124,12 @@ export default function AgentLivePage() {
                     <span
                       className={
                         r.status === "completed"
-                          ? "pill bg-emerald-50 text-emerald-700 border-emerald-500/30"
+                          ? "pill bg-sev-low-soft text-sev-low-strong border-sev-low"
                           : r.status === "failed"
-                            ? "pill bg-rose-50 text-rose-700 border-rose-500/30"
+                            ? "pill bg-sev-critical-soft text-sev-critical-strong border-sev-critical"
                             : r.status === "cancelled"
                               ? "pill bg-paper-soft text-ink-muted border-hairline"
-                              : "pill bg-amber-50 text-amber-700 border-amber-500/30"
+                              : "pill bg-sev-medium-soft text-sev-medium-strong border-sev-medium"
                       }
                     >
                       {r.status}
@@ -146,7 +146,7 @@ export default function AgentLivePage() {
                     {isActive && connected ? (
                       <button
                         onClick={disconnect}
-                        className="text-xs px-2 py-1 bg-rose-50 text-rose-700 border border-rose-500/30 rounded hover:bg-rose-100 flex items-center gap-1"
+                        className="text-xs px-2 py-1 bg-sev-critical-soft text-sev-critical-strong border border-sev-critical rounded hover:bg-sev-critical/15 flex items-center gap-1"
                       >
                         <X size={10} /> Disconnect
                       </button>
@@ -178,7 +178,7 @@ export default function AgentLivePage() {
                 </span>
               )}
               {connected && (
-                <span className="ml-2 pill bg-emerald-50 text-emerald-700 border-emerald-500/30">
+                <span className="ml-2 pill bg-sev-low-soft text-sev-low-strong border-sev-low">
                   connected
                 </span>
               )}
@@ -217,7 +217,7 @@ export default function AgentLivePage() {
                 )}
                 {e.type === "tool_result" && (
                   <div>
-                    <div className="text-emerald-700 flex items-center gap-1.5">
+                    <div className="text-sev-low-strong flex items-center gap-1.5">
                       <Wrench size={10} /> ← {e.name}
                     </div>
                     <pre className="text-ink-muted whitespace-pre-wrap break-all ml-4">
@@ -231,7 +231,7 @@ export default function AgentLivePage() {
                   </div>
                 )}
                 {e.type === "status" && (
-                  <div className="text-amber-700">status: {e.status}</div>
+                  <div className="text-sev-medium-strong">status: {e.status}</div>
                 )}
               </div>
             ))}

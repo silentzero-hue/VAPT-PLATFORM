@@ -112,7 +112,7 @@ export default function SbomPage() {
             </h3>
             <div className="text-xs text-ink-muted">
               {result.stats.total} components ·{" "}
-              <span className="text-rose-700">{result.stats.with_vulns} with CVEs</span>
+              <span className="text-sev-critical-strong">{result.stats.with_vulns} with CVEs</span>
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -147,7 +147,7 @@ export default function SbomPage() {
                     </td>
                     <td className="px-2 py-2 font-mono text-xs">
                       {c.vulnerabilities > 0 ? (
-                        <span className="text-rose-700">{c.vulnerabilities}</span>
+                        <span className="text-sev-critical-strong">{c.vulnerabilities}</span>
                       ) : (
                         <span className="text-ink-subtle">0</span>
                       )}

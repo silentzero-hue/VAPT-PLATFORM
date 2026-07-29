@@ -16,9 +16,9 @@ interface RetestSummary {
 
 const STATUS_PILL: Record<RetestStatus, string> = {
   scheduled: "bg-paper-soft text-ink-muted border-hairline",
-  in_progress: "bg-amber-50 text-amber-700 border-amber-500/30",
-  completed: "bg-emerald-50 text-emerald-700 border-emerald-500/30",
-  cancelled: "bg-rose-50 text-rose-700 border-rose-500/30",
+  in_progress: "bg-sev-medium-soft text-sev-medium-strong border-sev-medium",
+  completed: "bg-sev-low-soft text-sev-low-strong border-sev-low",
+  cancelled: "bg-sev-critical-soft text-sev-critical-strong border-sev-critical",
 };
 
 export default function RetestsPage() {
@@ -186,9 +186,9 @@ export default function RetestsPage() {
                   <td className="px-3 py-2 text-xs">
                     {sum ? (
                       <span className="flex gap-2 font-mono">
-                        <span className="text-emerald-700">✓{sum.still_remediated}</span>
-                        <span className="text-rose-700">↻{sum.regressed}</span>
-                        <span className="text-amber-700">+{sum.new_findings}</span>
+                        <span className="text-sev-low-strong">✓{sum.still_remediated}</span>
+                        <span className="text-sev-critical-strong">↻{sum.regressed}</span>
+                        <span className="text-sev-medium-strong">+{sum.new_findings}</span>
                       </span>
                     ) : (
                       <span className="text-ink-subtle">—</span>

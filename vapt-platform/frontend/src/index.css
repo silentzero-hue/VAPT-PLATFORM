@@ -68,23 +68,27 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* ----- Severity chips ----- */
+/* ----- Severity chips -----
+ * All severity chips share the same structure: soft fill + strong text
+ * + colored border. Colors come from the semantic `sev-*` tokens so
+ * the macOS Finder palette stays consistent across the app.
+ */
 .chip {
   @apply inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-md;
 }
-.chip-critical { @apply bg-red-50 text-sev-critical border border-red-200; }
-.chip-high     { @apply bg-orange-50 text-sev-high border border-orange-200; }
-.chip-medium   { @apply bg-yellow-50 text-yellow-700 border border-yellow-200; }
-.chip-low      { @apply bg-green-50 text-sev-low border border-green-200; }
-.chip-info     { @apply bg-indigo-50 text-sev-info border border-indigo-200; }
+.chip-critical { @apply bg-sev-critical-soft text-sev-critical-strong border-sev-critical; }
+.chip-high     { @apply bg-sev-high-soft     text-sev-high-strong     border-sev-high; }
+.chip-medium   { @apply bg-sev-medium-soft   text-sev-medium-strong   border-sev-medium; }
+.chip-low      { @apply bg-sev-low-soft      text-sev-low-strong      border-sev-low; }
+.chip-info     { @apply bg-sev-info-soft     text-sev-info-strong     border-sev-info; }
 .chip-muted    { @apply bg-paper-soft text-ink-muted border border-hairline; }
 
 /* ----- Status pills ----- */
 .pill { @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-[11px] font-medium rounded-full border; }
-.pill-success { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
-.pill-warning { @apply bg-amber-50 text-amber-700 border-amber-200; }
-.pill-danger  { @apply bg-rose-50 text-rose-700 border-rose-200; }
-.pill-info    { @apply bg-blue-50 text-finder-blue border-blue-200; }
+.pill-success { @apply bg-sev-low-soft      text-sev-low-strong      border-sev-low; }
+.pill-warning { @apply bg-sev-medium-soft   text-sev-medium-strong   border-sev-medium; }
+.pill-danger  { @apply bg-sev-critical-soft text-sev-critical-strong border-sev-critical; }
+.pill-info    { @apply bg-finder-blue-soft  text-finder-blue         border-finder-blue/30; }
 .pill-muted   { @apply bg-paper-soft text-ink-muted border-hairline; }
 
 /* ----- Tabs ----- */
