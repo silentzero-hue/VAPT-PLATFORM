@@ -17,7 +17,7 @@ export default function NavArrows({
   className,
 }: NavArrowsProps) {
   return (
-    <div className={cn("flex items-center gap-0.5", className)}>
+    <div className={cn("flex items-center gap-0.5 no-print", className)}>
       <button
         type="button"
         aria-label="Go back"

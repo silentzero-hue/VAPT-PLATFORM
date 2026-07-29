@@ -107,3 +107,52 @@ input, select, textarea {
 input::placeholder, textarea::placeholder {
   color: #9c9a92;
 }
+
+/* ----- Print isolation -----
+ * Hide the chrome (sidebar, top bar, status bar, breadcrumb, action buttons)
+ * and show only the element(s) tagged with .print-area / [data-print].
+ * Works for both browser print preview and PDF export.
+ */
+@media print {
+  aside, header, [role="status"], [data-no-print], .no-print,
+  button, nav {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  main {
+    overflow: visible !important;
+  }
+  .print-area, [data-print] {
+    display: block !important;
+  }
+  .panel, table {
+    box-shadow: none !important;
+    border: 1px solid #d0d0d0 !important;
+    page-break-inside: avoid;
+  }
+  .chip, .pill {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  @page {
+    margin: 0.5in;
+  }
+}
+
+/* Belt-and-suspenders: when the body has .printing, the live DOM also hides
+ * the chrome, so the on-screen preview (e.g. browser print preview that
+ * briefly shows the styled page) matches the printed output.
+ */
+body.printing aside,
+body.printing header,
+body.printing [role="status"],
+body.printing [data-no-print],
+body.printing .no-print,
+body.printing nav,
+body.printing button {
+  display: none !important;
+}

@@ -208,7 +208,8 @@ export default function AppShell() {
           "shrink-0 sticky top-0 self-start h-screen border-r border-hairline",
           "bg-paper-soft/80 backdrop-blur-xl flex flex-col",
           "transition-[width] duration-300 ease-out",
-          collapsed ? "w-[68px]" : "w-[240px]"
+          collapsed ? "w-[68px]" : "w-[240px]",
+          "no-print"
         )}
       >
         <div
@@ -269,7 +270,7 @@ export default function AppShell() {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="sticky top-0 z-30 h-14 bg-paper-strong/80 backdrop-blur-xl border-b border-hairline flex items-center px-4 gap-3">
+        <header className="sticky top-0 z-30 h-14 bg-paper-strong/80 backdrop-blur-xl border-b border-hairline flex items-center px-4 gap-3 no-print">
           <NavArrows
             canGoBack={canGoBack}
             canGoForward={canGoForward}
@@ -303,7 +304,7 @@ export default function AppShell() {
           <div className="flex-1 min-h-0">
             <Outlet />
           </div>
-          <StatusBar />
+          <StatusBar className="no-print" />
         </main>
       </div>
     </div>

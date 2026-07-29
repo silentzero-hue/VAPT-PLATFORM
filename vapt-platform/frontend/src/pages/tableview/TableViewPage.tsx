@@ -79,7 +79,7 @@ export default function TableViewPage() {
 
   return (
     <div className="space-y-4 max-w-[1400px] mx-auto p-4 min-w-0">
-      <div className="flex items-end justify-between gap-3 flex-wrap">
+      <div className="flex items-end justify-between gap-3 flex-wrap no-print">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-2">
             <FileText size={20} className="text-finder-blue" /> Table view
@@ -92,7 +92,7 @@ export default function TableViewPage() {
           <select
             value={activeEngagementId}
             onChange={(e) => setEngagementId(e.target.value)}
-            className="bg-paper-soft border border-hairline rounded-lg px-2.5 py-1.5 text-sm"
+            className="bg-paper-soft border border-hairline rounded-lg px-2.5 py-1.5 text-sm no-print"
           >
             <option value="">Select engagement…</option>
             {(engs.data ?? []).map((e) => (
@@ -116,7 +116,13 @@ export default function TableViewPage() {
             <Download size={14} /> HTML
           </button>
           <button
-            onClick={() => window.print()}
+            onClick={() => {
+              document.body.classList.add("printing");
+              setTimeout(() => {
+                window.print();
+                document.body.classList.remove("printing");
+              }, 0);
+            }}
             disabled={!data.data}
             className="bg-finder-blue hover:bg-folder-to text-white rounded-lg px-3 py-1.5 text-sm flex items-center gap-1.5 disabled:opacity-50"
           >
@@ -132,7 +138,7 @@ export default function TableViewPage() {
       )}
 
       {data.data && (
-        <div className="panel p-6 space-y-5 print:p-0 print:shadow-none">
+        <div className="panel p-6 space-y-5 print:p-0 print:shadow-none print-area">
           <div className="border-b border-hairline pb-3 flex items-end justify-between">
             <div>
               <div className="text-xs text-ink-muted font-mono">
