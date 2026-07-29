@@ -35,21 +35,13 @@ from app.models.asset import Asset
 from app.models.engagement import Engagement
 from app.models.finding import Finding
 from app.models.vulnerability import Vulnerability
+from app.services.reporting.suggestions import URGENCY_LABEL as ACTION_URGENCY
 
 SEV_ORDER = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
 
 # Where the bundled DMC template lives inside the source tree.
 TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 TEMPLATE_FILENAME = "dmc_vapt_report.docx"
-
-# Action-urgency labels used in the Detailed Findings tables.
-ACTION_URGENCY = {
-    "critical": "Immediate",
-    "high": "Immediate",
-    "medium": "Urgent",
-    "low": "Normal",
-    "info": "Normal",
-}
 
 # Scanner-output patterns to strip from finding descriptions before they
 # reach the rendered docx. These tags come straight from Nessus plugin XML
@@ -515,24 +507,62 @@ def _set_cell_text(cell: _Cell, text: str) -> None:
 
 
 def _set_cell_multiline(cell: _Cell, text: str) -> None:
-    """Replace cell contents with text split on '\\n' across paragraphs."""
+    """Replace cell contents with text split on ``\\n`` across paragraphs.
+
+    Defensive: any paragraph that contains a ``<w:drawing>`` or ``<w:pict>``
+    (inline image or VML pict) is PRESERVED — the cell is rewritten around
+    it. The original DMC cover-page right cell does not have inline images,
+    but the renderer must never destroy one if a future template variant
+    embeds the Technovage logo there.
+    """
     text = text or ""
     lines = text.split("\n") if text else [""]
-    paragraphs = cell.paragraphs
+    paragraphs = list(cell.paragraphs)
     if not paragraphs:
         cell.add_paragraph(lines[0])
-        paragraphs = cell.paragraphs
-    first = paragraphs[0]
+        paragraphs = list(cell.paragraphs)
+
+    # Identify the paragraphs to KEEP: the first text-only one, plus any
+    # paragraph that contains an inline image (drawing or pict). Image-bearing
+    # paragraphs are removed from the list of "text slots" but their XML
+    # elements are left in the cell.
+    drawing_qn = qn("w:drawing")
+    pict_qn = qn("w:pict")
+
+    def _has_image(p_el: Any) -> bool:
+        return bool(p_el.findall(".//" + drawing_qn) or p_el.findall(".//" + pict_qn))
+
+    text_slots: list[Any] = []
+    keep_indices: list[int] = []
+    for i, p in enumerate(paragraphs):
+        if _has_image(p._element):
+            keep_indices.append(i)
+        else:
+            text_slots.append(p)
+            if not keep_indices and i == 0:
+                keep_indices.append(0)
+
+    if not text_slots:
+        # The cell is entirely image-bearing (very unusual). Bail — don't
+        # touch the cell, the analyst will need to look at the template.
+        return
+
+    first = text_slots[0]
     if first.runs:
         first.runs[0].text = lines[0]
         for run in first.runs[1:]:
             run.text = ""
     else:
         first.add_run(lines[0])
-    # Remove any extra paragraphs from the template
-    for extra in paragraphs[1:]:
-        extra._element.getparent().remove(extra._element)
-    # Add additional lines as new paragraphs after the first
+
+    # Remove all text-slot paragraphs except the first. The image-bearing
+    # paragraphs are never in this list, so they survive intact.
+    for p in text_slots[1:]:
+        p._element.getparent().remove(p._element)
+
+    # Add the remaining lines as new paragraphs. We append them after the
+    # LAST existing element in the cell, so they end up at the end of the
+    # cell — image paragraphs, if any, stay in their original position.
     for line in lines[1:]:
         cell.add_paragraph(line)
 
@@ -643,8 +673,73 @@ def _overall_rating(by_severity: dict[str, int]) -> str:
     return "Informational"
 
 
+def _looks_like_for_field(cell: _Cell) -> bool:
+    """Return True if the cell holds the DMC cover-page "For / Type / From / Date"
+    label pattern. Detection is loose: the cell must mention at least two of the
+    four labels (case-insensitive) and the token ``:`` (a colon). This prevents
+    us from ever mistaking a regular text cell for the cover-page label cell.
+    """
+    if cell is None:
+        return False
+    text = cell.text.lower()
+    if ":" not in text:
+        return False
+    labels = ["for", "type", "from", "date"]
+    hits = sum(1 for lbl in labels if lbl in text)
+    return hits >= 2
+
+
+def _set_left_label_value(cell: _Cell, label: str, value: str) -> None:
+    """Find the first paragraph in `cell` whose first non-whitespace token
+    (case-insensitive, up to the colon) matches `label` and rewrite it in
+    place to ``"<label>: <value>"``. Preserves the leading whitespace of
+    the original paragraph (the DMC template uses 4-char padding before
+    each label, which doubles as the right-cell monospace column gutter).
+    If no matching paragraph exists, the value is appended as a new
+    paragraph at the end of the cell.
+
+    Whitespace inside the matched paragraph's runs is preserved as much as
+    possible: we rewrite only the *text* of the paragraph, leaving the run
+    structure intact so character formatting (the cover-page's monospace
+    label style) is not lost.
+    """
+    if cell is None or not label:
+        return
+    # Normalize: strip the trailing colon from `label` so we can match
+    # against the first token of the paragraph (which itself may have a
+    # colon attached, e.g. ``"For    :"``).
+    label_word = label.rstrip(":").strip().lower()
+    paragraphs = cell.paragraphs
+    for p in paragraphs:
+        ptext = p.text or ""
+        stripped = ptext.strip()
+        if not stripped:
+            continue
+        # Take the first whitespace-delimited token, lowercase it, and
+        # strip a trailing colon if present. This handles both
+        # ``"For    :"`` (DMC) and ``"For:"`` (any custom template) the
+        # same way.
+        first_token = stripped.split()[0].rstrip(":").lower()
+        if first_token == label_word:
+            leading = ptext[: len(ptext) - len(ptext.lstrip())]
+            new_text = f"{leading}{label_word.title()}: {value}".rstrip()
+            if p.runs:
+                p.runs[0].text = new_text
+                for run in p.runs[1:]:
+                    run.text = ""
+            else:
+                p.add_run(new_text)
+            return
+    # No matching paragraph — append a new line at the end of the cell.
+    cell.add_paragraph(f"{label_word.title()}: {value}".rstrip())
+
+
 def _fill_title_page(doc: DocumentObject, ctx: dict[str, Any]) -> None:
-    """Fill table 0 (title page)."""
+    """Fill table 0 (title page). The DMC template uses a 2-column cover table:
+    the LEFT cell holds the ``For : / Type : / From : / Date :`` label columns
+    (with the values appended after the colon), and the RIGHT cell holds the
+    same values formatted as a multi-line stack (client name, type label,
+    overall-rating subtitle, signing company, date)."""
     if not doc.tables:
         return
     t = doc.tables[0]
@@ -657,11 +752,25 @@ def _fill_title_page(doc: DocumentObject, ctx: dict[str, Any]) -> None:
     else:
         overall = _overall_rating(ctx["summary"]["by_severity"])
     title_date = _format_date(eng.get("start_date") or "")
+    # LEFT cell: append values to the "For/Type/From/Date" label paragraphs.
+    # ``test_for`` is the engagement's stated test purpose; fall back to a
+    # sensible default so the cell is never empty.
+    left_cell = t.rows[0].cells[0]
+    if _looks_like_for_field(left_cell):
+        _set_left_label_value(left_cell, "For:", eng.get("name") or "Penetration Testing")
+        _set_left_label_value(left_cell, "Type:", _type_label(eng.get("type") or ""))
+        _set_left_label_value(
+            left_cell,
+            "From:",
+            (settings.report_company_name or "").strip() or "the testing organization",
+        )
+        _set_left_label_value(left_cell, "Date:", title_date)
+    # RIGHT cell: same data, formatted as a multi-line stack (the DMC style).
     lines = [
         eng.get("client") or "",
         _type_label(eng.get("type") or ""),
         f"[{overall} Findings]",
-        "VAPT Platform",
+        (settings.report_company_name or "").strip() or "the testing organization",
         title_date,
     ]
     _set_cell_multiline(t.rows[0].cells[1], "\n".join(lines))
@@ -1065,9 +1174,19 @@ def _rebuild_detailed_findings(doc: DocumentObject, ctx: dict[str, Any]) -> None
             _insert_heading_before_table(doc, current_table, heading)
             insertion_anchor = current_table
         else:
-            # Subsequent severity: advance to the next table and
-            # insert the heading before it.
-            while current_table is not None and rows_in_current >= ROWS_PER_TABLE:
+            # Subsequent severity. We need a fresh table for the new
+            # severity's heading so the "1.x Severity" label actually
+            # describes the rows that follow it. The previous
+            # implementation always inserted the heading in front of
+            # ``current_table`` regardless of whether the table already
+            # held rows from the previous severity — that caused the
+            # stacked-heading bug (two severity headings in front of the
+            # same table). The fix: advance to the next empty table
+            # whenever the current one already has rows.
+            if rows_in_current > 0:
+                # Current table is either partially or fully filled.
+                # Either way, the new severity's rows should land in a
+                # fresh table whose heading describes only them.
                 current_table = next(table_iter, None)
                 rows_in_current = 0
             if current_table is None:
@@ -1206,38 +1325,79 @@ def _render_from_scratch(
 
 
 def _inject_exec_summary(doc: DocumentObject, ctx: dict[str, Any]) -> None:
-    """If `ctx["exec_summary"]` is set, insert a narrative section
-    immediately before the "DETAILED FINDINGS" heading."""
+    """If `ctx["exec_summary"]` is set, insert (or REPLACE) a narrative
+    section immediately before the "DETAILED FINDINGS" heading.
+
+    The replace-not-append behavior is critical: this function is called on
+    every ``render_docx`` invocation (previews and signed exports alike),
+    so an unconditional insert would duplicate the narrative on every
+    re-render. We detect a previously-injected narrative by searching
+    for the "1. Analyst Executive Narrative" heading we wrote on the
+    previous pass, then remove every paragraph between that heading and
+    the next section boundary before writing the new narrative.
+    """
     text = ctx.get("exec_summary")
     if not isinstance(text, str) or not text.strip():
         return
-    # find the DETAILED FINDINGS paragraph
     body = doc.element.body
-    target = None
+
+    # Locate the DETAILED FINDINGS anchor — this is where the narrative
+    # gets inserted. Also locate any pre-existing narrative heading we
+    # wrote on a previous render, so we can wipe it before writing anew.
+    detailed_findings_target = None
+    existing_heading = None
     for child in body.iterchildren():
         tag = child.tag.split("}")[-1]
         if tag != "p":
             continue
         txt = "".join(t.text or "" for t in child.iter(qn("w:t"))).strip()
-        if txt.upper().startswith("DETAILED FINDINGS"):
-            target = child
-            break
-    if target is None:
+        if detailed_findings_target is None and txt.upper().startswith("DETAILED FINDINGS"):
+            detailed_findings_target = child
+        if existing_heading is None and "Analyst Executive Narrative" in txt:
+            existing_heading = child
+
+    if detailed_findings_target is None:
+        # The template is missing the DETAILED FINDINGS heading; nothing
+        # to anchor against. Bail — the rest of the renderer will still
+        # populate the detailed findings tables.
         return
-    # Insert a heading + paragraphs immediately before `target`
+
+    # If we found a previous narrative, drop every paragraph between the
+    # existing heading and the next major boundary (DETAILED FINDINGS
+    # heading OR any element that's not a <w:p> — a table for example).
+    # This ensures re-renders replace, not append.
+    if existing_heading is not None:
+        nxt = existing_heading.getnext()
+        while nxt is not None:
+            tag = nxt.tag.split("}")[-1]
+            if tag != "p":
+                break
+            nxt_txt = "".join(t.text or "" for t in nxt.iter(qn("w:t"))).strip()
+            if nxt_txt.upper().startswith("DETAILED FINDINGS"):
+                break
+            to_remove = nxt
+            nxt = nxt.getnext()
+            to_remove.getparent().remove(to_remove)
+        # Remove the stale heading itself.
+        existing_heading.getparent().remove(existing_heading)
+
+    # Build the new narrative: heading + one paragraph per \n\n block.
+    # We construct each paragraph via the doc so character formatting is
+    # applied, then detach and re-insert at the anchor position.
+    insert_anchor = detailed_findings_target
     heading = doc.add_paragraph()
     hrun = heading.add_run("1. Analyst Executive Narrative")
     hrun.bold = True
     hrun.font.size = Pt(14)
     heading._element.getparent().remove(heading._element)
-    target.addprevious(heading._element)
+    insert_anchor.addprevious(heading._element)
     for para in text.split("\n\n"):
         body_text = para.strip()
         if not body_text:
             continue
         p = doc.add_paragraph(body_text)
         p._element.getparent().remove(p._element)
-        target.addprevious(p._element)
+        insert_anchor.addprevious(p._element)
 
 
 def render_docx(
